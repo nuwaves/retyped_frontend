@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import uiReducer from './features/ui/uiSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      // Add your slices here
+      ui: uiReducer,
     },
   })
 }

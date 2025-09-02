@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useAppDispatch } from '@/app/store/hooks';
+import { setSearchBarFocus } from '@/app/store/features/ui/uiSlice';
 
 const styles = {
   container: "flex-1 max-w-[276px]",
@@ -11,11 +13,20 @@ const styles = {
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement search functionality
     console.log('Searching for:', query);
+  };
+
+  const handleFocus = () => {
+    dispatch(setSearchBarFocus(true));
+  };
+
+  const handleBlur = () => {
+    dispatch(setSearchBarFocus(false));
   };
 
   return (
@@ -25,6 +36,8 @@ export default function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           placeholder="Search"
           className={styles.input}
         />

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { useAppSelector } from '@/app/store/hooks';
 import Logo from './navbar/Logo';
 import SearchBar from './navbar/SearchBar';
 import AuthButtons from './navbar/AuthButtons';
@@ -17,10 +18,11 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
   const [prevScroll, setPrevScroll] = useState(0);
+  const isSearchBarFocused = useAppSelector((state) => state.ui.isSearchBarFocused);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const currentScroll = latest;
-    if (currentScroll > prevScroll && currentScroll > 100) {
+    if (currentScroll > prevScroll && currentScroll > 100 && !isSearchBarFocused) {
       setHidden(true);
     } else {
       setHidden(false);
