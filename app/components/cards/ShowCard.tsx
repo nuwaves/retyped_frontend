@@ -11,7 +11,7 @@ const styles = {
   card: "flex flex-col h-full rounded-md overflow-hidden",
   imageContainer: "relative w-full aspect-square bg-gray-200",
   image: "w-full h-full object-cover",
-  contentWrapper: "flex flex-col flex-grow bg-white p-4",
+  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-10 gap-2",
   categoryChip: "inline-block px-6 py-0.5 text-[10px] font-normal border border-black text-black rounded-full leading-[155%] mb-2 w-fit font-[family-name:var(--font-open-sans)]",
   title: "text-md font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums mb-2",
   description: "text-sm text-gray-600 mb-4 line-clamp-2",

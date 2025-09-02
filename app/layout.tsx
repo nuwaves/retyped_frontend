@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
+import "./lib/fontawesome";
 import Navbar from "./components/layout/Navbar";
 import StoreProvider from "./providers/StoreProvider";
 
