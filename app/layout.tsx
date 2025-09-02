@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import StoreProvider from "./providers/StoreProvider";
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -23,11 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} antialiased`}
+        className={`${inter.variable} ${openSans.variable} antialiased`}
       >
         <StoreProvider>
           <Navbar />
-          {children}
+          <main className="pt-14">
+            {children}
+          </main>
         </StoreProvider>
       </body>
     </html>
