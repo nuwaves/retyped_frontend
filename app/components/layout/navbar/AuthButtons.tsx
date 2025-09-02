@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { buttonStyles } from '@/app/styles/buttons';
 
 const styles = {
@@ -12,6 +16,7 @@ export default function AuthButtons() {
         Log in
       </Link>
       <Link href="/signup" className={buttonStyles.primary}>
+        <FontAwesomeIcon icon={faUser} className="mr-2 text-white" />
         Sign up
       </Link>
     </div>

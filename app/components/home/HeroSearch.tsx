@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 const styles = {
-  container: "min-h-screen flex items-center justify-center px-4",
+  container: "flex items-center justify-center px-4 py-20",
   wrapper: "max-w-4xl w-full text-center",
   title: "text-[51px] font-bold leading-[115%] tracking-normal text-center align-middle lining-nums proportional-nums mb-6 px-8",
   description: "text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-12 px-8",

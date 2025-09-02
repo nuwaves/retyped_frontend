@@ -8,9 +8,9 @@ import SearchBar from './navbar/SearchBar';
 import AuthButtons from './navbar/AuthButtons';
 
 const styles = {
-  nav: "w-full bg-white fixed top-0 left-0 right-0 z-10",
-  container: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-  wrapper: "flex justify-between items-end py-2",
+  nav: "w-full h-14 bg-white fixed top-0 left-0 right-0 z-10 border-b border-black/[0.08]",
+  container: "h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+  wrapper: "h-full flex justify-between items-center",
   rightSection: "flex items-center gap-4 w-1/2"
 };
 
