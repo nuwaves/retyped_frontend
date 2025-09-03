@@ -5,7 +5,7 @@ import { faMicrophone, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ShowCard from '../cards/ShowCard';
 
 const styles = {
-  container: "w-full py-16 px-4",
+  container: "w-full py-4 px-4",
   wrapper: "max-w-7xl mx-auto",
   header: "flex items-center justify-between mb-8",
   titleSection: "flex items-center gap-3",
