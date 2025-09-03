@@ -1,17 +1,12 @@
 'use client';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import ShowCard from '../cards/ShowCard';
+import SectionHeader from '../common/SectionHeader';
 
 const styles = {
   container: "w-full py-4 px-4",
   wrapper: "max-w-7xl mx-auto",
-  header: "flex items-center justify-between mb-8",
-  titleSection: "flex items-center gap-3",
-  icon: "text-xl",
-  title: "text-2xl font-bold text-black",
-  viewAll: "text-sm font-medium text-black",
   grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
 };
 
@@ -51,15 +46,10 @@ export default function TrendingShows() {
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <div className={styles.titleSection}>
-            <FontAwesomeIcon icon={faMicrophone} className={styles.icon} />
-            <h2 className={styles.title}>Trending Shows</h2>
-          </div>
-          <a href="#" className={styles.viewAll}>
-            View all <FontAwesomeIcon icon={faArrowRight} className="ml-1 text-xs" />
-          </a>
-        </div>
+        <SectionHeader 
+          icon={faMicrophone} 
+          title="Trending Shows" 
+        />
         
         <div className={styles.grid}>
           {trendingShows.map((show) => (
