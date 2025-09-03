@@ -3,6 +3,7 @@ import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
 import "./lib/fontawesome";
 import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 import StoreProvider from "./providers/StoreProvider";
 
 const inter = Inter({
@@ -34,9 +35,10 @@ export default function RootLayout({
       >
         <StoreProvider>
           <Navbar />
-          <main className="pt-14">
+          <main className="pt-14 min-h-screen">
             {children}
           </main>
+          <Footer />
         </StoreProvider>
       </body>
     </html>
