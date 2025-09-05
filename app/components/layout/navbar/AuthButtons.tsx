@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { buttonStyles } from '@/app/styles/buttons';
+import Button from '@/app/components/common/Button';
 
 const styles = {
   container: "flex items-center space-x-3"
@@ -12,12 +12,16 @@ const styles = {
 export default function AuthButtons() {
   return (
     <div className={styles.container}>
-      <Link href="/login" className={buttonStyles.outline}>
-        Log in
+      <Link href="/login">
+        <Button variant="outline" size="sm">
+          Log in
+        </Button>
       </Link>
-      <Link href="/signup" className={buttonStyles.primary}>
-        <FontAwesomeIcon icon={faUser} className="mr-2 text-white" />
-        Sign up
+      <Link href="/signup">
+        <Button variant="primary" size="sm">
+          <FontAwesomeIcon icon={faUser} className="text-white" />
+          Sign up
+        </Button>
       </Link>
     </div>
   );

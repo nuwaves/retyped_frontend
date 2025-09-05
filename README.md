@@ -7,9 +7,15 @@ A Next.js application running in a containerized development environment.
 - **Next.js** 15.5.2 with Turbopack
 - **React** 19.1.0
 - **TypeScript** 5.x
+- **Redux Toolkit** 2.8.2 & **React-Redux** 9.2.0 (State Management)
 - **Tailwind CSS** 4.x
 - **Node.js** 20 (Alpine Linux)
 - **Docker** & Docker Compose
+
+### Additional Libraries
+
+- **Framer Motion** 12.23.12 - Animation library for React
+- **Font Awesome** 7.0.0 - Icon library with React components
 
 ## Getting Started
 
