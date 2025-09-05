@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Button from '@/app/components/common/Button';
 
 const styles = {
   container: "flex items-center justify-center px-4 py-20",
@@ -9,8 +10,7 @@ const styles = {
   description: "text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-12 px-8",
   searchContainer: "w-full",
   inputWrapper: "flex gap-2",
-  input: "flex-1 h-12 px-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent",
-  button: "h-12 px-6 bg-gray-900 text-white text-base font-medium rounded-lg hover:bg-gray-800 transition-colors"
+  input: "flex-1 h-12 px-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
 };
 
 export default function HeroSearch() {
@@ -43,12 +43,13 @@ export default function HeroSearch() {
               placeholder="Search topics, episodes, keywords...."
               className={styles.input}
             />
-            <button 
+            <Button 
               type="submit"
-              className={styles.button}
+              variant="secondary"
+              size="lg"
             >
               Search
-            </button>
+            </Button>
           </div>
         </form>
       </div>

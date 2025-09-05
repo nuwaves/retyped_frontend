@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faMicrophone, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import type { Show } from '@/app/lib/mockData';
 import { formatFollowers } from '@/app/utils/formatters';
+import Pill from '@/app/components/common/Pill';
 
 interface ShowDetailCardProps {
   show: Show;
@@ -14,7 +15,6 @@ const styles = {
   imageContainer: "flex-shrink-0 w-full md:w-72",
   image: "w-full h-64 md:h-72 object-cover bg-gray-100",
   contentWrapper: "flex-1 flex flex-col gap-6 p-4 md:p-0",
-  categoryPill: "inline-block px-4 py-1 text-xs font-medium border border-black text-black rounded-full w-fit",
   titleWrapper: "flex flex-col gap-1",
   title: "text-[40px] font-bold text-black leading-[150%] lining-nums proportional-nums",
   author: "text-base font-bold text-black leading-6 lining-nums proportional-nums",
@@ -39,7 +39,9 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
         <div className={styles.contentWrapper}>
           {/* Category pill */}
           <div>
-            <span className={styles.categoryPill}>{show.category}</span>
+            <Pill size="sm" variant="outline">
+              {show.category}
+            </Pill>
           </div>
           
           {/* Title and author */}
