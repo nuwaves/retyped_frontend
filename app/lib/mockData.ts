@@ -130,7 +130,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       }
     ];
   } else if (showId === '2') {
-    // The Daily episodes
+    // The Daily episodes - 15 episodes for 3 load more clicks
     episodes = [
       {
         id: '1',
@@ -195,6 +195,78 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
         duration: '29m',
         publishDate: 'December 16, 2024',
         episodeNumber: 1244,
+      },
+      {
+        id: '8',
+        showId,
+        title: 'The Supreme Court Term in Review',
+        description: 'Analyzing the most significant decisions from this term and their implications for American law.',
+        duration: '38m',
+        publishDate: 'December 15, 2024',
+        episodeNumber: 1243,
+      },
+      {
+        id: '9',
+        showId,
+        title: 'The Global Food Crisis',
+        description: 'How climate change and conflict are creating food shortages around the world, and what can be done.',
+        duration: '31m',
+        publishDate: 'December 14, 2024',
+        episodeNumber: 1242,
+      },
+      {
+        id: '10',
+        showId,
+        title: 'Inside the Lab Leak Debate',
+        description: 'New evidence emerges about the origins of COVID-19. We examine the latest findings and ongoing investigations.',
+        duration: '34m',
+        publishDate: 'December 13, 2024',
+        episodeNumber: 1241,
+      },
+      {
+        id: '11',
+        showId,
+        title: 'The Mental Health Crisis in Schools',
+        description: 'Students and teachers struggle with unprecedented levels of anxiety and depression. What schools are doing to help.',
+        duration: '27m',
+        publishDate: 'December 12, 2024',
+        episodeNumber: 1240,
+      },
+      {
+        id: '12',
+        showId,
+        title: 'The Electric Vehicle Revolution',
+        description: 'Major automakers go all-in on EVs. We look at what this means for consumers, workers, and the climate.',
+        duration: '30m',
+        publishDate: 'December 11, 2024',
+        episodeNumber: 1239,
+      },
+      {
+        id: '13',
+        showId,
+        title: 'The New Space Race',
+        description: 'Private companies and nations compete to establish a presence on the moon and Mars. What\'s at stake?',
+        duration: '36m',
+        publishDate: 'December 10, 2024',
+        episodeNumber: 1238,
+      },
+      {
+        id: '14',
+        showId,
+        title: 'The Fentanyl Crisis: A New Chapter',
+        description: 'How a synthetic drug is reshaping America\'s opioid epidemic and overwhelming communities.',
+        duration: '33m',
+        publishDate: 'December 9, 2024',
+        episodeNumber: 1237,
+      },
+      {
+        id: '15',
+        showId,
+        title: 'The Fight Over Book Bans',
+        description: 'Libraries and schools become battlegrounds over what students can read. We visit communities on both sides.',
+        duration: '29m',
+        publishDate: 'December 8, 2024',
+        episodeNumber: 1236,
       }
     ];
   } else {
