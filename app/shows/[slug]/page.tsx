@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import BackNavigation from "@/app/components/common/BackNavigation";
 import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
 import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
-import { getShowBySlug, Show } from "@/app/lib/mockData";
+import EpisodesList from "@/app/components/episodes/EpisodesList";
+import { getShowBySlug, getShowEpisodes, Show } from "@/app/lib/mockData";
 
 // ISR: Revalidate every hour
 export const revalidate = 3600;
@@ -87,6 +88,7 @@ export default async function ShowPage({ params }: ShowPageProps) {
     notFound();
   }
   
+  const episodes = await getShowEpisodes(show.id);
   const structuredData = generateStructuredData(show);
   
   return (
@@ -106,11 +108,11 @@ export default async function ShowPage({ params }: ShowPageProps) {
           <ShowActionButtons showId={show.id} />
         </ShowDetailCard>
         
-        {/* Episodes section will go here later */}
-        <div className="mt-12 px-6 md:px-8">
-          <h2 className="text-2xl font-bold mb-6">Episodes</h2>
-          <p className="text-gray-600">Episodes coming soon...</p>
-        </div>
+        {/* Episodes section */}
+        <EpisodesList 
+          episodes={episodes} 
+          totalCount={show.episodeCount} 
+        />
       </div>
     </>
   );

@@ -20,10 +20,11 @@ export interface Episode {
   showId: string;
   title: string;
   description: string;
-  duration: number;
+  duration: string;
   publishDate: string;
   episodeNumber: number;
   audioUrl?: string;
+  isNew?: boolean;
 }
 
 const mockShows: Show[] = [
@@ -93,27 +94,132 @@ export async function getAllShows(): Promise<Show[]> {
 }
 
 export async function getShowEpisodes(showId: string): Promise<Episode[]> {
-  // Mock episodes data
-  const episodes: Episode[] = [
-    {
-      id: '1',
-      showId,
-      title: 'Episode 1: The Beginning',
-      description: 'Our first episode where we explore the origins...',
-      duration: 2400,
-      publishDate: '2024-01-15',
-      episodeNumber: 1,
-    },
-    {
-      id: '2',
-      showId,
-      title: 'Episode 2: Going Deeper',
-      description: 'We dive deeper into the mystery...',
-      duration: 2700,
-      publishDate: '2024-01-08',
-      episodeNumber: 2,
-    }
-  ];
+  // Mock episodes data - different styles based on show
+  let episodes: Episode[] = [];
+  
+  if (showId === '1') {
+    // Crime Junkie episodes
+    episodes = [
+      {
+        id: '1',
+        showId,
+        title: 'MURDERED: Oakey "Al" Kite',
+        description: 'When Oakey "Al" Kite is brutally murdered in his own home in the spring of 2004, investigators rush to piece together the clues and find the killer.',
+        duration: '56m',
+        publishDate: 'August 18, 2025',
+        episodeNumber: 45,
+        isNew: true,
+      },
+      {
+        id: '2',
+        showId,
+        title: 'MURDERED: Jodine Serrin Part 1',
+        description: 'On Valentine\'s Day in 2007, 39-year-old Jodine Serrin was brutally murdered and desecrated in her Carlsbad, California apartment.',
+        duration: '56m',
+        publishDate: 'August 18, 2025',
+        episodeNumber: 44,
+      },
+      {
+        id: '3',
+        showId,
+        title: 'MURDERED: Wendy Jerome',
+        description: 'When a teenage girl goes out to deliver a birthday card to her best friend, she never makes it home.',
+        duration: '56m',
+        publishDate: 'August 18, 2025',
+        episodeNumber: 43,
+      }
+    ];
+  } else if (showId === '2') {
+    // The Daily episodes
+    episodes = [
+      {
+        id: '1',
+        showId,
+        title: 'The Sunday Read: The Rise of AI in Healthcare',
+        description: 'How artificial intelligence is transforming medical diagnosis and treatment, and what it means for the future of healthcare.',
+        duration: '45m',
+        publishDate: 'December 22, 2024',
+        episodeNumber: 1250,
+        isNew: true,
+      },
+      {
+        id: '2',
+        showId,
+        title: 'A Historic Climate Agreement',
+        description: 'World leaders reach a landmark deal on carbon emissions. We examine what it means and whether it goes far enough.',
+        duration: '28m',
+        publishDate: 'December 21, 2024',
+        episodeNumber: 1249,
+      },
+      {
+        id: '3',
+        showId,
+        title: 'The Housing Crisis, Explained',
+        description: 'Why housing costs continue to soar across America, and what proposed solutions could mean for buyers and renters.',
+        duration: '32m',
+        publishDate: 'December 20, 2024',
+        episodeNumber: 1248,
+      },
+      {
+        id: '4',
+        showId,
+        title: 'Inside the Border Debate',
+        description: 'A deep dive into immigration policy changes and their impact on communities along the southern border.',
+        duration: '35m',
+        publishDate: 'December 19, 2024',
+        episodeNumber: 1247,
+      },
+      {
+        id: '5',
+        showId,
+        title: 'The Future of Social Media Regulation',
+        description: 'As Congress considers new rules for tech companies, we explore what changes could be coming to your feeds.',
+        duration: '30m',
+        publishDate: 'December 18, 2024',
+        episodeNumber: 1246,
+      },
+      {
+        id: '6',
+        showId,
+        title: 'A Year of Economic Uncertainty',
+        description: 'Looking back at inflation, interest rates, and what economic indicators tell us about the year ahead.',
+        duration: '33m',
+        publishDate: 'December 17, 2024',
+        episodeNumber: 1245,
+      },
+      {
+        id: '7',
+        showId,
+        title: 'The Education Funding Crisis',
+        description: 'Schools across the country face budget shortfalls. We visit three districts to understand the impact.',
+        duration: '29m',
+        publishDate: 'December 16, 2024',
+        episodeNumber: 1244,
+      }
+    ];
+  } else {
+    // Default/other shows
+    episodes = [
+      {
+        id: '1',
+        showId,
+        title: 'Episode 1: The Beginning',
+        description: 'Our first episode where we explore the origins and set the stage for what\'s to come.',
+        duration: '40m',
+        publishDate: 'January 15, 2024',
+        episodeNumber: 1,
+      },
+      {
+        id: '2',
+        showId,
+        title: 'Episode 2: Going Deeper',
+        description: 'We dive deeper into the topic, exploring new perspectives and uncovering hidden insights.',
+        duration: '45m',
+        publishDate: 'January 8, 2024',
+        episodeNumber: 2,
+      }
+    ];
+  }
   
   await new Promise(resolve => setTimeout(resolve, 100));
   return episodes.filter(ep => ep.showId === showId);
