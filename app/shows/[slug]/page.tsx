@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
 import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
-import { getShowBySlug } from "@/app/lib/mockData";
+import { getShowBySlug, Show } from "@/app/lib/mockData";
 
 // ISR: Revalidate every hour
 export const revalidate = 3600;
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: ShowPageProps): Promise<Metad
 }
 
 // Generate JSON-LD structured data for SEO
-function generateStructuredData(show: any) {
+function generateStructuredData(show: Show) {
   return {
     "@context": "https://schema.org",
     "@type": "PodcastSeries",
