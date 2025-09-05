@@ -1,6 +1,6 @@
 # Retyped
 
-A Next.js application running in a containerized development environment.
+A high-performance podcast discovery platform built with Next.js 15 and React 19. The application leverages Incremental Static Regeneration (ISR) for optimal caching strategies, implements server components for reduced JavaScript bundle sizes, and utilizes Redux Toolkit for predictable state management. Designed with a mobile-first responsive approach using Tailwind CSS 4, the platform ensures fast page loads through optimized Core Web Vitals and SEO-friendly server-side rendering.
 
 ## Tech Stack
 
@@ -41,23 +41,10 @@ docker-compose up --build
 docker-compose down
 ```
 
-### Production Build with Docker
+### Docker Structure
 
-The project includes an optimized production Dockerfile that uses Next.js standalone mode for deployment:
+The project uses different Docker configurations for development and production:
 
-```bash
-# Build the production image
-docker build -t retyped-production .
-
-# Run the container
-docker run -p 3000:3000 retyped-production
-```
-
-#### Production Dockerfile Benefits
-
-- **Standalone Mode**: Reduces image size by ~70% (210MB vs 700MB+)
-- **Multi-stage Build**: Separates build dependencies from runtime
-- **Production Optimized**: Uses `next build` for optimized bundles and `node server.js` for minimal runtime
-- **Security**: Runs with minimal dependencies, reducing attack surface
-- **Performance**: Faster startup times and lower memory usage (~50-70% reduction)
-- **ECS Ready**: Compatible with AWS ECS deployment pipeline
+- **`Dockerfile.dev`**: Development container with hot-reload support via volume mounting
+- **`Dockerfile`**: Production-optimized multi-stage build using Next.js standalone mode
+- **`docker-compose.yml`**: Orchestrates the development environment with volume mounts and environment variables
