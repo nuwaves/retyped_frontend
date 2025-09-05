@@ -1,0 +1,113 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
+import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
+import { getShowBySlug } from "@/app/lib/mockData";
+
+// ISR: Revalidate every hour
+export const revalidate = 3600;
+
+interface ShowPageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: ShowPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const show = await getShowBySlug(slug);
+  
+  if (!show) {
+    return {
+      title: "Show Not Found | Retyped",
+      description: "The podcast show you're looking for could not be found.",
+    };
+  }
+  
+  return {
+    title: `${show.title} | Retyped`,
+    description: show.description,
+    openGraph: {
+      title: show.title,
+      description: show.description,
+      type: "website",
+      siteName: "Retyped",
+      images: [
+        {
+          url: show.imageUrl,
+          width: 1200,
+          height: 630,
+          alt: show.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: show.title,
+      description: show.description,
+      images: [show.imageUrl],
+    },
+    alternates: {
+      canonical: `/shows/${show.slug}`,
+    },
+  };
+}
+
+// Generate JSON-LD structured data for SEO
+function generateStructuredData(show: any) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "name": show.title,
+    "description": show.description,
+    "author": {
+      "@type": "Person",
+      "name": show.author
+    },
+    "numberOfEpisodes": show.episodeCount,
+    "genre": show.category,
+    "inLanguage": show.language || "en",
+    "url": `https://retyped.com/shows/${show.slug}`,
+    "aggregateRating": show.rating ? {
+      "@type": "AggregateRating",
+      "ratingValue": show.rating,
+      "bestRating": 5,
+      "worstRating": 1,
+      "ratingCount": show.followers
+    } : undefined
+  };
+}
+
+export default async function ShowPage({ params }: ShowPageProps) {
+  const { slug } = await params;
+  const show = await getShowBySlug(slug);
+  
+  if (!show) {
+    notFound();
+  }
+  
+  const structuredData = generateStructuredData(show);
+  
+  return (
+    <>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Server Component with Client Component as children */}
+        <ShowDetailCard show={show}>
+          <ShowActionButtons showId={show.id} />
+        </ShowDetailCard>
+        
+        {/* Episodes section will go here later */}
+        <div className="mt-12 px-6 md:px-8">
+          <h2 className="text-2xl font-bold mb-6">Episodes</h2>
+          <p className="text-gray-600">Episodes coming soon...</p>
+        </div>
+      </div>
+    </>
+  );
+}

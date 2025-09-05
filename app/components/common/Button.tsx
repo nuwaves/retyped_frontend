@@ -1,0 +1,42 @@
+'use client';
+
+import { ButtonHTMLAttributes, ReactNode } from 'react';
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  children: ReactNode;
+}
+
+const variantStyles = {
+  primary: 'bg-black text-white hover:bg-gray-800',
+  secondary: 'bg-gray-900 text-white hover:bg-gray-800',
+  outline: 'bg-white text-black border border-gray-300 hover:border-gray-400'
+};
+
+const sizeStyles = {
+  sm: 'px-4 py-1.5 text-sm',
+  md: 'px-6 py-1.5 text-sm',
+  lg: 'px-6 py-2 text-base'
+};
+
+export default function Button({ 
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  className = '',
+  children,
+  ...props
+}: ButtonProps) {
+  const baseStyles = 'font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 leading-6';
+  const widthStyles = fullWidth ? 'w-full' : '';
+  
+  const buttonClasses = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${className}`.trim();
+  
+  return (
+    <button className={buttonClasses} {...props}>
+      {children}
+    </button>
+  );
+}
