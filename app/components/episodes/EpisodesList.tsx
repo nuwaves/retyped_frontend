@@ -1,9 +1,6 @@
-'use client';
-
-import { useState } from 'react';
 import type { Episode } from '@/app/lib/mockData';
 import EpisodeCard from './EpisodeCard';
-import LoadMoreButton from './LoadMoreButton';
+import LoadMoreEpisodes from './LoadMoreEpisodes';
 
 interface EpisodesListProps {
   episodes: Episode[];
@@ -16,27 +13,11 @@ const styles = {
   list: "flex flex-col gap-4"
 };
 
-const EPISODES_PER_PAGE = 5;
+const INITIAL_EPISODES_COUNT = 5;
 
 export default function EpisodesList({ episodes, totalCount }: EpisodesListProps) {
-  const [displayedEpisodes, setDisplayedEpisodes] = useState(
-    episodes.slice(0, EPISODES_PER_PAGE)
-  );
-
-  const handleLoadMore = async () => {
-    // Simulate loading more episodes
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const currentLength = displayedEpisodes.length;
-    const nextEpisodes = episodes.slice(
-      currentLength, 
-      currentLength + EPISODES_PER_PAGE
-    );
-    
-    setDisplayedEpisodes([...displayedEpisodes, ...nextEpisodes]);
-  };
-
-  const hasMore = displayedEpisodes.length < episodes.length;
+  const initialEpisodes = episodes.slice(0, INITIAL_EPISODES_COUNT);
+  const remainingEpisodes = episodes.slice(INITIAL_EPISODES_COUNT);
 
   return (
     <div className={styles.container}>
@@ -44,14 +25,16 @@ export default function EpisodesList({ episodes, totalCount }: EpisodesListProps
         All Episodes ({totalCount})
       </h2>
       
+      {/* Server-rendered initial episodes */}
       <div className={styles.list}>
-        {displayedEpisodes.map((episode) => (
+        {initialEpisodes.map((episode) => (
           <EpisodeCard key={episode.id} episode={episode} />
         ))}
       </div>
       
-      {hasMore && (
-        <LoadMoreButton onLoadMore={handleLoadMore} />
+      {/* Client component for loading more */}
+      {remainingEpisodes.length > 0 && (
+        <LoadMoreEpisodes episodes={remainingEpisodes} />
       )}
     </div>
   );
