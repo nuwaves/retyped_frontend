@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import BackNavigation from "@/app/components/common/BackNavigation";
 import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
 import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
 import { getShowBySlug, Show } from "@/app/lib/mockData";
@@ -97,6 +98,9 @@ export default async function ShowPage({ params }: ShowPageProps) {
       />
       
       <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Back navigation */}
+        <BackNavigation href="/" label="Home" />
+        
         {/* Server Component with Client Component as children */}
         <ShowDetailCard show={show}>
           <ShowActionButtons showId={show.id} />

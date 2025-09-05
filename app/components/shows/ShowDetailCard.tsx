@@ -19,11 +19,11 @@ const styles = {
   title: "text-[40px] font-bold text-black leading-[150%] lining-nums proportional-nums",
   author: "text-base font-bold text-black leading-6 lining-nums proportional-nums",
   descriptionWrapper: "flex flex-col gap-4",
-  description: "text-gray-700 leading-relaxed line-clamp-4 md:line-clamp-none",
-  statsContainer: "flex flex-wrap gap-6 text-sm text-gray-600",
+  description: "text-base font-normal leading-6 tracking-normal text-gray-700 line-clamp-4 md:line-clamp-none",
+  statsContainer: "flex flex-wrap gap-6 text-gray-600",
   statItem: "flex items-center gap-2",
-  statIcon: "text-gray-400",
-  statText: "font-medium"
+  statIcon: "text-gray-400 text-xs",
+  statText: "text-xs font-normal leading-3 tracking-normal align-middle lining-nums proportional-nums"
 };
 
 export default function ShowDetailCard({ show, children }: ShowDetailCardProps) {

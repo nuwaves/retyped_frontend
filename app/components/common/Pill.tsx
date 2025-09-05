@@ -22,7 +22,7 @@ export default function Pill({
   variant = 'outline',
   className = ''
 }: PillProps) {
-  const baseStyles = 'inline-block font-medium rounded-full w-fit transition-colors';
+  const baseStyles = 'inline-block font-normal rounded-full w-fit';
   
   const pillClasses = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`.trim();
   
