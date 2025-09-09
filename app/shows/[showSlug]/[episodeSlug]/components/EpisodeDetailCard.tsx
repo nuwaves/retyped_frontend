@@ -24,7 +24,7 @@ const styles = {
   topicLink: "no-underline"
 };
 
-export default function EpisodeDetailCard({ episode, show }: EpisodeDetailCardProps) {
+export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
   const topics = episode.topics || ['Cold Case', 'DNA Evidence', 'Justice Delayed', 'Disappearance'];
   const listenCount = episode.listenCount || '1.8M';
   

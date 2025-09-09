@@ -14,7 +14,7 @@ const styles = {
   actions: "flex items-center gap-2"
 };
 
-export default function EpisodeActions({ episodeId }: EpisodeActionsProps) {
+export default function EpisodeActions({ }: EpisodeActionsProps) {
   const [isSaved, setIsSaved] = useState(false);
   
   const handleShare = async () => {
@@ -24,7 +24,7 @@ export default function EpisodeActions({ episodeId }: EpisodeActionsProps) {
           title: 'Check out this episode',
           url: window.location.href,
         });
-      } catch (err) {
+      } catch {
         console.log('Share cancelled');
       }
     } else {
@@ -35,7 +35,7 @@ export default function EpisodeActions({ episodeId }: EpisodeActionsProps) {
   return (
     <div className={styles.actions}>
       <Button
-        variant="ghost"
+        variant="outline"
         size="sm"
         onClick={() => setIsSaved(!isSaved)}
         aria-label={isSaved ? "Unsave episode" : "Save episode"}
@@ -43,7 +43,7 @@ export default function EpisodeActions({ episodeId }: EpisodeActionsProps) {
         <FontAwesomeIcon icon={isSaved ? faBookmark : faBookmarkRegular} />
       </Button>
       <Button
-        variant="ghost"
+        variant="outline"
         size="sm"
         onClick={handleShare}
         aria-label="Share episode"
