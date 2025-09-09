@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import BackNavigation from "@/app/components/common/BackNavigation";
-import EpisodeDetailCard from "@/app/components/episodes/EpisodeDetailCard";
-import EpisodeTabs from "@/app/components/episodes/EpisodeTabs";
+import EpisodeDetailCard from "./components/EpisodeDetailCard";
+import EpisodeTabs from "./components/EpisodeTabs";
 import { 
   getShowBySlug, 
   getEpisodeBySlug, 

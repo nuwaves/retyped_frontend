@@ -1,8 +1,8 @@
 'use client';
 
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
-import EpisodeCard from '../cards/EpisodeCard';
-import SectionHeader from '../common/SectionHeader';
+import EpisodeCard from '../../cards/EpisodeCard';
+import SectionHeader from '../../common/SectionHeader';
 
 const styles = {
   container: "w-full py-4 px-4",

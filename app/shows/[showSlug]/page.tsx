@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import BackNavigation from "@/app/components/common/BackNavigation";
-import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
-import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
-import EpisodesList from "@/app/components/episodes/EpisodesList";
+import ShowDetailCard from "./components/ShowDetailCard";
+import ShowActionButtons from "./components/ShowActionButtons";
+import EpisodesList from "@/app/components/modules/shows/EpisodesList";
 import { getShowBySlug, getShowEpisodes, Show } from "@/app/lib/mockData";
 
 // ISR: Revalidate every hour

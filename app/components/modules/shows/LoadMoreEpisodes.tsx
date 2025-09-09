@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Episode } from '@/app/lib/mockData';
-import EpisodeCard from './EpisodeCard';
-import Button from '@/app/components/common/Button';
+import EpisodeListItem from './EpisodeListItem';
+import Button from '../../common/Button';
 
 interface LoadMoreEpisodesProps {
   episodes: Episode[];
@@ -69,7 +69,7 @@ export default function LoadMoreEpisodes({ episodes }: LoadMoreEpisodesProps) {
                   }}
                   layout
                 >
-                  <EpisodeCard episode={episode} />
+                  <EpisodeListItem episode={episode} />
                 </motion.div>
               );
             })}
