@@ -66,7 +66,7 @@ export default function TranscriptSection({ transcript, isAuthenticated }: Trans
     }
   ];
   
-  const fullTranscript = transcript || defaultTranscript;
+  const fullTranscript = Array.isArray(transcript) ? transcript : defaultTranscript;
   
   if (!isAuthenticated) {
     return (
