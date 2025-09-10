@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import Button from '@/app/components/common/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface TranscriptSectionProps {
   transcript?: string;
@@ -7,7 +9,8 @@ interface TranscriptSectionProps {
 }
 
 const styles = {
-  container: "relative",
+  container: "relative bg-white rounded-lg p-6",
+  transcriptTitle: "flex items-center gap-3 text-2xl font-bold leading-tight mb-4",
   transcript: "prose max-w-none",
   paragraph: "text-gray-700 leading-relaxed mb-4",
   blurredSection: "relative",
@@ -40,6 +43,10 @@ export default function TranscriptSection({ transcript, isAuthenticated }: Trans
   if (!isAuthenticated) {
     return (
       <div className={styles.container}>
+        <h2 className={styles.transcriptTitle}>
+          <FontAwesomeIcon icon={faFileAlt} className="text-gray-400" />
+          Transcript
+        </h2>
         <div className={styles.transcript}>
           <p className={styles.paragraph}>{paragraphs[0]}</p>
           <p className={styles.paragraph}>{paragraphs[1]}</p>
@@ -74,10 +81,16 @@ export default function TranscriptSection({ transcript, isAuthenticated }: Trans
   }
   
   return (
-    <div className={styles.transcript}>
-      {paragraphs.map((para, index) => (
-        <p key={index} className={styles.paragraph}>{para}</p>
-      ))}
+    <div className={styles.container}>
+      <h2 className={styles.transcriptTitle}>
+        <FontAwesomeIcon icon={faFileAlt} className="text-gray-400" />
+        Transcript
+      </h2>
+      <div className={styles.transcript}>
+        {paragraphs.map((para, index) => (
+          <p key={index} className={styles.paragraph}>{para}</p>
+        ))}
+      </div>
     </div>
   );
 }

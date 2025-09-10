@@ -4,6 +4,7 @@ import Script from "next/script";
 import BackNavigation from "@/app/components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
+import ShowCard from "./components/ShowCard";
 import { 
   getShowBySlug, 
   getEpisodeBySlug, 
@@ -196,12 +197,19 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         {JSON.stringify(breadcrumbData)}
       </Script>
       
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         <BackNavigation href={`/shows/${showSlug}`} label={show.title} />
         
-        <EpisodeDetailCard episode={episode} show={show} />
-        
-        <EpisodeTabs episode={episode} isAuthenticated={false} />
+        <div className="flex gap-8">
+          <div className="flex-1">
+            <EpisodeDetailCard episode={episode} show={show} />
+            <EpisodeTabs episode={episode} isAuthenticated={false} />
+          </div>
+          
+          <aside className="w-[350px] flex-shrink-0">
+            <ShowCard show={show} />
+          </aside>
+        </div>
       </div>
     </>
   );

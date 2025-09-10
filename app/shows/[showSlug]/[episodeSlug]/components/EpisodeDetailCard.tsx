@@ -64,7 +64,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
             <Pill 
               variant="filled" 
               size="xs" 
-              radius="xs" 
+              radius="full" 
               icon={false}
               className="bg-slate-200 text-gray-500"
             >
