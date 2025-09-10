@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faHeadphones } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import type { Episode, Show } from '@/app/lib/mockData';
 import Pill from '@/app/components/common/Pill';
 import EpisodeActions from './EpisodeActions';
@@ -32,6 +32,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
     <div className={styles.container}>
       <div className={styles.header}>
         <time className={styles.date} dateTime={episode.publishDate}>
+          <FontAwesomeIcon icon={faCalendar} className="mr-2" />
           {episode.publishDate}
         </time>
         <EpisodeActions episodeId={episode.id} />
@@ -60,7 +61,13 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
             href={`/search?topic=${encodeURIComponent(topic)}`}
             className={styles.topicLink}
           >
-            <Pill variant="outline" size="sm">
+            <Pill 
+              variant="filled" 
+              size="xs" 
+              radius="full" 
+              icon={false}
+              className="bg-slate-200 text-gray-500"
+            >
               {topic}
             </Pill>
           </Link>
