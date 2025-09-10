@@ -35,20 +35,22 @@ export default function EpisodeActions({ }: EpisodeActionsProps) {
   return (
     <div className={styles.actions}>
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
         onClick={() => setIsSaved(!isSaved)}
         aria-label={isSaved ? "Unsave episode" : "Save episode"}
+        className="!p-2"
       >
-        <FontAwesomeIcon icon={isSaved ? faBookmark : faBookmarkRegular} />
+        <FontAwesomeIcon icon={isSaved ? faBookmark : faBookmarkRegular} className="w-14 h-14" />
       </Button>
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
         onClick={handleShare}
         aria-label="Share episode"
+        className="!p-2"
       >
-        <FontAwesomeIcon icon={faArrowUpFromBracket} />
+        <FontAwesomeIcon icon={faArrowUpFromBracket} className="w-14 h-14" />
       </Button>
     </div>
   );
