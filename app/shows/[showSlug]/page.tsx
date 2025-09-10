@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import BackNavigation from "@/app/components/common/BackNavigation";
-import ShowDetailCard from "@/app/components/shows/ShowDetailCard";
-import ShowActionButtons from "@/app/components/shows/ShowActionButtons";
-import EpisodesList from "@/app/components/episodes/EpisodesList";
+import ShowDetailCard from "./components/ShowDetailCard";
+import ShowActionButtons from "./components/ShowActionButtons";
+import EpisodesList from "@/app/components/modules/shows/EpisodesList";
 import { getShowBySlug, getShowEpisodes, Show } from "@/app/lib/mockData";
 
 // ISR: Revalidate every hour
@@ -11,13 +12,13 @@ export const revalidate = 3600;
 
 interface ShowPageProps {
   params: Promise<{
-    slug: string;
+    showSlug: string;
   }>;
 }
 
 export async function generateMetadata({ params }: ShowPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const show = await getShowBySlug(slug);
+  const { showSlug } = await params;
+  const show = await getShowBySlug(showSlug);
   
   if (!show) {
     return {
@@ -81,8 +82,8 @@ function generateStructuredData(show: Show) {
 }
 
 export default async function ShowPage({ params }: ShowPageProps) {
-  const { slug } = await params;
-  const show = await getShowBySlug(slug);
+  const { showSlug } = await params;
+  const show = await getShowBySlug(showSlug);
   
   if (!show) {
     notFound();
@@ -93,11 +94,13 @@ export default async function ShowPage({ params }: ShowPageProps) {
   
   return (
     <>
-      {/* JSON-LD Structured Data for SEO */}
-      <script
+      <Script
+        id="podcast-show-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(structuredData)}
+      </Script>
       
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Back navigation */}

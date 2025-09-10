@@ -1,5 +1,5 @@
 import type { Episode } from '@/app/lib/mockData';
-import EpisodeCard from './EpisodeCard';
+import EpisodeListItem from './EpisodeListItem';
 import LoadMoreEpisodes from './LoadMoreEpisodes';
 
 interface EpisodesListProps {
@@ -28,7 +28,7 @@ export default function EpisodesList({ episodes, totalCount }: EpisodesListProps
       {/* Server-rendered initial episodes */}
       <div className={styles.list}>
         {initialEpisodes.map((episode) => (
-          <EpisodeCard key={episode.id} episode={episode} />
+          <EpisodeListItem key={episode.id} episode={episode} />
         ))}
       </div>
       

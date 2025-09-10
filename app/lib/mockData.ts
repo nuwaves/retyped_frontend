@@ -18,6 +18,7 @@ export interface Show {
 export interface Episode {
   id: string;
   showId: string;
+  slug: string;
   title: string;
   description: string;
   duration: string;
@@ -25,6 +26,11 @@ export interface Episode {
   episodeNumber: number;
   audioUrl?: string;
   isNew?: boolean;
+  transcript?: string;
+  guests?: string[];
+  topics?: string[];
+  listenCount?: string;
+  summary?: string;
 }
 
 const mockShows: Show[] = [
@@ -103,6 +109,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '1',
         showId,
+        slug: 'murdered-oakey-al-kite',
         title: 'MURDERED: Oakey "Al" Kite',
         description: 'When Oakey "Al" Kite is brutally murdered in his own home in the spring of 2004, investigators rush to piece together the clues and find the killer.',
         duration: '56m',
@@ -113,6 +120,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '2',
         showId,
+        slug: 'murdered-jodine-serrin-part-1',
         title: 'MURDERED: Jodine Serrin Part 1',
         description: 'On Valentine\'s Day in 2007, 39-year-old Jodine Serrin was brutally murdered and desecrated in her Carlsbad, California apartment.',
         duration: '56m',
@@ -122,6 +130,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '3',
         showId,
+        slug: 'murdered-wendy-jerome',
         title: 'MURDERED: Wendy Jerome',
         description: 'When a teenage girl goes out to deliver a birthday card to her best friend, she never makes it home.',
         duration: '56m',
@@ -135,6 +144,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '1',
         showId,
+        slug: 'sunday-read-rise-ai-healthcare',
         title: 'The Sunday Read: The Rise of AI in Healthcare',
         description: 'How artificial intelligence is transforming medical diagnosis and treatment, and what it means for the future of healthcare.',
         duration: '45m',
@@ -145,6 +155,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '2',
         showId,
+        slug: 'historic-climate-agreement',
         title: 'A Historic Climate Agreement',
         description: 'World leaders reach a landmark deal on carbon emissions. We examine what it means and whether it goes far enough.',
         duration: '28m',
@@ -154,6 +165,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '3',
         showId,
+        slug: 'housing-crisis-explained',
         title: 'The Housing Crisis, Explained',
         description: 'Why housing costs continue to soar across America, and what proposed solutions could mean for buyers and renters.',
         duration: '32m',
@@ -163,6 +175,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '4',
         showId,
+        slug: 'inside-border-debate',
         title: 'Inside the Border Debate',
         description: 'A deep dive into immigration policy changes and their impact on communities along the southern border.',
         duration: '35m',
@@ -172,6 +185,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '5',
         showId,
+        slug: 'future-social-media-regulation',
         title: 'The Future of Social Media Regulation',
         description: 'As Congress considers new rules for tech companies, we explore what changes could be coming to your feeds.',
         duration: '30m',
@@ -181,6 +195,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '6',
         showId,
+        slug: 'year-economic-uncertainty',
         title: 'A Year of Economic Uncertainty',
         description: 'Looking back at inflation, interest rates, and what economic indicators tell us about the year ahead.',
         duration: '33m',
@@ -190,6 +205,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '7',
         showId,
+        slug: 'education-funding-crisis',
         title: 'The Education Funding Crisis',
         description: 'Schools across the country face budget shortfalls. We visit three districts to understand the impact.',
         duration: '29m',
@@ -199,6 +215,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '8',
         showId,
+        slug: 'supreme-court-term-review',
         title: 'The Supreme Court Term in Review',
         description: 'Analyzing the most significant decisions from this term and their implications for American law.',
         duration: '38m',
@@ -208,6 +225,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '9',
         showId,
+        slug: 'global-food-crisis',
         title: 'The Global Food Crisis',
         description: 'How climate change and conflict are creating food shortages around the world, and what can be done.',
         duration: '31m',
@@ -217,6 +235,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '10',
         showId,
+        slug: 'inside-lab-leak-debate',
         title: 'Inside the Lab Leak Debate',
         description: 'New evidence emerges about the origins of COVID-19. We examine the latest findings and ongoing investigations.',
         duration: '34m',
@@ -226,6 +245,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '11',
         showId,
+        slug: 'mental-health-crisis-schools',
         title: 'The Mental Health Crisis in Schools',
         description: 'Students and teachers struggle with unprecedented levels of anxiety and depression. What schools are doing to help.',
         duration: '27m',
@@ -235,6 +255,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '12',
         showId,
+        slug: 'electric-vehicle-revolution',
         title: 'The Electric Vehicle Revolution',
         description: 'Major automakers go all-in on EVs. We look at what this means for consumers, workers, and the climate.',
         duration: '30m',
@@ -244,6 +265,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '13',
         showId,
+        slug: 'new-space-race',
         title: 'The New Space Race',
         description: 'Private companies and nations compete to establish a presence on the moon and Mars. What\'s at stake?',
         duration: '36m',
@@ -253,6 +275,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '14',
         showId,
+        slug: 'fentanyl-crisis-new-chapter',
         title: 'The Fentanyl Crisis: A New Chapter',
         description: 'How a synthetic drug is reshaping America\'s opioid epidemic and overwhelming communities.',
         duration: '33m',
@@ -262,6 +285,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '15',
         showId,
+        slug: 'fight-over-book-bans',
         title: 'The Fight Over Book Bans',
         description: 'Libraries and schools become battlegrounds over what students can read. We visit communities on both sides.',
         duration: '29m',
@@ -275,6 +299,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '1',
         showId,
+        slug: 'episode-1-beginning',
         title: 'Episode 1: The Beginning',
         description: 'Our first episode where we explore the origins and set the stage for what\'s to come.',
         duration: '40m',
@@ -284,6 +309,7 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
       {
         id: '2',
         showId,
+        slug: 'episode-2-going-deeper',
         title: 'Episode 2: Going Deeper',
         description: 'We dive deeper into the topic, exploring new perspectives and uncovering hidden insights.',
         duration: '45m',
@@ -295,4 +321,37 @@ export async function getShowEpisodes(showId: string): Promise<Episode[]> {
   
   await new Promise(resolve => setTimeout(resolve, 100));
   return episodes.filter(ep => ep.showId === showId);
+}
+
+// Get a single episode by show slug and episode slug
+export async function getEpisodeBySlug(showSlug: string, episodeSlug: string): Promise<Episode | null> {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  
+  const show = await getShowBySlug(showSlug);
+  if (!show) return null;
+  
+  const episodes = await getShowEpisodes(show.id);
+  const episode = episodes.find(ep => ep.slug === episodeSlug);
+  
+  return episode || null;
+}
+
+// Get all episode paths for static generation
+export async function getAllEpisodePaths(): Promise<Array<{ showSlug: string; episodeSlug: string }>> {
+  const shows = await getAllShows();
+  const paths: Array<{ showSlug: string; episodeSlug: string }> = [];
+  
+  for (const show of shows) {
+    const episodes = await getShowEpisodes(show.id);
+    for (const episode of episodes) {
+      if (episode.slug) {
+        paths.push({
+          showSlug: show.slug,
+          episodeSlug: episode.slug,
+        });
+      }
+    }
+  }
+  
+  return paths;
 }

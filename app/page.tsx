@@ -1,7 +1,7 @@
-import HeroSearch from './components/home/HeroSearch';
-import TrendingShows from './components/home/TrendingShows';
-import TrendingEpisodes from './components/home/TrendingEpisodes';
-import NewEpisodes from './components/home/NewEpisodes';
+import HeroSearch from './components/modules/home/HeroSearch';
+import TrendingShows from './components/modules/home/TrendingShows';
+import TrendingEpisodes from './components/modules/home/TrendingEpisodes';
+import NewEpisodes from './components/modules/home/NewEpisodes';
 
 export default function Home() {
   return (

@@ -48,3 +48,12 @@ The project uses different Docker configurations for development and production:
 - **`Dockerfile.dev`**: Development container with hot-reload support via volume mounting
 - **`Dockerfile`**: Production-optimized multi-stage build using Next.js standalone mode
 - **`docker-compose.yml`**: Orchestrates the development environment with volume mounts and environment variables
+
+## Project Structure
+
+The codebase follows a modular architecture with co-located components:
+
+- **Modules**: Feature-based organization in `/components/modules/`
+- **Co-location**: Page-specific components live next to their pages
+- **Shared components**: Reusable UI in `/components/common/` and `/components/cards/`
+- **Type-safe**: Centralized TypeScript definitions and consistent patterns

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import type { Episode } from '@/app/lib/mockData';
-import Pill from '@/app/components/common/Pill';
+import Pill from '../../common/Pill';
 
 interface EpisodeCardProps {
   episode: Episode;
@@ -18,7 +18,7 @@ const styles = {
   statSeparator: "mx-2 text-gray-400"
 };
 
-export default function EpisodeCard({ episode }: EpisodeCardProps) {
+export default function EpisodeListItem({ episode }: EpisodeCardProps) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>

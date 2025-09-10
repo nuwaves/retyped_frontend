@@ -1,8 +1,8 @@
 'use client';
 
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import ShowCard from '../cards/ShowCard';
-import SectionHeader from '../common/SectionHeader';
+import ShowCard from '../../cards/ShowCard';
+import SectionHeader from '../../common/SectionHeader';
 
 const styles = {
   container: "w-full py-4 px-4",
