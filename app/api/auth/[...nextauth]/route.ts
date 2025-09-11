@@ -36,8 +36,8 @@ const handler = NextAuth({
             clientSecret: process.env.SA_GOOGLE_OAUTH2_SECRET
         }),
         TwitterProvider({
-            clientId: process.env.SA_TWITTER_API_V2_KEY,
-            clientSecret: process.env.SA_TWITTER_API_V2_SECRET
+            clientId: process.env.SA_TWITTER_API_KEY,
+            clientSecret: process.env.SA_TWITTER_API_SECRET
         }),
         InstagramProvider({
             clientId: process.env.SA_INSTAGRAM_AUTH_KEY,
