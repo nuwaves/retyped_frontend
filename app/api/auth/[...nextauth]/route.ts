@@ -4,17 +4,17 @@ import GoogleProvider from 'next-auth/providers/google'
 import InstagramProvider from "next-auth/providers/instagram";
 import TwitterProvider from "next-auth/providers/twitter";
 import { getConvertionToken } from "@/app/lib/authApi";
-import { TokenValidation } from '@/app/types/api.types'
+import { TokenValidation, BackendToken } from '@/app/types/api.types'
 
 declare module "next-auth/jwt" {
     interface JWT {
-        backendToken?: string;
+        backendToken?: BackendToken;
     }
 }
 
 declare module "next-auth" {
     interface Session {
-        backendToken?: string;
+        backendToken?: BackendToken;
     }
 }
 
@@ -44,18 +44,34 @@ const handler = NextAuth({
             clientSecret: process.env.SA_INSTAGRAM_AUTH_SECRET
         })
     ],
+    pages: {
+        signIn: '/login', // Redirect errors to login page
+        error: '/login',
+    },
     callbacks: {
         async jwt({ token, user, account }) {
             if (account && user) {
-                const convertion_payload: TokenValidation = {
-                    grant_type: "convert_token",
-                    client_id: process.env.DJANGO_BACKEND_CLIENT_ID,
-                    backend: backends_mapping[account.provider],
-                    token: account.access_token
+                try {
+                    const convertion_payload: TokenValidation = {
+                        grant_type: "convert_token",
+                        client_id: process.env.DJANGO_BACKEND_CLIENT_ID,
+                        backend: backends_mapping[account.provider],
+                        token: account.access_token
+                    }
+                    const convertion_data = await getConvertionToken(convertion_payload)
+                    const backend_token: BackendToken = {
+                        access_token: convertion_data.access_token,
+                        refresh_token: convertion_data.refresh_token,
+                        user: convertion_data.user ?? {}
+                    } 
+                    token.backendToken = backend_token;
+                    token.access_token = account.access_token;
+                } catch (error) {
+                    console.error('Backend token conversion failed:', error);
+                    // Still allow NextAuth session but without backend token
+                    token.backendToken = null;
+                    token.access_token = account.access_token;
                 }
-                const convertion_data = await getConvertionToken(convertion_payload)
-                token.backendToken = convertion_data.token;
-                token.access_token = account.access_token;
             }
             return token;
         },

@@ -4,3 +4,13 @@ export interface TokenValidation {
     backend: string;
     token: string;
 }
+
+export interface BackendToken {
+    access_token: string;
+    refresh_token: string;
+    user: {
+        email?: string;
+        first_name?: string;
+        last_name?: string;
+    }
+}
