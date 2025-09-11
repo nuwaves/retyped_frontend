@@ -31,7 +31,6 @@ export default function Pill({
   size = 'sm', 
   variant = 'outline',
   radius = 'full',
-  icon = true,
   className = ''
 }: PillProps) {
   const baseStyles = 'inline-block w-fit';
