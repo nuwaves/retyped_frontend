@@ -14,3 +14,9 @@ services:
     env_file:
       - .env.dev
     restart: unless-stopped
+    networks:
+      - retyped-local
+
+networks:
+  retyped-local:
+    external: true
