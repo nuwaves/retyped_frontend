@@ -3,7 +3,7 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 import InstagramProvider from "next-auth/providers/instagram";
 import TwitterProvider from "next-auth/providers/twitter";
-import authApiClient from "@/app/lib/authApi";
+import { getConvertionToken } from "@/app/lib/authApi";
 import { TokenValidation } from '@/app/types/api.types'
 
 declare module "next-auth/jwt" {
@@ -53,7 +53,7 @@ const handler = NextAuth({
                     backend: backends_mapping[account.provider],
                     token: account.access_token
                 }
-                const convertion_data = await authApiClient.getConvertionToken(convertion_payload)
+                const convertion_data = await getConvertionToken(convertion_payload)
                 token.backendToken = convertion_data.token;
                 token.access_token = account.access_token;
             }
