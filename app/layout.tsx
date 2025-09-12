@@ -5,6 +5,7 @@ import "./lib/fontawesome";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import StoreProvider from "./providers/StoreProvider";
+import AuthProvider from '@/app/providers/AuthProvider';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,11 +35,13 @@ export default function RootLayout({
         className={`${inter.variable} ${openSans.variable} antialiased`}
       >
         <StoreProvider>
-          <Navbar />
-          <main className="pt-14 pb-32">
-            {children}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <Navbar />
+            <main className="pt-14 pb-32">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
         </StoreProvider>
       </body>
     </html>

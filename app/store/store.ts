@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import uiReducer from './features/ui/uiSlice'
+import authReducer from './features/auth/authSlice' 
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       ui: uiReducer,
+      auth: authReducer
     },
   })
 }
