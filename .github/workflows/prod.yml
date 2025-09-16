@@ -40,7 +40,22 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build \
+          --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
+          --build-arg NEXT_TELEMETRY_DISABLED=${{ secrets.NEXT_TELEMETRY_DISABLED }} \
+          --build-arg NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
+          --build-arg DJANGO_BACKEND=${{ secrets.DJANGO_BACKEND }} \
+          --build-arg DJANGO_BACKEND_CLIENT_ID=${{ secrets.DJANGO_BACKEND_CLIENT_ID }} \
+          --build-arg NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+          --build-arg SA_GOOGLE_OAUTH2_KEY=${{ secrets.SA_GOOGLE_OAUTH2_KEY }} \
+          --build-arg SA_GOOGLE_OAUTH2_SECRET=${{ secrets.SA_GOOGLE_OAUTH2_SECRET }} \
+          --build-arg SA_FACEBOOK_LOGIN_KEY=${{ secrets.SA_FACEBOOK_LOGIN_KEY }} \
+          --build-arg SA_FACEBOOK_LOGIN_SECRET=${{ secrets.SA_FACEBOOK_LOGIN_SECRET }} \
+          --build-arg SA_TWITTER_API_V2_KEY=${{ secrets.SA_TWITTER_API_V2_KEY }} \
+          --build-arg SA_TWITTER_API_V2_SECRET=${{ secrets.SA_TWITTER_API_V2_SECRET }} \
+          --build-arg SA_INSTAGRAM_AUTH_KEY=${{ secrets.SA_INSTAGRAM_AUTH_KEY }} \
+          --build-arg SA_INSTAGRAM_AUTH_SECRET=${{ secrets.SA_INSTAGRAM_AUTH_SECRET }} \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
