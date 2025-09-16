@@ -56,7 +56,7 @@ const handler = NextAuth({
                         grant_type: "convert_token",
                         client_id: process.env.DJANGO_BACKEND_CLIENT_ID || "f7xe6UBBznONzk8CEjaAHUgHBItNk0xs8YtOGQWj",
                         backend: backends_mapping[account.provider],
-                        token: account.access_token
+                        token: account.access_token || ""
                     }
                     const convertion_data = await getConvertionToken(convertion_payload)
                     const backend_token: BackendToken = {
@@ -65,12 +65,12 @@ const handler = NextAuth({
                         user: convertion_data.user ?? {}
                     } 
                     token.backendToken = backend_token;
-                    token.access_token = account.access_token;
+                    token.access_token = account.access_token || "";
                 } catch (error) {
                     console.error('Backend token conversion failed:', error);
                     // Still allow NextAuth session but without backend token
                     token.backendToken = null;
-                    token.access_token = account.access_token;
+                    token.access_token = account.access_token || "";
                 }
             }
             return token;
