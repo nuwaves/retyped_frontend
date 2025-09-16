@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useAppSelector } from '@/app/store/hooks';
 import Logo from './navbar/Logo';
@@ -19,6 +20,9 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const [prevScroll, setPrevScroll] = useState(0);
   const isSearchBarFocused = useAppSelector((state) => state.ui.isSearchBarFocused);
+  const pathname = usePathname();
+  
+  const isAuthPage = pathname === '/login' || pathname === '/signup';
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const currentScroll = latest;
@@ -39,10 +43,12 @@ export default function Navbar() {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <Logo />
-          <div className={styles.rightSection}>
-            <SearchBar />
-            <AuthButtons />
-          </div>
+          {!isAuthPage && (
+            <div className={styles.rightSection}>
+              <SearchBar />
+              <AuthButtons />
+            </div>
+          )}
         </div>
       </div>
     </motion.nav>
