@@ -69,7 +69,7 @@ const handler = NextAuth({
                 } catch (error) {
                     console.error('Backend token conversion failed:', error);
                     // Still allow NextAuth session but without backend token
-                    token.backendToken = null;
+                    token.backendToken = undefined;
                     token.access_token = account.access_token || "";
                 }
             }
