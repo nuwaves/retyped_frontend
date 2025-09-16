@@ -28,7 +28,7 @@ export default function TrendingEpisodes() {
   const error = useAppSelector(selectEpisodesError);
 
   useEffect(() => {
-    dispatch(fetchTrendingEpisodes());
+    dispatch(fetchTrendingEpisodes('7d'));
   }, [dispatch]);
 
   const formatDuration = (duration: string | null) => {
