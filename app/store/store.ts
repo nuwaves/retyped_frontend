@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import uiReducer from './features/ui/uiSlice'
-import authReducer from './features/auth/authSlice' 
+import authReducer from './features/auth/authSlice'
+import podcastsReducer from './features/podcasts/podcastsSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       ui: uiReducer,
-      auth: authReducer
+      auth: authReducer,
+      podcasts: podcastsReducer
     },
   })
 }
