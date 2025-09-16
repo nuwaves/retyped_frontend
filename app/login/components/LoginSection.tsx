@@ -44,9 +44,9 @@ export default function LoginSection() {
   useEffect(() => {
     const error = searchParams.get('error');
     if (error) {
-      setErrorMessage(errorMessages[error] || errorMessages.Default);
+      setErrorMessage(errorMessages[error as keyof typeof errorMessages] || errorMessages.Default);
     }
-  }, [searchParams]);
+  }, [searchParams, errorMessages]);
 
   const handleSocialLogin = async (provider: string) => {
     try {
