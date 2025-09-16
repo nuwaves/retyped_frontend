@@ -13,7 +13,7 @@ export const getConvertionToken = async (data: TokenValidation) => {
         const response = await authApiClient.post('/auth/convert-token', data);
         return response.data;
     } catch (error) {
-        console.error('Failed token convertion:', error.toJSON());
+        console.error('Failed token convertion:', error);
         throw error;
     }
 };
