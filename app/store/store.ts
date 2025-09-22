@@ -3,6 +3,7 @@ import uiReducer from './features/ui/uiSlice'
 import authReducer from './features/auth/authSlice'
 import podcastsReducer from './features/podcasts/podcastsSlice'
 import episodesReducer from './features/episodes/episodesSlice'
+import { baseApi } from './services/baseApi'
 
 export const makeStore = () => {
   return configureStore({
@@ -10,8 +11,11 @@ export const makeStore = () => {
       ui: uiReducer,
       auth: authReducer,
       podcasts: podcastsReducer,
-      episodes: episodesReducer
+      episodes: episodesReducer,
+      [baseApi.reducerPath]: baseApi.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(baseApi.middleware),
   })
 }
 

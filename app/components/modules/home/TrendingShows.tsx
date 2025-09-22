@@ -1,16 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import ShowCard from '../../cards/ShowCard';
 import SectionHeader from '../../common/SectionHeader';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { 
-  fetchTrendingPodcasts, 
-  selectTrendingPodcasts, 
-  selectPodcastsLoading, 
-  selectPodcastsError 
-} from '@/app/store/features/podcasts/podcastsSlice';
+import { useGetTopPodcastsQuery } from '@/app/store/services/podcastsApi';
 
 const styles = {
   container: "w-full py-4 px-4",
@@ -20,14 +13,7 @@ const styles = {
 
 
 export default function TrendingShows() {
-  const dispatch = useAppDispatch();
-  const trendingPodcasts = useAppSelector(selectTrendingPodcasts);
-  const loading = useAppSelector(selectPodcastsLoading);
-  const error = useAppSelector(selectPodcastsError);
-
-  useEffect(() => {
-    dispatch(fetchTrendingPodcasts('all'));
-  }, [dispatch]);
+  const { data: trendingPodcasts = [], isLoading: loading, error } = useGetTopPodcastsQuery({ timeframe: 'all' });
 
   const shows = trendingPodcasts.slice(0, 4).map(podcast => ({
     id: podcast.id,
