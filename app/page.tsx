@@ -20,7 +20,7 @@ export default async function Home() {
       []
     ),
     safeApi<PaginatedResponse<Episode>>(
-      '/api/v1/episodes/?page=1&page_size=4',
+      '/api/v1/episodes/?limit=4',
       { count: 0, next: null, previous: null, results: [] }
     ),
   ]);
@@ -32,7 +32,7 @@ export default async function Home() {
       <HeroSearch />
 
       <TrendingShows>
-        {trendingShows.slice(0, 4).map(show => (
+        {trendingShows.map(show => (
           <ShowCard
             key={show.id}
             title={show.name}
