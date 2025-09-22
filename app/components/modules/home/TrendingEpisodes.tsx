@@ -1,16 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import EpisodeCard from '../../cards/EpisodeCard';
 import SectionHeader from '../../common/SectionHeader';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { 
-  fetchTrendingEpisodes, 
-  selectTrendingEpisodes, 
-  selectEpisodesLoading, 
-  selectEpisodesError 
-} from '@/app/store/features/episodes/episodesSlice';
+import { useGetTopEpisodesQuery } from '@/app/store/services/episodesApi';
 
 const styles = {
   container: "w-full py-4 px-4",
@@ -22,14 +15,7 @@ const styles = {
 };
 
 export default function TrendingEpisodes() {
-  const dispatch = useAppDispatch();
-  const episodes = useAppSelector(selectTrendingEpisodes);
-  const loading = useAppSelector(selectEpisodesLoading);
-  const error = useAppSelector(selectEpisodesError);
-
-  useEffect(() => {
-    dispatch(fetchTrendingEpisodes('7d'));
-  }, [dispatch]);
+  const { data: episodes = [], isLoading: loading, error } = useGetTopEpisodesQuery({ timeframe: '7d' });
 
   const formatDuration = (duration: string | null) => {
     if (!duration) return '';

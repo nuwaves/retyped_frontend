@@ -1,16 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import EpisodeCard from '../../cards/EpisodeCard';
 import SectionHeader from '../../common/SectionHeader';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { 
-  fetchLatestEpisodes, 
-  selectLatestEpisodes, 
-  selectLatestEpisodesLoading, 
-  selectLatestEpisodesError 
-} from '@/app/store/features/episodes/episodesSlice';
+import { useGetEpisodesQuery } from '@/app/store/services/episodesApi';
 
 const styles = {
   container: "w-full py-4 px-4",
@@ -22,14 +15,8 @@ const styles = {
 };
 
 export default function NewEpisodes() {
-  const dispatch = useAppDispatch();
-  const episodes = useAppSelector(selectLatestEpisodes);
-  const loading = useAppSelector(selectLatestEpisodesLoading);
-  const error = useAppSelector(selectLatestEpisodesError);
-
-  useEffect(() => {
-    dispatch(fetchLatestEpisodes({ limit: 4 }));
-  }, [dispatch]);
+  const { data, isLoading: loading, error } = useGetEpisodesQuery({ limit: 4 });
+  const episodes = data?.results || [];
 
   const formatDuration = (duration: string | null) => {
     if (!duration) return '';
