@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faClock } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,5 +1,3 @@
-'use client';
-
 import Pill from '@/app/components/common/Pill';
 import Button from '@/app/components/common/Button';
 

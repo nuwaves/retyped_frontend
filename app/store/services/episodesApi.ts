@@ -1,16 +1,9 @@
 import { baseApi } from './baseApi';
-import { Episode } from '@/app/types/podcast.types';
-
-export interface EpisodesResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Episode[];
-}
+import { Episode, PaginatedResponse } from '@/app/types';
 
 export const episodesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getEpisodes: builder.query<EpisodesResponse, { page?: number; limit?: number }>({
+    getEpisodes: builder.query<PaginatedResponse<Episode>, { page?: number; limit?: number }>({
       query: ({ page = 1, limit = 10 }) => ({
         url: 'episodes/',
         params: {

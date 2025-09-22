@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import { Podcast } from '@/app/types/podcast.types';
+import { Podcast } from '@/app/types';
 
 export const podcastsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
