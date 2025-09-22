@@ -28,20 +28,20 @@ const backends_mapping: Record<string, string> = {
 const handler = NextAuth({
     providers: [
         FacebookProvider({
-            clientId: process.env.SA_FACEBOOK_LOGIN_KEY || "1521249572572311",
-            clientSecret: process.env.SA_FACEBOOK_LOGIN_SECRET || "323fc30e6db964ee0cac309faeeb03d4"
+            clientId: process.env.SA_FACEBOOK_LOGIN_KEY!,
+            clientSecret: process.env.SA_FACEBOOK_LOGIN_SECRET!
         }),
         GoogleProvider({
-            clientId: process.env.SA_GOOGLE_OAUTH2_KEY || "499151202569-fqsqb09kg5pmmqo8vk4j8ck2tb44rvv8.apps.googleusercontent.com",
-            clientSecret: process.env.SA_GOOGLE_OAUTH2_SECRET || "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"
+            clientId: process.env.SA_GOOGLE_OAUTH2_KEY!,
+            clientSecret: process.env.SA_GOOGLE_OAUTH2_SECRET!
         }),
         TwitterProvider({
-            clientId: process.env.SA_TWITTER_API_KEY || "W6mg1s82hxoqQmTe6dVnVVKZ7",
-            clientSecret: process.env.SA_TWITTER_API_SECRET || "YtR2U5FGJbwXSQgzwmvudEjPNxTYUU4m0rQrv3uj88LKQbRv9y"
+            clientId: process.env.SA_TWITTER_API_KEY!,
+            clientSecret: process.env.SA_TWITTER_API_SECRET!
         }),
         InstagramProvider({
-            clientId: process.env.SA_INSTAGRAM_AUTH_KEY || "1302794741538579",
-            clientSecret: process.env.SA_INSTAGRAM_AUTH_SECRET || "687705d684da9ac49387fd2baf423d6c"
+            clientId: process.env.SA_INSTAGRAM_AUTH_KEY!,
+            clientSecret: process.env.SA_INSTAGRAM_AUTH_SECRET!
         })
     ],
     pages: {
@@ -54,7 +54,7 @@ const handler = NextAuth({
                 try {
                     const convertion_payload: TokenValidation = {
                         grant_type: "convert_token",
-                        client_id: process.env.DJANGO_BACKEND_CLIENT_ID || "f7xe6UBBznONzk8CEjaAHUgHBItNk0xs8YtOGQWj",
+                        client_id: process.env.DJANGO_BACKEND_CLIENT_ID!,
                         backend: backends_mapping[account.provider],
                         token: account.access_token || ""
                     }
