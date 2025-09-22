@@ -10,7 +10,7 @@ const styles = {
 
 interface SectionProps {
   title: string;
-  icon?: IconDefinition;
+  icon: IconDefinition;
   children: ReactNode;
   gridClassName?: string;
   containerClassName?: string;
