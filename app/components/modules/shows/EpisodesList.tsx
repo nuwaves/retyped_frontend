@@ -1,4 +1,4 @@
-import type { Episode } from '@/app/lib/mockData';
+import type { Episode } from '@/app/types';
 import EpisodeListItem from './EpisodeListItem';
 import LoadMoreEpisodes from './LoadMoreEpisodes';
 

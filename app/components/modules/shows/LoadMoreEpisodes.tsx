@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Episode } from '@/app/lib/mockData';
+import type { Episode } from '@/app/types';
 import EpisodeListItem from './EpisodeListItem';
 import Button from '../../common/Button';
 

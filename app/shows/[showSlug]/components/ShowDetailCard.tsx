@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faMicrophone, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import type { Show } from '@/app/lib/mockData';
-import { formatFollowers } from '@/app/utils/formatters';
+import type { Podcast } from '@/app/types';
+import { formatCompactNumber } from '@/app/utils/formatters';
 import Pill from '@/app/components/common/Pill';
 
 interface ShowDetailCardProps {
-  show: Show;
+  show: Podcast;
   children?: React.ReactNode;
 }
 
@@ -58,7 +58,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {formatFollowers(show.followers)} Followers
+                  {formatCompactNumber(show.followers)} Followers
                 </span>
               </div>
               

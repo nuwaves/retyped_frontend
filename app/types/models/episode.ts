@@ -11,5 +11,9 @@ export interface Episode extends TimestampedModel {
   summary: string | null;
   release_date: string;
   podcast: Podcast;
+  image_url?: string | null;
+  duration?: string;
+  episode_number?: number;
+  raw_audio_url?: string;
   total_views?: number;
 }

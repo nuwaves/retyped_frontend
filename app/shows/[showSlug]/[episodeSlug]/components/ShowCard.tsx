@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Button from '@/app/components/common/Button';
 import type { Show } from '@/app/lib/mockData';
-import { formatFollowers } from '@/app/utils/formatters';
+import { formatCompactNumber } from '@/app/utils/formatters';
 
 interface ShowCardProps {
   show: Show;
@@ -30,7 +30,7 @@ export default function ShowCard({ show }: ShowCardProps) {
         <div className={styles.showDetails}>
           <h4 className={styles.showTitle}>{show.title}</h4>
           <p className={styles.showAuthor}>{show.author}</p>
-          <p className={styles.showFollowers}>{formatFollowers(show.followers)} followers</p>
+          <p className={styles.showFollowers}>{formatCompactNumber(show.followers)} followers</p>
         </div>
       </div>
       

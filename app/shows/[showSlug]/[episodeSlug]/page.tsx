@@ -5,25 +5,14 @@ import BackNavigation from "@/app/components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
-import { 
-  getShowBySlug, 
-  getEpisodeBySlug, 
-  getAllEpisodePaths,
-  Show,
-  Episode 
-} from "@/app/lib/mockData";
+import { api } from "@/app/lib/api";
+import { Podcast, Episode } from "@/app/types";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
 
-// Generate static params for all episodes at build time (SSG)
-export async function generateStaticParams() {
-  const paths = await getAllEpisodePaths();
-  return paths.map(({ showSlug, episodeSlug }) => ({
-    showSlug,
-    episodeSlug,
-  }));
-}
+// Remove static generation - using ISR only
+// export async function generateStaticParams() { ... }
 
 interface EpisodePageProps {
   params: Promise<{
@@ -35,8 +24,19 @@ interface EpisodePageProps {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: EpisodePageProps): Promise<Metadata> {
   const { showSlug, episodeSlug } = await params;
-  const show = await getShowBySlug(showSlug);
-  const episode = await getEpisodeBySlug(showSlug, episodeSlug);
+
+  let show: Podcast | null = null;
+  let episode: Episode | null = null;
+
+  try {
+    // Fetch both in parallel
+    [show, episode] = await Promise.all([
+      api<Podcast>(`/api/v1/podcasts/${showSlug}/`),
+      api<Episode>(`/api/v1/episodes/${episodeSlug}/`)
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch data for metadata:', error);
+  }
   
   if (!show || !episode) {
     return {
@@ -45,24 +45,24 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     };
   }
   
-  const episodeTitle = `${episode.title} | ${show.title}`;
+  const episodeTitle = `${episode.title} | ${show.name}`;
   
   return {
     title: `${episodeTitle} | Retyped`,
     description: episode.description,
-    keywords: [show.category, "podcast", "episode", show.title, episode.title],
-    authors: [{ name: show.author }],
+    keywords: [show.tags?.[0]?.name || "Podcast", "podcast", "episode", show.name, episode.title],
+    authors: [],
     openGraph: {
       title: episodeTitle,
       description: episode.description,
       type: "article",
       siteName: "Retyped",
-      publishedTime: episode.publishDate,
-      authors: [show.author],
-      tags: [show.category, "podcast"],
+      publishedTime: episode.release_date,
+      authors: [],
+      tags: [show.tags?.[0]?.name || "Podcast", "podcast"],
       images: [
         {
-          url: show.imageUrl,
+          url: show.image_url || '/',
           width: 1200,
           height: 630,
           alt: episodeTitle,
@@ -73,8 +73,8 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       card: "summary_large_image",
       title: episodeTitle,
       description: episode.description,
-      images: [show.imageUrl],
-      creator: `@${show.author.replace(/\s+/g, '')}`,
+      images: [show.image_url || '/'],
+      creator: undefined,
     },
     alternates: {
       canonical: `/shows/${showSlug}/${episodeSlug}`,
@@ -94,23 +94,19 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
 }
 
 // Generate JSON-LD structured data for SEO
-function generateStructuredData(show: Show, episode: Episode) {
+function generateStructuredData(show: Podcast, episode: Episode) {
   return {
     "@context": "https://schema.org",
     "@type": "PodcastEpisode",
     "name": episode.title,
     "description": episode.description,
-    "datePublished": episode.publishDate,
-    "duration": `PT${episode.duration.toUpperCase()}`,
-    "episodeNumber": episode.episodeNumber,
+    "datePublished": episode.release_date,
+    "duration": episode.duration || "PT0S",
+    "episodeNumber": episode.episode_number || 1,
     "partOfSeries": {
       "@type": "PodcastSeries",
-      "name": show.title,
+      "name": show.name,
       "url": `https://retyped.com/shows/${show.slug}`
-    },
-    "author": {
-      "@type": "Person",
-      "name": show.author
     },
     "publisher": {
       "@type": "Organization",
@@ -121,23 +117,16 @@ function generateStructuredData(show: Show, episode: Episode) {
       }
     },
     "url": `https://retyped.com/shows/${show.slug}/${episode.slug}`,
-    "audio": episode.audioUrl ? {
+    "audio": episode.raw_audio_url ? {
       "@type": "AudioObject",
-      "contentUrl": episode.audioUrl,
-      "duration": `PT${episode.duration.toUpperCase()}`
-    } : undefined,
-    "aggregateRating": show.rating ? {
-      "@type": "AggregateRating",
-      "ratingValue": show.rating,
-      "bestRating": 5,
-      "worstRating": 1,
-      "ratingCount": Math.floor(show.followers / 10)
+      "contentUrl": episode.raw_audio_url,
+      "duration": episode.duration || "PT0S"
     } : undefined
   };
 }
 
 // Breadcrumb structured data for better navigation in search results
-function generateBreadcrumbData(show: Show, episode: Episode) {
+function generateBreadcrumbData(show: Podcast, episode: Episode) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -151,7 +140,7 @@ function generateBreadcrumbData(show: Show, episode: Episode) {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": show.title,
+        "name": show.name,
         "item": `https://retyped.com/shows/${show.slug}`
       },
       {
@@ -166,13 +155,21 @@ function generateBreadcrumbData(show: Show, episode: Episode) {
 
 export default async function EpisodePage({ params }: EpisodePageProps) {
   const { showSlug, episodeSlug } = await params;
-  
-  // Fetch data in parallel for better performance
-  const [show, episode] = await Promise.all([
-    getShowBySlug(showSlug),
-    getEpisodeBySlug(showSlug, episodeSlug)
-  ]);
-  
+
+  let show: Podcast | null = null;
+  let episode: Episode | null = null;
+
+  try {
+    // Fetch data in parallel for better performance
+    [show, episode] = await Promise.all([
+      api<Podcast>(`/api/v1/podcasts/${showSlug}/`),
+      api<Episode>(`/api/v1/episodes/${episodeSlug}/`)
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch episode data:', error);
+    notFound();
+  }
+
   if (!show || !episode) {
     notFound();
   }

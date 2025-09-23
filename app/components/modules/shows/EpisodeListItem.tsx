@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-import type { Episode } from '@/app/lib/mockData';
+import type { Episode } from '@/app/types';
 import Pill from '../../common/Pill';
 
 interface EpisodeCardProps {
