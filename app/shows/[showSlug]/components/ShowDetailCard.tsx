@@ -37,17 +37,21 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
         </div>
         
         <div className={styles.contentWrapper}>
-          {/* Category pill */}
-          <div>
-            <Pill size="sm" variant="outline">
-              {show.category}
-            </Pill>
-          </div>
-          
+          {/* Category pills */}
+          {show.tags && show.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {show.tags.map(tag => (
+                <Pill key={tag.id} size="sm" variant="outline">
+                  {tag.name}
+                </Pill>
+              ))}
+            </div>
+          )}
+
           {/* Title and author */}
           <div className={styles.titleWrapper}>
-            <h1 className={styles.title}>{show.title}</h1>
-            <p className={styles.author}>By {show.author}</p>
+            <h1 className={styles.title}>{show.name}</h1>
+            {show.author && <p className={styles.author}>By {show.author}</p>}
           </div>
           
           {/* Description, stats and buttons grouped */}
