@@ -12,6 +12,10 @@ env:
   ECS_CLUSTER: frontend-app-cluster
   ECS_TASK_DEFINITION: frontend-app-task-def
   CONTAINER_NAME: frontend-app
+  NODE_ENV: production
+  NEXT_TELEMETRY_DISABLED: 1
+  DJANGO_BACKEND: http://django-app-alb-2075286004.us-east-1.elb.amazonaws.com
+  NEXTAUTH_URL: https://retyped.xyz
 
 jobs:
   deploy:
@@ -34,15 +38,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Debug environment variables
-      run: |
-        echo "Testing variable access:"
-        echo "env.DJANGO_BACKEND = ${{ env.DJANGO_BACKEND }}"
-        echo "secrets.DJANGO_BACKEND = ${{ secrets.DJANGO_BACKEND }}"
-        echo "vars.DJANGO_BACKEND = ${{ vars.DJANGO_BACKEND }}"
-        echo "secrets.DJANGO_BACKEND_CLIENT_ID exists = ${{ secrets.DJANGO_BACKEND_CLIENT_ID != '' }}"
-        echo "AWS secrets work = ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -54,16 +49,16 @@ jobs:
           --build-arg NEXT_TELEMETRY_DISABLED=${{ env.NEXT_TELEMETRY_DISABLED }} \
           --build-arg NEXTAUTH_URL=${{ env.NEXTAUTH_URL }} \
           --build-arg DJANGO_BACKEND=${{ env.DJANGO_BACKEND }} \
-          --build-arg DJANGO_BACKEND_CLIENT_ID=${{ env.DJANGO_BACKEND_CLIENT_ID }} \
-          --build-arg NEXTAUTH_SECRET=${{ env.NEXTAUTH_SECRET }} \
-          --build-arg SA_GOOGLE_OAUTH2_KEY=${{ env.SA_GOOGLE_OAUTH2_KEY }} \
-          --build-arg SA_GOOGLE_OAUTH2_SECRET=${{ env.SA_GOOGLE_OAUTH2_SECRET }} \
-          --build-arg SA_FACEBOOK_LOGIN_KEY=${{ env.SA_FACEBOOK_LOGIN_KEY }} \
-          --build-arg SA_FACEBOOK_LOGIN_SECRET=${{ env.SA_FACEBOOK_LOGIN_SECRET }} \
-          --build-arg SA_TWITTER_API_V2_KEY=${{ env.SA_TWITTER_API_V2_KEY }} \
-          --build-arg SA_TWITTER_API_V2_SECRET=${{ env.SA_TWITTER_API_V2_SECRET }} \
-          --build-arg SA_INSTAGRAM_AUTH_KEY=${{ env.SA_INSTAGRAM_AUTH_KEY }} \
-          --build-arg SA_INSTAGRAM_AUTH_SECRET=${{ env.SA_INSTAGRAM_AUTH_SECRET }} \
+          --build-arg DJANGO_BACKEND_CLIENT_ID=${{ secrets.DJANGO_BACKEND_CLIENT_ID }} \
+          --build-arg NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+          --build-arg SA_GOOGLE_OAUTH2_KEY=${{ secrets.SA_GOOGLE_OAUTH2_KEY }} \
+          --build-arg SA_GOOGLE_OAUTH2_SECRET=${{ secrets.SA_GOOGLE_OAUTH2_SECRET }} \
+          --build-arg SA_FACEBOOK_LOGIN_KEY=${{ secrets.SA_FACEBOOK_LOGIN_KEY }} \
+          --build-arg SA_FACEBOOK_LOGIN_SECRET=${{ secrets.SA_FACEBOOK_LOGIN_SECRET }} \
+          --build-arg SA_TWITTER_API_V2_KEY=${{ secrets.SA_TWITTER_API_V2_KEY }} \
+          --build-arg SA_TWITTER_API_V2_SECRET=${{ secrets.SA_TWITTER_API_V2_SECRET }} \
+          --build-arg SA_INSTAGRAM_AUTH_KEY=${{ secrets.SA_INSTAGRAM_AUTH_KEY }} \
+          --build-arg SA_INSTAGRAM_AUTH_SECRET=${{ secrets.SA_INSTAGRAM_AUTH_SECRET }} \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
