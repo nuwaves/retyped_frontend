@@ -34,6 +34,15 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
+    - name: Debug environment variables
+      run: |
+        echo "Testing variable access:"
+        echo "env.DJANGO_BACKEND = ${{ env.DJANGO_BACKEND }}"
+        echo "secrets.DJANGO_BACKEND = ${{ secrets.DJANGO_BACKEND }}"
+        echo "vars.DJANGO_BACKEND = ${{ vars.DJANGO_BACKEND }}"
+        echo "secrets.DJANGO_BACKEND_CLIENT_ID exists = ${{ secrets.DJANGO_BACKEND_CLIENT_ID != '' }}"
+        echo "AWS secrets work = ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
