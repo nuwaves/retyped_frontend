@@ -1,4 +1,4 @@
-import type { Episode } from '@/app/lib/mockData';
+import type { Episode } from '@/app/types';
 import TabNavigation from './TabNavigation';
 import SummarySection from './SummarySection';
 import TranscriptSection from './TranscriptSection';

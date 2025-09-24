@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
-import type { Episode, Show } from '@/app/lib/mockData';
+import type { Episode, Podcast } from '@/app/types';
 import Pill from '@/app/components/common/Pill';
 import EpisodeActions from './EpisodeActions';
 
 interface EpisodeDetailCardProps {
   episode: Episode;
-  show: Show;
+  show: Podcast;
 }
 
 const styles = {
@@ -25,17 +25,17 @@ const styles = {
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
-  const topics = episode.topics || ['Cold Case', 'DNA Evidence', 'Justice Delayed', 'Disappearance'];
-  const listenCount = episode.listenCount || '1.8M';
+  const topics = episode.tags?.map(tag => tag.name) || [];
+  const listenCount = episode.total_views ? `${episode.total_views}` : '0';
   
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <time className={styles.date} dateTime={episode.publishDate}>
+        <time className={styles.date} dateTime={episode.release_date}>
           <FontAwesomeIcon icon={faCalendar} className="mr-2" />
-          {episode.publishDate}
+          {episode.release_date}
         </time>
-        <EpisodeActions episodeId={episode.id} />
+        <EpisodeActions episodeId={episode.id.toString()} />
       </div>
       
       <div className={styles.titleSection}>
@@ -46,7 +46,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
       <div className={styles.stats}>
         <div className={styles.statItem}>
           <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
-          <span>{episode.duration}</span>
+          <span>{episode.duration || '00:00'}</span>
         </div>
         <div className={styles.statItem}>
           <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />

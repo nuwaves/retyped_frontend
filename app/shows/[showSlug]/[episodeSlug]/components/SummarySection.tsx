@@ -1,4 +1,4 @@
-import type { Episode } from '@/app/lib/mockData';
+import type { Episode } from '@/app/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import ContentSection from './ContentSection';
@@ -27,23 +27,13 @@ export default function SummarySection({ episode }: SummarySectionProps) {
     >
       <div className="prose max-w-none">
         <p className={styles.summaryText}>
-        {episode.description}
-      </p>
-      {episode.summary && (
-        <p className={styles.summaryText}>
-          {episode.summary}
+          {episode.description}
         </p>
-      )}
-      {episode.guests && episode.guests.length > 0 && (
-        <div className={styles.guestsSection}>
-          <h3 className={styles.guestsTitle}>Guests</h3>
-          <ul className={styles.guestsList}>
-            {episode.guests.map((guest, index) => (
-              <li key={index} className={styles.guestItem}>{guest}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {episode.summary && (
+          <p className={styles.summaryText}>
+            {episode.summary}
+          </p>
+        )}
       </div>
     </ContentSection>
   );

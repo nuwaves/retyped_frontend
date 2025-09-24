@@ -195,7 +195,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
       </Script>
       
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <BackNavigation href={`/shows/${showSlug}`} label={show.title} />
+        <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
         
         <div className="flex gap-8">
           <div className="flex-1">

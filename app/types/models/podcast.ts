@@ -24,4 +24,7 @@ export interface Podcast extends TimestampedModel {
   last_processed?: string;
   tags: Tag[];
   total_views?: number;
+  followers?: number;
+  episodeCount?: number;
+  releaseFrequency?: string;
 }

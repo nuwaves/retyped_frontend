@@ -62,21 +62,21 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {formatCompactNumber(show.followers)} Followers
+                  {formatCompactNumber(show.followers || 0)} Followers
                 </span>
               </div>
               
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faMicrophone} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {show.episodeCount} Episodes
+                  {show.episodeCount || 0} Episodes
                 </span>
               </div>
               
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {show.releaseFrequency}
+                  {show.releaseFrequency || '-'}
                 </span>
               </div>
             </div>

@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Button from '@/app/components/common/Button';
-import type { Show } from '@/app/lib/mockData';
+import type { Podcast } from '@/app/types';
 import { formatCompactNumber } from '@/app/utils/formatters';
 
 interface ShowCardProps {
-  show: Show;
+  show: Podcast;
 }
 
 const styles = {
@@ -28,9 +28,11 @@ export default function ShowCard({ show }: ShowCardProps) {
         <div className={styles.showImage} />
         
         <div className={styles.showDetails}>
-          <h4 className={styles.showTitle}>{show.title}</h4>
-          <p className={styles.showAuthor}>{show.author}</p>
-          <p className={styles.showFollowers}>{formatCompactNumber(show.followers)} followers</p>
+          <h4 className={styles.showTitle}>{show.name}</h4>
+          {show.author && <p className={styles.showAuthor}>{show.author}</p>}
+          {show.total_views !== undefined && (
+            <p className={styles.showFollowers}>{formatCompactNumber(show.total_views)} views</p>
+          )}
         </div>
       </div>
       
