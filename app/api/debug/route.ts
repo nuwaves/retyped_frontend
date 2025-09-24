@@ -56,11 +56,11 @@ export async function GET() {
       };
     }
 
-    // Test specific endpoints
+    // Test specific endpoints - SAME AS HOME PAGE
     const testEndpoints = [
-      '/api/v1/podcasts/top-by-views/?timeframe=all',
-      '/api/v1/episodes/top-by-views/?timeframe=7d',
-      '/api/v1/episodes/?limit=1'
+      '/api/v1/podcasts/top-by-views/?timeframe=all&limit=4',
+      '/api/v1/episodes/top-by-views/?timeframe=7d&limit=4',
+      '/api/v1/episodes/?limit=4'
     ];
 
     for (const endpoint of testEndpoints) {
@@ -77,14 +77,21 @@ export async function GET() {
         const endTime = Date.now();
 
         let dataInfo = null;
+        let rawData = null;
         if (response.ok) {
           try {
             const data = await response.json();
             dataInfo = {
               isArray: Array.isArray(data),
               count: Array.isArray(data) ? data.length : (data.count || 'N/A'),
-              hasResults: data.results ? data.results.length : undefined
+              hasResults: data.results ? data.results.length : undefined,
+              hasResultsArray: data.results ? Array.isArray(data.results) : false,
+              firstItem: data.results ? (data.results[0] ? 'Has first item' : 'Empty results') : 'No results field'
             };
+            // Store first item for analysis
+            if (endpoint.includes('podcasts')) {
+              rawData = data.results ? data.results[0] : null;
+            }
           } catch {
             dataInfo = 'Failed to parse JSON';
           }
@@ -95,7 +102,8 @@ export async function GET() {
           status: response.status,
           ok: response.ok,
           time: `${endTime - startTime}ms`,
-          data: dataInfo
+          data: dataInfo,
+          rawData: rawData
         });
       } catch (error) {
         debugInfo.endpoints.push({

@@ -2,8 +2,6 @@
  * API helper functions for server-side data fetching
  */
 
-import { formatUrl } from '../utils/formatters';
-
 export class APIError extends Error {
   constructor(
     public status: number,
@@ -28,7 +26,7 @@ export async function api<T>(
     throw new Error('DJANGO_BACKEND environment variable is not set');
   }
 
-  const url = formatUrl(backendUrl, endpoint);
+  const url = new URL(endpoint, backendUrl).toString();
 
   try {
     const response = await fetch(url, {

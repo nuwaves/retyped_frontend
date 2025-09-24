@@ -37,14 +37,3 @@ export function formatDate(dateString: string): string {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 }
-
-export function formatUrl(baseUrl: string | undefined, endpoint: string): string {
-  if (!baseUrl) {
-    throw new Error('Base URL is not provided');
-  }
-
-  const cleanBaseUrl = baseUrl.replace(/\/$/, '');
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-
-  return `${cleanBaseUrl}${cleanEndpoint}`;
-}
