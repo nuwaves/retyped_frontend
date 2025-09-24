@@ -2,6 +2,8 @@
  * API helper functions for server-side data fetching
  */
 
+import { formatUrl } from '../utils/formatters';
+
 export class APIError extends Error {
   constructor(
     public status: number,
@@ -26,7 +28,7 @@ export async function api<T>(
     throw new Error('DJANGO_BACKEND environment variable is not set');
   }
 
-  const url = `${backendUrl}${endpoint}`;
+  const url = formatUrl(backendUrl, endpoint);
 
   try {
     const response = await fetch(url, {
@@ -72,9 +74,14 @@ export async function safeApi<T>(
   options?: RequestInit
 ): Promise<T> {
   try {
-    return await api<T>(endpoint, options);
+    const result = await api<T>(endpoint, options);
+    // Log successful fetches in development or when debugging
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[safeApi] Success ${endpoint}:`, result);
+    }
+    return result;
   } catch (error) {
-    console.error(`Failed to fetch ${endpoint}:`, error);
+    console.error(`[safeApi] Failed to fetch ${endpoint}:`, error);
     return defaultValue;
   }
 }
