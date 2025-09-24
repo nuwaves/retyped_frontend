@@ -6,14 +6,14 @@ import ShowCard from './components/cards/ShowCard';
 import EpisodeCard from './components/cards/EpisodeCard';
 import { Episode, Podcast, PaginatedResponse } from './types';
 import { formatDate, formatDuration } from './utils/formatters';
-import { safeApi, api } from './lib/api';
+import { api } from './lib/api';
 
 export default async function Home() {
   // TEMPORARY DEBUG - Remove after finding the issue
   const errors: string[] = [];
-  let trendingShowsData = { count: 0, next: null, previous: null, results: [] as Podcast[] };
-  let trendingEpisodesData = { count: 0, next: null, previous: null, results: [] as Episode[] };
-  let newEpisodesData = { count: 0, next: null, previous: null, results: [] as Episode[] };
+  let trendingShowsData: PaginatedResponse<Podcast> = { count: 0, next: null, previous: null, results: [] };
+  let trendingEpisodesData: PaginatedResponse<Episode> = { count: 0, next: null, previous: null, results: [] };
+  let newEpisodesData: PaginatedResponse<Episode> = { count: 0, next: null, previous: null, results: [] };
 
   try {
     trendingShowsData = await api<PaginatedResponse<Podcast>>(
