@@ -25,6 +25,7 @@ export async function GET() {
       time?: string;
       data?: unknown;
       error?: string;
+      rawData?: unknown;
     }>
   };
 
