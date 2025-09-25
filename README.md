@@ -7,13 +7,14 @@ A high-performance podcast discovery platform built with Next.js 15 and React 19
 - **Next.js** 15.5.2 with Turbopack
 - **React** 19.1.0
 - **TypeScript** 5.x
-- **Redux Toolkit** 2.8.2 & **React-Redux** 9.2.0 (State Management)
+- **Redux Toolkit** 2.8.2 & **React-Redux** 9.2.0 (State Management with RTK Query for API caching)
 - **Tailwind CSS** 4.x
 - **Node.js** 20 (Alpine Linux)
 - **Docker** & Docker Compose
 
 ### Additional Libraries
 
+- **NextAuth.js** 4.24.11 - Authentication for Next.js
 - **Framer Motion** 12.23.12 - Animation library for React
 - **Font Awesome** 7.0.0 - Icon library with React components
 

@@ -88,10 +88,12 @@ export default async function Home() {
           <EpisodeCard
             key={episode.id}
             showName={episode.podcast?.name || ''}
+            showSlug={episode.podcast?.slug}
             episodeTitle={episode.title}
             description={episode.description}
-            duration={formatDuration(null)}
+            duration={episode.duration || '--:--'}
             date={formatDate(episode.release_date)}
+            href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
           />
         ))}
       </TrendingEpisodes>
@@ -101,10 +103,12 @@ export default async function Home() {
           <EpisodeCard
             key={episode.id}
             showName={episode.podcast?.name || ''}
+            showSlug={episode.podcast?.slug}
             episodeTitle={episode.title}
             description={episode.description}
-            duration={formatDuration(null)}
+            duration={episode.duration || '--:--'}
             date={formatDate(episode.release_date)}
+            href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
           />
         ))}
       </NewEpisodes>

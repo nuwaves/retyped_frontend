@@ -1,12 +1,15 @@
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faClock } from '@fortawesome/free-solid-svg-icons';
 
 interface EpisodeCardProps {
   showName: string;
+  showSlug?: string;
   episodeTitle: string;
   description: string;
   duration: string;
   date: string;
+  href?: string;
 }
 
 const styles = {
@@ -14,24 +17,29 @@ const styles = {
   header: "flex items-center gap-2 text-xs text-gray-500",
   icon: "text-xs",
   showName: "font-normal",
+  showLink: "font-normal hover:text-gray-900 hover:underline transition-colors",
   title: "text-base font-bold line-clamp-1",
   description: "text-sm text-gray-600 line-clamp-2",
   footer: "flex items-center gap-2 text-xs text-gray-500",
   dot: "w-1 h-1 bg-gray-500 rounded-full"
 };
 
-export default function EpisodeCard({ 
-  showName, 
-  episodeTitle, 
-  description, 
-  duration, 
-  date 
+export default function EpisodeCard({
+  showName,
+  showSlug,
+  episodeTitle,
+  description,
+  duration,
+  date,
+  href
 }: EpisodeCardProps) {
-  return (
-    <div className={styles.card}>
+  const content = (
+    <>
       <div className={styles.header}>
         <FontAwesomeIcon icon={faMicrophone} className={styles.icon} />
-        <span className={styles.showName}>{showName}</span>
+        <Link href={`/shows/${showSlug}`} className={styles.showLink}>
+          {showName}
+        </Link>
       </div>
       
       <h3 className={styles.title}>{episodeTitle}</h3>
@@ -44,6 +52,22 @@ export default function EpisodeCard({
         <span className={styles.dot}></span>
         <span>{date}</span>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className="block">
+        <div className={styles.card}>
+          {content}
+        </div>
+      </Link>
+    );
+  }
+
+  return (
+    <div className={styles.card}>
+      {content}
     </div>
   );
 }
