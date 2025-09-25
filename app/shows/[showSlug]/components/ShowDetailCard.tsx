@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faMicrophone, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import type { Podcast } from '@/app/types';
@@ -31,9 +32,18 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.imageContainer}>
-          <div className={styles.image}>
-            {/* Placeholder for image - will be replaced with actual image */}
-          </div>
+          {show.image_url ? (
+            <Image
+              src={show.image_url}
+              alt={show.name}
+              width={288}
+              height={288}
+              className={styles.image}
+              priority
+            />
+          ) : (
+            <div className={styles.image} />
+          )}
         </div>
         
         <div className={styles.contentWrapper}>
