@@ -17,7 +17,7 @@ const styles = {
 
 export default function SummarySection({ episode }: SummarySectionProps) {
   return (
-    <ContentSection 
+    <ContentSection
       title={
         <>
           <FontAwesomeIcon icon={faQuoteLeft} className="text-gray-400" />
@@ -26,12 +26,13 @@ export default function SummarySection({ episode }: SummarySectionProps) {
       }
     >
       <div className="prose max-w-none">
-        <p className={styles.summaryText}>
-          {episode.description}
-        </p>
-        {episode.summary && (
+        {episode.summary ? (
           <p className={styles.summaryText}>
             {episode.summary}
+          </p>
+        ) : (
+          <p className={styles.summaryText}>
+            {episode.description}
           </p>
         )}
       </div>

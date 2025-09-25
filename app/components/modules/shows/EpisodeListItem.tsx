@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import type { Episode } from '@/app/types';
@@ -20,27 +21,29 @@ const styles = {
 
 export default function EpisodeListItem({ episode }: EpisodeCardProps) {
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>{episode.title}</h3>
-        {/* TODO: Show NEW pill for the most recent episode */}
-        {/* {isNewestEpisode && (
-          <div className={styles.newBadge}>
-            <Pill size="xs" variant="solid">
-              NEW
-            </Pill>
-          </div>
-        )} */}
-      </div>
+    <Link href={`/shows/${episode.podcast?.slug}/${episode.slug}`} className="block">
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h3 className={styles.title}>{episode.title}</h3>
+          {/* TODO: Show NEW pill for the most recent episode */}
+          {/* {isNewestEpisode && (
+            <div className={styles.newBadge}>
+              <Pill size="xs" variant="solid">
+                NEW
+              </Pill>
+            </div>
+          )} */}
+        </div>
 
-      <p className={styles.description}>{episode.description}</p>
+        <p className={styles.description}>{episode.description}</p>
 
-      <div className={styles.stats}>
-        <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
-        <span>{episode.duration || '00:00'}</span>
-        <span className={styles.statSeparator}>•</span>
-        <span>{episode.release_date}</span>
+        <div className={styles.stats}>
+          <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
+          <span>{episode.duration || '--:--'}</span>
+          <span className={styles.statSeparator}>•</span>
+          <span>{episode.release_date}</span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

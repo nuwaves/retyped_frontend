@@ -46,7 +46,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
       <div className={styles.stats}>
         <div className={styles.statItem}>
           <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
-          <span>{episode.duration || '00:00'}</span>
+          <span>{episode.duration || '--:--'}</span>
         </div>
         <div className={styles.statItem}>
           <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />
