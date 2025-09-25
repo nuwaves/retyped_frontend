@@ -1,7 +1,3 @@
-/**
- * API helper functions for server-side data fetching
- */
-
 export class APIError extends Error {
   constructor(
     public status: number,
@@ -13,72 +9,76 @@ export class APIError extends Error {
   }
 }
 
-/**
- * Fetch data from the Django backend with error handling
- */
+const API_BASE_URL = process.env.DJANGO_BACKEND;
+
+if (!API_BASE_URL && process.env.NODE_ENV === 'production') {
+  throw new Error('DJANGO_BACKEND environment variable is not set');
+}
+
+interface FetchOptions extends RequestInit {
+  timeout?: number;
+}
+
 export async function api<T>(
   endpoint: string,
-  options?: RequestInit
+  options?: FetchOptions
 ): Promise<T> {
-  const backendUrl = process.env.DJANGO_BACKEND;
+  const url = new URL(endpoint, API_BASE_URL);
+  const timeout = options?.timeout ?? 30000;
 
-  if (!backendUrl) {
-    throw new Error('DJANGO_BACKEND environment variable is not set');
-  }
-
-  const url = new URL(endpoint, backendUrl).toString();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url.toString(), {
       ...options,
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         ...options?.headers,
       },
     });
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
-      throw new APIError(
-        response.status,
-        `API request failed: ${response.statusText}`,
-        endpoint
-      );
+      const errorMessage = response.status === 404
+        ? 'Resource not found'
+        : `Request failed: ${response.statusText}`;
+
+      throw new APIError(response.status, errorMessage, endpoint);
     }
 
-    const data = await response.json();
-    return data as T;
+    return await response.json();
   } catch (error) {
-    // Re-throw APIError as is
+    clearTimeout(timeoutId);
+
     if (error instanceof APIError) {
       throw error;
     }
 
-    // Wrap other errors
-    throw new APIError(
-      500,
-      error instanceof Error ? error.message : 'Unknown error occurred',
-      endpoint
-    );
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new APIError(408, 'Request timeout', endpoint);
+      }
+      throw new APIError(500, error.message, endpoint);
+    }
+
+    throw new APIError(500, 'Unknown error occurred', endpoint);
   }
 }
 
-/**
- * Safe fetch that returns a default value instead of throwing
- */
 export async function safeApi<T>(
   endpoint: string,
   defaultValue: T,
-  options?: RequestInit
+  options?: FetchOptions
 ): Promise<T> {
   try {
-    const result = await api<T>(endpoint, options);
-    // Log successful fetches in development or when debugging
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[safeApi] Success ${endpoint}:`, result);
-    }
-    return result;
+    return await api<T>(endpoint, options);
   } catch (error) {
-    console.error(`[safeApi] Failed to fetch ${endpoint}:`, error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`[API] Failed: ${endpoint}`, error);
+    }
     return defaultValue;
   }
 }

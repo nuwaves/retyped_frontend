@@ -33,20 +33,3 @@ export async function getShowEpisodes(
   }
 }
 
-/**
- * Fetch show with its episodes
- */
-export async function getShowWithEpisodes(
-  slug: string,
-  episodeLimit = 5
-): Promise<{ show: Podcast | null; episodes: Episode[] }> {
-  const show = await getShow(slug);
-
-  if (!show) {
-    return { show: null, episodes: [] };
-  }
-
-  const episodes = await getShowEpisodes(show.name, episodeLimit);
-
-  return { show, episodes };
-}
