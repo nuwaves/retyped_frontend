@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+import Script from 'next/script';
 import HeroSearch from './components/modules/home/HeroSearch';
 import TrendingShows from './components/modules/home/TrendingShows';
 import TrendingEpisodes from './components/modules/home/TrendingEpisodes';
@@ -8,7 +10,17 @@ import { Episode, Podcast, PaginatedResponse } from './types';
 import { formatDate, formatDuration } from './utils/formatters';
 import { safeApi } from './lib/api';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: 'Retyped - Discover Your Next Favorite Podcast',
+  description: 'Explore trending podcasts, discover new episodes, and find your next audio obsession. Updated daily with the best content from around the web.',
+  openGraph: {
+    title: 'Retyped - Discover Your Next Favorite Podcast',
+    description: 'Explore trending podcasts and discover new episodes',
+    type: 'website',
+  },
+};
 
 export default async function Home() {
   const [trendingShowsData, trendingEpisodesData, newEpisodesData] = await Promise.all([
@@ -30,9 +42,33 @@ export default async function Home() {
   const trendingEpisodes = trendingEpisodesData.results || [];
   const newEpisodes = newEpisodesData.results || [];
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Retyped',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.com',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.com'}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
-    <div className="flex flex-col gap-12">
-      <HeroSearch />
+    <>
+      <Script
+        id="website-structured-data"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(structuredData)}
+      </Script>
+
+      <div className="flex flex-col gap-12">
+        <HeroSearch />
 
       <TrendingShows>
         {trendingShows.map(show => (
@@ -72,6 +108,7 @@ export default async function Home() {
           />
         ))}
       </NewEpisodes>
-    </div>
+      </div>
+    </>
   );
 }

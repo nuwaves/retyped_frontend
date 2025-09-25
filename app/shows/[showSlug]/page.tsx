@@ -5,12 +5,9 @@ import BackNavigation from "@/app/components/common/BackNavigation";
 import ShowDetailCard from "./components/ShowDetailCard";
 import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/components/modules/shows/EpisodesList";
-import { getShow } from "@/app/lib/api/shows";
 import { api } from "@/app/lib/api";
-import { Episode, PaginatedResponse } from "@/app/types";
-import { generateShowMetadata, generateShowStructuredData } from "@/app/lib/seo/metadata";
+import { Episode, PaginatedResponse, Podcast } from "@/app/types";
 
-// ISR: Revalidate every hour
 export const revalidate = 3600;
 
 interface ShowPageProps {
@@ -19,21 +16,76 @@ interface ShowPageProps {
   }>;
 }
 
+function generateShowMetadata(show: Podcast | null): Metadata {
+  if (!show) {
+    return {
+      title: 'Show Not Found | Retyped',
+      description: "The podcast show you're looking for could not be found.",
+    };
+  }
+
+  return {
+    title: `${show.name} | Retyped`,
+    description: show.description,
+    openGraph: {
+      title: show.name,
+      description: show.description,
+      type: 'website',
+      siteName: 'Retyped',
+      images: [
+        {
+          url: show.image_url || '',
+          width: 1200,
+          height: 630,
+          alt: show.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: show.name,
+      description: show.description,
+      images: [show.image_url || ''],
+    },
+    alternates: {
+      canonical: `/shows/${show.slug}`,
+    },
+  };
+}
+
+function generateShowStructuredData(show: Podcast, episodeCount: number) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'PodcastSeries',
+    name: show.name,
+    description: show.description,
+    numberOfEpisodes: episodeCount,
+    genre: show.tags?.[0]?.name || 'Podcast',
+    url: `https://retyped.com/shows/${show.slug}`,
+  };
+}
+
 export async function generateMetadata({ params }: ShowPageProps): Promise<Metadata> {
   const { showSlug } = await params;
-  const show = await getShow(showSlug);
+
+  const show = await api<Podcast>(`/api/v1/podcasts/${showSlug}/`)
+    .catch(() => null);
+
   return generateShowMetadata(show);
 }
 
 export default async function ShowPage({ params }: ShowPageProps) {
   const { showSlug } = await params;
 
-  const show = await getShow(showSlug);
+  const show = await api<Podcast>(`/api/v1/podcasts/${showSlug}/`)
+    .catch(() => null);
 
   if (!show) {
     notFound();
   }
 
+  // TODO: Change to use the show's endpoint for fetching its episodes
+  // Should be: /api/v1/podcasts/${showSlug}/episodes/?limit=5
   const episodesResponse = await api<PaginatedResponse<Episode>>(
     `/api/v1/episodes/?search=${encodeURIComponent(show.name)}&limit=5`
   ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
