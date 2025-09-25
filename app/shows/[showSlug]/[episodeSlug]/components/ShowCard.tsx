@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from '@/app/components/common/Button';
 import type { Podcast } from '@/app/types';
 import { formatCompactNumber } from '@/app/utils/formatters';
@@ -11,7 +12,7 @@ const styles = {
   container: "bg-white rounded-lg p-6",
   header: "text-sm font-bold leading-6 text-slate-900 mb-4",
   showInfo: "flex gap-4 mb-6",
-  showImage: "w-16 h-16 flex-shrink-0 bg-gradient-to-br from-purple-400 to-blue-500",
+  showImage: "w-16 h-16 flex-shrink-0 overflow-hidden bg-gradient-to-br from-purple-400 to-blue-500",
   showDetails: "flex flex-col justify-center",
   showTitle: "text-sm font-bold leading-6 text-neutral-500 mb-1",
   showAuthor: "text-xs font-normal leading-4 text-neutral-500",
@@ -25,8 +26,18 @@ export default function ShowCard({ show }: ShowCardProps) {
       <h3 className={styles.header}>From this Show</h3>
       
       <div className={styles.showInfo}>
-        <div className={styles.showImage} />
-        
+        <div className={styles.showImage}>
+          {show.image_url && (
+            <Image
+              src={show.image_url}
+              alt={show.name}
+              width={64}
+              height={64}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
+
         <div className={styles.showDetails}>
           <h4 className={styles.showTitle}>{show.name}</h4>
           {show.author && <p className={styles.showAuthor}>{show.author}</p>}

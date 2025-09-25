@@ -61,7 +61,7 @@ function generateShowStructuredData(show: Podcast, episodeCount: number) {
     description: show.description,
     numberOfEpisodes: episodeCount,
     genre: show.tags?.[0]?.name || 'Podcast',
-    url: `https://retyped.com/shows/${show.slug}`,
+    url: `https://retyped.xyz/shows/${show.slug}`,
   };
 }
 

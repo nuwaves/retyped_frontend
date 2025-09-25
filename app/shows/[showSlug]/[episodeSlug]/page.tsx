@@ -106,17 +106,17 @@ function generateStructuredData(show: Podcast, episode: Episode) {
     "partOfSeries": {
       "@type": "PodcastSeries",
       "name": show.name,
-      "url": `https://retyped.com/shows/${show.slug}`
+      "url": `https://retyped.xyz/shows/${show.slug}`
     },
     "publisher": {
       "@type": "Organization",
       "name": "Retyped",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://retyped.com/logo.png"
+        "url": "https://retyped.xyz/logo.png"
       }
     },
-    "url": `https://retyped.com/shows/${show.slug}/${episode.slug}`,
+    "url": `https://retyped.xyz/shows/${show.slug}/${episode.slug}`,
     "audio": episode.raw_audio_url ? {
       "@type": "AudioObject",
       "contentUrl": episode.raw_audio_url,
@@ -135,19 +135,19 @@ function generateBreadcrumbData(show: Podcast, episode: Episode) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://retyped.com"
+        "item": "https://retyped.xyz"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": show.name,
-        "item": `https://retyped.com/shows/${show.slug}`
+        "item": `https://retyped.xyz/shows/${show.slug}`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": episode.title,
-        "item": `https://retyped.com/shows/${show.slug}/${episode.slug}`
+        "item": `https://retyped.xyz/shows/${show.slug}/${episode.slug}`
       }
     ]
   };

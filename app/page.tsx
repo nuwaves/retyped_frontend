@@ -33,7 +33,7 @@ export default async function Home() {
       { count: 0, next: null, previous: null, results: [] }
     ),
     safeApi<PaginatedResponse<Episode>>(
-      '/api/v1/episodes/?limit=4',
+      '/api/v1/episodes/?ordering=-release_date&limit=4',
       { count: 0, next: null, previous: null, results: [] }
     ),
   ]);
@@ -46,12 +46,12 @@ export default async function Home() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Retyped',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.com'}/search?q={search_term_string}`,
+        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/search?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
