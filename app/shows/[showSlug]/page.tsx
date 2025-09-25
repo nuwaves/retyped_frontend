@@ -5,7 +5,9 @@ import BackNavigation from "@/app/components/common/BackNavigation";
 import ShowDetailCard from "./components/ShowDetailCard";
 import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/components/modules/shows/EpisodesList";
-import { getShow, getShowWithEpisodes } from "@/app/lib/api/shows";
+import { getShow } from "@/app/lib/api/shows";
+import { api } from "@/app/lib/api";
+import { Episode, PaginatedResponse } from "@/app/types";
 import { generateShowMetadata, generateShowStructuredData } from "@/app/lib/seo/metadata";
 
 // ISR: Revalidate every hour
@@ -26,11 +28,17 @@ export async function generateMetadata({ params }: ShowPageProps): Promise<Metad
 export default async function ShowPage({ params }: ShowPageProps) {
   const { showSlug } = await params;
 
-  const { show, episodes } = await getShowWithEpisodes(showSlug, 5);
+  const show = await getShow(showSlug);
 
   if (!show) {
     notFound();
   }
+
+  const episodesResponse = await api<PaginatedResponse<Episode>>(
+    `/api/v1/episodes/?search=${encodeURIComponent(show.name)}&limit=5`
+  ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
+
+  const episodes = episodesResponse.results || [];
 
   const structuredData = generateShowStructuredData(show, episodes.length);
   

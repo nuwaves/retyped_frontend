@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import Pill from '@/app/components/common/Pill';
 import Button from '@/app/components/common/Button';
 
@@ -6,6 +8,7 @@ interface ShowCardProps {
   description: string;
   imageUrl: string;
   category: string;
+  href?: string;
 }
 
 const styles = {
@@ -18,29 +21,46 @@ const styles = {
   buttonWrapper: "mt-auto"
 };
 
-export default function ShowCard({ title, description, imageUrl, category }: ShowCardProps) {
+export default function ShowCard({ title, description, imageUrl, category, href }: ShowCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        {/* Placeholder for image - will be replaced with actual images */}
-        <div className={styles.image} style={{ backgroundColor: imageUrl || '#e5e7eb' }} />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className={styles.image}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className={styles.image} style={{ backgroundColor: '#e5e7eb' }} />
+        )}
       </div>
-      
+
       <div className={styles.contentWrapper}>
         <div className="mb-2">
           <Pill size="xs" variant="outline">
             {category}
           </Pill>
         </div>
-        
+
         <h3 className={styles.title}>{title}</h3>
-        
+
         <p className={styles.description}>{description}</p>
-        
+
         <div className={styles.buttonWrapper}>
-          <Button variant="primary" size="md" fullWidth>
-            Explore Show
-          </Button>
+          {href ? (
+            <Link href={href} className="w-full">
+              <Button variant="primary" size="md" fullWidth>
+                Explore Show
+              </Button>
+            </Link>
+          ) : (
+            <Button variant="primary" size="md" fullWidth>
+              Explore Show
+            </Button>
+          )}
         </div>
       </div>
     </div>

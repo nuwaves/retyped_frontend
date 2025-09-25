@@ -42,6 +42,7 @@ export default async function Home() {
             description={show.description}
             imageUrl={show.image_url || ''}
             category={show.tags?.[0]?.name || 'Podcast'}
+            href={`/shows/${show.slug}`}
           />
         ))}
       </TrendingShows>
