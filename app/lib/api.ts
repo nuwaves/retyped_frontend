@@ -9,11 +9,6 @@ export class APIError extends Error {
   }
 }
 
-const API_BASE_URL = process.env.DJANGO_BACKEND;
-
-if (!API_BASE_URL && process.env.NODE_ENV === 'production') {
-  throw new Error('DJANGO_BACKEND environment variable is not set');
-}
 
 interface FetchOptions extends RequestInit {
   timeout?: number;
@@ -23,7 +18,13 @@ export async function api<T>(
   endpoint: string,
   options?: FetchOptions
 ): Promise<T> {
-  const url = new URL(endpoint, API_BASE_URL);
+  const backendUrl = process.env.DJANGO_BACKEND;
+
+  if (!backendUrl) {
+    throw new Error('DJANGO_BACKEND environment variable is not set');
+  }
+
+  const url = new URL(endpoint, backendUrl);
   const timeout = options?.timeout ?? 30000;
 
   const controller = new AbortController();
