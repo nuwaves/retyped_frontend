@@ -19,6 +19,7 @@ export default function TrendingEpisodes({ children }: TrendingEpisodesProps) {
         <SectionHeader
           icon={faChartLine}
           title="Trending Episodes"
+          viewAllLink="/trending-episodes"
         />
 
         <div className={styles.grid}>

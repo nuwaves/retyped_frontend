@@ -19,6 +19,7 @@ export default function TrendingShows({ children }: TrendingShowsProps) {
         <SectionHeader
           icon={faMicrophone}
           title="Trending Shows"
+          viewAllLink="/trending-shows"
         />
 
         <div className={styles.grid}>

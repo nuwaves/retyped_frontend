@@ -3,6 +3,7 @@ import uiReducer from './features/ui/uiSlice'
 import authReducer from './features/auth/authSlice'
 import podcastsReducer from './features/podcasts/podcastsSlice'
 import episodesReducer from './features/episodes/episodesSlice'
+import infiniteScrollReducer from './features/infiniteScroll/infiniteScrollSlice'
 import { baseApi } from './services/baseApi'
 
 export const makeStore = () => {
@@ -12,6 +13,7 @@ export const makeStore = () => {
       auth: authReducer,
       podcasts: podcastsReducer,
       episodes: episodesReducer,
+      infiniteScroll: infiniteScrollReducer,
       [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

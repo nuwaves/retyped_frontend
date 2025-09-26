@@ -4,7 +4,7 @@ import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-i
 import type { Episode, Podcast } from '@/app/types';
 import Pill from '@/app/components/common/Pill';
 import EpisodeActions from './EpisodeActions';
-import { formatLongDate } from '@/app/utils/formatters';
+import { formatDate } from '@/app/utils/formatters';
 
 interface EpisodeDetailCardProps {
   episode: Episode;
@@ -34,7 +34,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
       <div className={styles.header}>
         <time className={styles.date} dateTime={episode.release_date}>
           <FontAwesomeIcon icon={faCalendar} className="mr-2" />
-          {formatLongDate(episode.release_date)}
+          {formatDate(episode.release_date, true)}
         </time>
         <EpisodeActions episodeId={episode.id.toString()} />
       </div>

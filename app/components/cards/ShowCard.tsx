@@ -8,7 +8,7 @@ interface ShowCardProps {
   description: string;
   imageUrl: string;
   category: string;
-  href?: string;
+  href: string;
 }
 
 const styles = {
@@ -50,17 +50,11 @@ export default function ShowCard({ title, description, imageUrl, category, href 
         <p className={styles.description}>{description}</p>
 
         <div className={styles.buttonWrapper}>
-          {href ? (
-            <Link href={href} className="w-full">
-              <Button variant="primary" size="md" fullWidth>
-                Explore Show
-              </Button>
-            </Link>
-          ) : (
+          <Link href={href} className="w-full">
             <Button variant="primary" size="md" fullWidth>
               Explore Show
             </Button>
-          )}
+          </Link>
         </div>
       </div>
     </div>

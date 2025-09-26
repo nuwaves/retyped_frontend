@@ -7,7 +7,7 @@ import NewEpisodes from './components/modules/home/NewEpisodes';
 import ShowCard from './components/cards/ShowCard';
 import EpisodeCard from './components/cards/EpisodeCard';
 import { Episode, Podcast, PaginatedResponse } from './types';
-import { formatDate, formatDuration } from './utils/formatters';
+import { formatDate } from './utils/formatters';
 import { safeApi } from './lib/api';
 
 export const revalidate = 300;
@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   },
 };
 
+const styles = {
+  container: 'flex flex-col gap-12'
+};
+
 export default async function Home() {
   const [trendingShowsData, trendingEpisodesData, newEpisodesData] = await Promise.all([
     safeApi<PaginatedResponse<Podcast>>(
@@ -33,7 +37,7 @@ export default async function Home() {
       { count: 0, next: null, previous: null, results: [] }
     ),
     safeApi<PaginatedResponse<Episode>>(
-      '/api/v1/episodes/?ordering=-release_date&limit=4',
+      '/api/v1/episodes/?ordering=-updated_at&limit=4',
       { count: 0, next: null, previous: null, results: [] }
     ),
   ]);
@@ -67,51 +71,51 @@ export default async function Home() {
         {JSON.stringify(structuredData)}
       </Script>
 
-      <div className="flex flex-col gap-12">
+      <div className={styles.container}>
         <HeroSearch />
 
-      <TrendingShows>
-        {trendingShows.map(show => (
-          <ShowCard
-            key={show.id}
-            title={show.name}
-            description={show.description}
-            imageUrl={show.image_url || ''}
-            category={show.tags?.[0]?.name || 'Podcast'}
-            href={`/shows/${show.slug}`}
-          />
-        ))}
-      </TrendingShows>
+        <TrendingShows>
+          {trendingShows.map(show => (
+            <ShowCard
+              key={show.id}
+              title={show.name}
+              description={show.description}
+              imageUrl={show.image_url || ''}
+              category={show.tags?.[0]?.name || 'Podcast'}
+              href={`/shows/${show.slug}`}
+            />
+          ))}
+        </TrendingShows>
 
-      <TrendingEpisodes>
-        {trendingEpisodes.map(episode => (
-          <EpisodeCard
-            key={episode.id}
-            showName={episode.podcast?.name || ''}
-            showSlug={episode.podcast?.slug}
-            episodeTitle={episode.title}
-            description={episode.description}
-            duration={episode.duration || '--:--'}
-            date={formatDate(episode.release_date)}
-            href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
-          />
-        ))}
-      </TrendingEpisodes>
+        <TrendingEpisodes>
+          {trendingEpisodes.map(episode => (
+            <EpisodeCard
+              key={episode.id}
+              showName={episode.podcast?.name || ''}
+              showSlug={episode.podcast?.slug}
+              episodeTitle={episode.title}
+              description={episode.description}
+              duration={episode.duration || '--:--'}
+              date={formatDate(episode.release_date)}
+              href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+            />
+          ))}
+        </TrendingEpisodes>
 
-      <NewEpisodes>
-        {newEpisodes.map(episode => (
-          <EpisodeCard
-            key={episode.id}
-            showName={episode.podcast?.name || ''}
-            showSlug={episode.podcast?.slug}
-            episodeTitle={episode.title}
-            description={episode.description}
-            duration={episode.duration || '--:--'}
-            date={formatDate(episode.release_date)}
-            href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
-          />
-        ))}
-      </NewEpisodes>
+        <NewEpisodes>
+          {newEpisodes.map(episode => (
+            <EpisodeCard
+              key={episode.id}
+              showName={episode.podcast?.name || ''}
+              showSlug={episode.podcast?.slug}
+              episodeTitle={episode.title}
+              description={episode.description}
+              duration={episode.duration || '--:--'}
+              date={formatDate(episode.release_date)}
+              href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+            />
+          ))}
+        </NewEpisodes>
       </div>
     </>
   );

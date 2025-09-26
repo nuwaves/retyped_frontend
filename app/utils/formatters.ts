@@ -22,27 +22,19 @@ export function formatDuration(duration: string | null): string {
   return duration;
 }
 
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: string, longFormat = false): string {
   const date = new Date(dateString);
-  const now = new Date();
-  const diffTime = Math.abs(now.getTime() - date.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const utcDate = new Date(date.toISOString());
 
-  if (diffDays < 7) {
-    return `${diffDays} days ago`;
-  } else if (diffDays < 30) {
-    const weeks = Math.floor(diffDays / 7);
-    return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
-  } else {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-}
+  const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthsLong = ['January', 'February', 'March', 'April', 'May', 'June',
+                      'July', 'August', 'September', 'October', 'November', 'December'];
 
-export function formatLongDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  const months = longFormat ? monthsLong : monthsShort;
+  const month = months[utcDate.getUTCMonth()];
+  const day = utcDate.getUTCDate();
+  const year = utcDate.getUTCFullYear();
+
+  return `${month} ${day}, ${year}`;
 }
