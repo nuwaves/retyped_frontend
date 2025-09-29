@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Script from "next/script";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BackNavigation from "@/app/components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
@@ -173,36 +175,40 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
   if (!show || !episode) {
     notFound();
   }
-  
+
+  // Get server session to check authentication status
+  const session = await getServerSession(authOptions);
+  const isAuthenticated = !!session?.backendToken;
+
   const structuredData = generateStructuredData(show, episode);
   const breadcrumbData = generateBreadcrumbData(show, episode);
-  
+
   return (
     <>
-      <Script 
-        id="podcast-episode-structured-data" 
+      <Script
+        id="podcast-episode-structured-data"
         type="application/ld+json"
         strategy="beforeInteractive"
       >
         {JSON.stringify(structuredData)}
       </Script>
-      <Script 
-        id="breadcrumb-structured-data" 
+      <Script
+        id="breadcrumb-structured-data"
         type="application/ld+json"
         strategy="beforeInteractive"
       >
         {JSON.stringify(breadcrumbData)}
       </Script>
-      
+
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
-        
+
         <div className="flex gap-8">
           <div className="flex-1">
             <EpisodeDetailCard episode={episode} show={show} />
-            <EpisodeTabs episode={episode} isAuthenticated={false} />
+            <EpisodeTabs episode={episode} isAuthenticated={isAuthenticated} />
           </div>
-          
+
           <aside className="w-[350px] flex-shrink-0">
             <ShowCard show={show} />
           </aside>

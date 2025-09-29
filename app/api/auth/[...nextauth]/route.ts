@@ -25,7 +25,7 @@ const backends_mapping: Record<string, string> = {
     "instagram": "instagram"
 }
 
-const handler = NextAuth({
+export const authOptions = {
     providers: [
         FacebookProvider({
             clientId: process.env.SA_FACEBOOK_LOGIN_KEY!,
@@ -63,7 +63,7 @@ const handler = NextAuth({
                         access_token: convertion_data.access_token,
                         refresh_token: convertion_data.refresh_token,
                         user: convertion_data.user ?? {}
-                    } 
+                    }
                     token.backendToken = backend_token;
                     token.access_token = account.access_token || "";
                 } catch (error) {
@@ -80,5 +80,7 @@ const handler = NextAuth({
             return session
         },
     }
-})
+}
+
+const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST };
