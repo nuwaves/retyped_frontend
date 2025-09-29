@@ -16,9 +16,10 @@ export default function EpisodeTabs({ episode, isAuthenticated }: EpisodeTabsPro
   const summaryContent = <SummarySection episode={episode} />;
   
   const transcriptContent = (
-    <TranscriptSection 
-      transcript={episode.transcript} 
-      isAuthenticated={isAuthenticated} 
+    <TranscriptSection
+      transcript={episode.transcript}
+      scriptTranscript={episode.script_transcript}
+      isAuthenticated={isAuthenticated}
     />
   );
 

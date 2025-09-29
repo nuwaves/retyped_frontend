@@ -13,6 +13,7 @@ interface TranscriptEntry {
 
 interface TranscriptSectionProps {
   transcript?: TranscriptEntry[] | string;
+  scriptTranscript?: string;
   isAuthenticated: boolean;
 }
 
@@ -32,41 +33,32 @@ const styles = {
   authButtons: "flex gap-4 justify-center"
 };
 
-export default function TranscriptSection({ transcript, isAuthenticated }: TranscriptSectionProps) {
-  const defaultTranscript: TranscriptEntry[] = [
-    {
-      timestamp: "00:00",
-      speaker: "Host",
-      text: "Welcome to today's episode where we dive deep into the case that shocked the community."
-    },
-    {
-      timestamp: "00:15",
-      speaker: "Host",
-      text: "The story begins on a seemingly ordinary day in Rochester, New York. Wendy Jerome, a vibrant teenager with her whole life ahead of her, left her home to deliver a birthday card to her best friend. It was a simple errand, one that should have taken no more than an hour."
-    },
-    {
-      timestamp: "00:42",
-      speaker: "Host",
-      text: "But Wendy never made it to her friend's house. What followed was a decades-long investigation that would test the limits of forensic science and the determination of law enforcement."
-    },
-    {
-      timestamp: "01:05",
-      speaker: "Detective Sarah Martinez",
-      text: "This case haunted our department for years. Every detective who worked on it carried the weight of finding justice for Wendy."
-    },
-    {
-      timestamp: "01:20",
-      speaker: "Host",
-      text: "The initial investigation faced numerous challenges. Technology limitations of the time meant that crucial evidence couldn't be fully analyzed. Witnesses were scarce, and leads quickly went cold."
-    },
-    {
-      timestamp: "01:45",
-      speaker: "Host",
-      text: "It wasn't until advances in DNA technology that investigators got their first real break. The evidence that had been carefully preserved for decades could finally reveal its secrets."
-    }
-  ];
-  
-  const fullTranscript = Array.isArray(transcript) ? transcript : defaultTranscript;
+export default function TranscriptSection({ transcript, scriptTranscript, isAuthenticated }: TranscriptSectionProps) {
+  // Parse script_transcript into blocks
+  const parseScriptTranscript = (script: string | undefined): TranscriptEntry[] => {
+    if (!script) return [];
+
+    // Split by double newlines to get paragraphs/blocks
+    const blocks = script.split(/\n\n+/).filter(block => block.trim());
+
+    return blocks.map(block => ({
+      timestamp: "--:--",
+      speaker: "",  // No speaker info available
+      text: block.trim()
+    }));
+  };
+
+  // Use script_transcript if available, otherwise try to parse transcript
+  let fullTranscript: TranscriptEntry[] = [];
+
+  if (scriptTranscript) {
+    fullTranscript = parseScriptTranscript(scriptTranscript);
+  } else if (Array.isArray(transcript)) {
+    fullTranscript = transcript;
+  } else if (typeof transcript === 'string') {
+    // If transcript is a string, split it into blocks
+    fullTranscript = parseScriptTranscript(transcript);
+  }
   
   if (!isAuthenticated) {
     return (
@@ -89,7 +81,7 @@ export default function TranscriptSection({ transcript, isAuthenticated }: Trans
                     {entry.timestamp}
                   </Pill>
                   <div className={styles.transcriptText}>
-                    <span className={styles.speaker}>{entry.speaker}:</span> {entry.text}
+                    {entry.speaker && <span className={styles.speaker}>{entry.speaker}:</span>} {entry.text}
                   </div>
                 </div>
               ))}
@@ -136,7 +128,7 @@ export default function TranscriptSection({ transcript, isAuthenticated }: Trans
               {entry.timestamp}
             </Pill>
             <div className={styles.transcriptText}>
-              <span className={styles.speaker}>{entry.speaker}:</span> {entry.text}
+              {entry.speaker && <span className={styles.speaker}>{entry.speaker}:</span>} {entry.text}
             </div>
           </div>
         ))}
