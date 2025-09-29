@@ -11,6 +11,7 @@ interface ScrollState<T> {
 interface InfiniteScrollState {
   trendingShows: ScrollState<Podcast> | null;
   trendingEpisodes: ScrollState<Episode> | null;
+  newEpisodes: ScrollState<Episode> | null;
 }
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -18,6 +19,7 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 const initialState: InfiniteScrollState = {
   trendingShows: null,
   trendingEpisodes: null,
+  newEpisodes: null,
 };
 
 const infiniteScrollSlice = createSlice({
@@ -54,6 +56,21 @@ const infiniteScrollSlice = createSlice({
     clearTrendingEpisodes: (state) => {
       state.trendingEpisodes = null;
     },
+    saveNewEpisodes: (state, action: PayloadAction<{
+      items: Episode[];
+      offset: number;
+      scrollPosition: number;
+    }>) => {
+      state.newEpisodes = {
+        items: action.payload.items,
+        offset: action.payload.offset,
+        scrollPosition: action.payload.scrollPosition,
+        lastUpdated: Date.now(),
+      };
+    },
+    clearNewEpisodes: (state) => {
+      state.newEpisodes = null;
+    },
     clearExpiredCache: (state) => {
       const now = Date.now();
 
@@ -64,6 +81,10 @@ const infiniteScrollSlice = createSlice({
       if (state.trendingEpisodes && now - state.trendingEpisodes.lastUpdated > CACHE_DURATION) {
         state.trendingEpisodes = null;
       }
+
+      if (state.newEpisodes && now - state.newEpisodes.lastUpdated > CACHE_DURATION) {
+        state.newEpisodes = null;
+      }
     },
   },
 });
@@ -71,8 +92,10 @@ const infiniteScrollSlice = createSlice({
 export const {
   saveTrendingShows,
   saveTrendingEpisodes,
+  saveNewEpisodes,
   clearTrendingShows,
   clearTrendingEpisodes,
+  clearNewEpisodes,
   clearExpiredCache,
 } = infiniteScrollSlice.actions;
 
@@ -90,6 +113,15 @@ export const selectTrendingShows = (state: { infiniteScroll: InfiniteScrollState
 
 export const selectTrendingEpisodes = (state: { infiniteScroll: InfiniteScrollState }) => {
   const cached = state.infiniteScroll.trendingEpisodes;
+  if (!cached) return null;
+
+  // Check if cache is expired
+  const isExpired = Date.now() - cached.lastUpdated > CACHE_DURATION;
+  return isExpired ? null : cached;
+};
+
+export const selectNewEpisodes = (state: { infiniteScroll: InfiniteScrollState }) => {
+  const cached = state.infiniteScroll.newEpisodes;
   if (!cached) return null;
 
   // Check if cache is expired

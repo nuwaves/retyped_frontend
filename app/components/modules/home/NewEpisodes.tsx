@@ -19,6 +19,7 @@ export default function NewEpisodes({ children }: NewEpisodesProps) {
         <SectionHeader
           icon={faStar}
           title="New Episodes"
+          viewAllLink="/new-episodes"
         />
 
         <div className={styles.grid}>

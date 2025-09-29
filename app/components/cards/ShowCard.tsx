@@ -22,12 +22,15 @@ const styles = {
 };
 
 export default function ShowCard({ title, description, imageUrl, category, href }: ShowCardProps) {
+  // Convert HTTP to HTTPS for image URLs
+  const secureImageUrl = imageUrl?.replace(/^http:\/\//i, 'https://');
+
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        {imageUrl ? (
+        {secureImageUrl ? (
           <Image
-            src={imageUrl}
+            src={secureImageUrl}
             alt={title}
             fill
             className={styles.image}

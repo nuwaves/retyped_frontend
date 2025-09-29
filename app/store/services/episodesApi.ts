@@ -51,6 +51,22 @@ export const episodesApi = baseApi.injectEndpoints({
             ]
           : [{ type: 'Episode', id: 'TRENDING' }],
     }),
+    getNewEpisodes: builder.query<
+      PaginatedResponse<Episode>,
+      { limit?: number; offset?: number }
+    >({
+      query: ({ limit = 20, offset = 0 }) => ({
+        url: 'episodes/',
+        params: { ordering: '-updated_at', limit, offset },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({ type: 'Episode' as const, id })),
+              { type: 'Episode', id: 'NEW' },
+            ]
+          : [{ type: 'Episode', id: 'NEW' }],
+    }),
   }),
 });
 
@@ -58,4 +74,5 @@ export const {
   useGetEpisodesQuery,
   useGetTopEpisodesQuery,
   useLazyGetTrendingEpisodesQuery,
+  useLazyGetNewEpisodesQuery,
 } = episodesApi;
