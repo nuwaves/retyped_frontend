@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import type { Episode, Podcast } from '@/app/types';
 import Pill from '@/app/components/common/Pill';
+import SafeHTML from '@/app/components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
 import { formatDate } from '@/app/utils/formatters';
 
@@ -41,7 +42,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
       
       <div className={styles.titleSection}>
         <h1 className={styles.title}>{episode.title}</h1>
-        <p className={styles.description}>{episode.description}</p>
+        <SafeHTML html={episode.description} className={styles.description} />
       </div>
       
       <div className={styles.stats}>

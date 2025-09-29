@@ -4,6 +4,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import type { Episode } from '@/app/types';
 import { formatDate } from '@/app/utils/formatters';
 import Pill from '../../common/Pill';
+import SafeHTML from '../../common/SafeHTML';
 
 interface EpisodeCardProps {
   episode: Episode;
@@ -44,7 +45,7 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
           )}
         </div>
 
-        <p className={styles.description}>{episode.description}</p>
+        <SafeHTML html={episode.description} className={styles.description} as="p" />
 
         <div className={styles.stats}>
           <FontAwesomeIcon icon={faClock} className={styles.statIcon} />

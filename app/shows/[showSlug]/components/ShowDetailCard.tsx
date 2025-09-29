@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faMicrophone, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import type { Podcast } from '@/app/types';
 import { formatCompactNumber } from '@/app/utils/formatters';
+import { ensureHttps } from '@/app/utils/imageUrl';
 import Pill from '@/app/components/common/Pill';
+import SafeHTML from '@/app/components/common/SafeHTML';
 
 interface ShowDetailCardProps {
   show: Podcast;
@@ -28,13 +30,15 @@ const styles = {
 };
 
 export default function ShowDetailCard({ show, children }: ShowDetailCardProps) {
+  const secureImageUrl = ensureHttps(show.image_url);
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.imageContainer}>
-          {show.image_url ? (
+          {secureImageUrl ? (
             <Image
-              src={show.image_url}
+              src={secureImageUrl}
               alt={show.name}
               width={288}
               height={288}
@@ -66,7 +70,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
           
           {/* Description, stats and buttons grouped */}
           <div className={styles.descriptionWrapper}>
-            <p className={styles.description}>{show.description}</p>
+            <SafeHTML html={show.description} className={styles.description} />
             
             <div className={styles.statsContainer}>
               <div className={styles.statItem}>

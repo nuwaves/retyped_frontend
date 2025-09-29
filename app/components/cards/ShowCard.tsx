@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Pill from '@/app/components/common/Pill';
 import Button from '@/app/components/common/Button';
+import { ensureHttps } from '@/app/utils/imageUrl';
 
 interface ShowCardProps {
   title: string;
@@ -22,8 +23,7 @@ const styles = {
 };
 
 export default function ShowCard({ title, description, imageUrl, category, href }: ShowCardProps) {
-  // Convert HTTP to HTTPS for image URLs
-  const secureImageUrl = imageUrl?.replace(/^http:\/\//i, 'https://');
+  const secureImageUrl = ensureHttps(imageUrl);
 
   return (
     <div className={styles.card}>

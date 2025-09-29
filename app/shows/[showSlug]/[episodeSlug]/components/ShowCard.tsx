@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Button from '@/app/components/common/Button';
 import type { Podcast } from '@/app/types';
 import { formatCompactNumber } from '@/app/utils/formatters';
+import { ensureHttps } from '@/app/utils/imageUrl';
 
 interface ShowCardProps {
   show: Podcast;
@@ -21,15 +22,17 @@ const styles = {
 };
 
 export default function ShowCard({ show }: ShowCardProps) {
+  const secureImageUrl = ensureHttps(show.image_url);
+
   return (
     <div className={styles.container}>
       <h3 className={styles.header}>From this Show</h3>
-      
+
       <div className={styles.showInfo}>
         <div className={styles.showImage}>
-          {show.image_url && (
+          {secureImageUrl && (
             <Image
-              src={show.image_url}
+              src={secureImageUrl}
               alt={show.name}
               width={64}
               height={64}

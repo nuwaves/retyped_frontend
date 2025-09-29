@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faClock } from '@fortawesome/free-solid-svg-icons';
+import SafeHTML from '../common/SafeHTML';
 
 interface EpisodeCardProps {
   showName: string;
@@ -54,7 +55,7 @@ export default function EpisodeCard({
       </div>
 
       <h3 className={styles.title}>{episodeTitle}</h3>
-      <p className={styles.description}>{description}</p>
+      <SafeHTML html={description} className={styles.description} as="p" />
       <div className={styles.footer}>
         <FontAwesomeIcon icon={faClock} className={styles.icon} />
         <span>{duration}</span>
