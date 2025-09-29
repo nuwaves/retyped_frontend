@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import EpisodeListItem from '@/app/components/modules/shows/EpisodeListItem';
 import LoadingSpinner from '@/app/components/common/LoadingSpinner';
 import InfiniteScrollTrigger from '@/app/components/common/InfiniteScrollTrigger';
@@ -35,12 +36,17 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
     cachedData?.offset || initialEpisodes.length
   );
   const [showRefreshPrompt, setShowRefreshPrompt] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
+  const [lastLoadIndex, setLastLoadIndex] = useState(0);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [getNewEpisodes, { isLoading, error }] = useLazyGetNewEpisodesQuery();
   const hasMore = episodes.length < totalCount;
 
   // Clear expired cache on mount
   useEffect(() => {
     dispatch(clearExpiredCache());
+    // After initial render, mark as not initial
+    setTimeout(() => setIsInitialLoad(false), 500);
   }, [dispatch]);
 
   // Smart refresh: Check for new episodes if using cached data
@@ -74,6 +80,9 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
   const loadMore = useCallback(async () => {
     if (isLoading || !hasMore) return;
 
+    setIsExpanding(true);
+    setLastLoadIndex(episodes.length);
+
     try {
       const result = await getNewEpisodes({
         limit: 10,
@@ -92,8 +101,13 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
         offset: newOffset,
         scrollPosition: window.scrollY,
       }));
+
+      // Reset animation state after animation completes
+      const animationTime = result.results.length * 80 + 300;
+      setTimeout(() => setIsExpanding(false), animationTime);
     } catch (err) {
       console.error('Failed to load more episodes:', err);
+      setIsExpanding(false);
     }
   }, [offset, isLoading, hasMore, getNewEpisodes, episodes, dispatch]);
 
@@ -117,11 +131,38 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
           onRefresh={handleRefresh}
         />
       )}
-      <div className={styles.list}>
-        {episodes.map(episode => (
-          <EpisodeListItem key={episode.id} episode={episode} />
-        ))}
-      </div>
+      <AnimatePresence mode="popLayout">
+        {episodes.length > 0 && (
+          <motion.div className={styles.list}>
+            {episodes.map((episode, index) => {
+              // Determine if this card should animate
+              const isNewCard = index >= lastLoadIndex && isExpanding;
+              const shouldAnimate = isInitialLoad || isNewCard;
+              const cardDelay = shouldAnimate
+                ? isInitialLoad
+                  ? index * 0.08
+                  : (index - lastLoadIndex) * 0.08
+                : 0;
+
+              return (
+                <motion.div
+                  key={episode.id}
+                  initial={shouldAnimate ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: cardDelay,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  layout
+                >
+                  <EpisodeListItem episode={episode} />
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {error && (
         <div className="text-center text-red-500 py-4">

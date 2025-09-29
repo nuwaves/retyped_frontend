@@ -7,13 +7,15 @@ interface UseInfiniteScrollOptions {
   hasMore: boolean;
   loading: boolean;
   threshold?: number;
+  rootMargin?: string;
 }
 
 export function useInfiniteScroll({
   onLoadMore,
   hasMore,
   loading,
-  threshold = 0.1
+  threshold = 0.1,
+  rootMargin = '800px'
 }: UseInfiniteScrollOptions) {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const triggerRef = useCallback((node: HTMLElement | null) => {
@@ -31,11 +33,11 @@ export function useInfiniteScroll({
           onLoadMore();
         }
       },
-      { threshold }
+      { threshold, rootMargin }
     );
 
     observerRef.current.observe(node);
-  }, [loading, hasMore, onLoadMore, threshold]);
+  }, [loading, hasMore, onLoadMore, threshold, rootMargin]);
 
   useEffect(() => {
     return () => {

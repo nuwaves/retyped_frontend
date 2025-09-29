@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import type { AnyAction } from '@reduxjs/toolkit';
 
 interface UseScrollRestorationProps<T> {
-  pageKey: 'trendingShows' | 'trendingEpisodes';
+  pageKey: 'trendingShows' | 'trendingEpisodes' | 'newEpisodes';
   isActive: boolean;
   saveAction: (payload: { items: T[]; offset: number; scrollPosition: number }) => AnyAction;
   items: T[];
