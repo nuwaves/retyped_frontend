@@ -9,7 +9,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/lib/api";
 import { Podcast, Episode } from "@/app/types";
-import sanitizeHtml from "sanitize-html";
+import { sanitize } from "@/app/utils/sanitizeHtml";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   
   const episodeTitle = `${episode.title} | ${show.name}`;
 
-  const cleanDescription = sanitizeHtml(episode.description, {
+  const cleanDescription = sanitize(episode.description, {
     allowedTags: [],
     allowedAttributes: {}
   }).trim();

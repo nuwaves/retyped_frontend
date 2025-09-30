@@ -7,7 +7,7 @@ interface EpisodeCardProps {
   showName: string;
   showSlug?: string;
   episodeTitle: string;
-  description: string;
+  description: string | null;
   duration: string;
   date: string;
   href: string;

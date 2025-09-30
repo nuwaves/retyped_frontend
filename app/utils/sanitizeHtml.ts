@@ -26,7 +26,10 @@ const defaultOptions: sanitizeHtml.IOptions = {
   enforceHtmlBoundary: false
 };
 
-export function sanitize(dirty: string, options?: sanitizeHtml.IOptions): string {
+export function sanitize(dirty: string | null | undefined, options?: sanitizeHtml.IOptions): string {
+  if (!dirty) {
+    return '';
+  }
   return sanitizeHtml(dirty, options || defaultOptions);
 }
 

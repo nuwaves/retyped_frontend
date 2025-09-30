@@ -7,7 +7,7 @@ import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/components/modules/shows/EpisodesList";
 import { api } from "@/app/lib/api";
 import { Episode, PaginatedResponse, Podcast } from "@/app/types";
-import sanitizeHtml from "sanitize-html";
+import { sanitize } from "@/app/utils/sanitizeHtml";
 
 export const revalidate = 3600;
 
@@ -25,7 +25,7 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     };
   }
 
-  const cleanDescription = sanitizeHtml(show.description, {
+  const cleanDescription = sanitize(show.description, {
     allowedTags: [],
     allowedAttributes: {}
   }).trim();
