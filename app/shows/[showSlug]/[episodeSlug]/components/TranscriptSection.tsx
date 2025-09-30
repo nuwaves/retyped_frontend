@@ -18,14 +18,14 @@ interface TranscriptSectionProps {
 }
 
 const styles = {
-  container: "relative",
+  container: "relative -mx-6 -mb-6 px-6 pb-6",
   transcript: "space-y-8",
   transcriptEntry: "flex gap-3 items-center",
   transcriptText: "flex-1 text-base font-normal leading-6 text-gray-700",
   speaker: "text-base font-normal leading-6 text-gray-900",
-  blurredSection: "relative",
+  blurredSection: "relative min-h-[400px]",
   blurredContent: "blur-[3px] select-none pointer-events-none",
-  overlay: "absolute inset-0 bg-gradient-to-b from-transparent from-0% via-white/40 via-30% to-white to-50% flex items-end justify-center pb-20",
+  overlay: "absolute inset-0 bg-gradient-to-b from-transparent from-0% via-white/60 via-40% to-white to-60% flex items-end justify-center pb-20",
   authPrompt: "text-center w-full px-6",
   lockIcon: "text-gray-400 text-sm mb-4",
   authTitle: "text-sm font-normal leading-[22px] mb-2 text-gray-900",
@@ -34,12 +34,21 @@ const styles = {
 };
 
 export default function TranscriptSection({ transcript, scriptTranscript, isAuthenticated }: TranscriptSectionProps) {
+  const CHARACTER_LIMIT = 500;
+
   // Parse script_transcript into blocks
   const parseScriptTranscript = (script: string | undefined): TranscriptEntry[] => {
     if (!script) return [];
 
+    let textToUse = script;
+
+    // Limit text for non-authenticated users
+    if (!isAuthenticated && script.length > CHARACTER_LIMIT) {
+      textToUse = script.substring(0, CHARACTER_LIMIT) + '...';
+    }
+
     // Split by double newlines to get paragraphs/blocks
-    const blocks = script.split(/\n\n+/).filter(block => block.trim());
+    const blocks = textToUse.split(/\n\n+/).filter(block => block.trim());
 
     return blocks.map(block => ({
       timestamp: "--:--",
