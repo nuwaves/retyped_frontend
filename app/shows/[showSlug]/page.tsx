@@ -84,10 +84,9 @@ export default async function ShowPage({ params }: ShowPageProps) {
     notFound();
   }
 
-  // TODO: Change to use the show's endpoint for fetching its episodes
-  // Should be: /api/v1/podcasts/${showSlug}/episodes/?limit=5
+  // Fetch episodes from the podcast's specific endpoint
   const episodesResponse = await api<PaginatedResponse<Episode>>(
-    `/api/v1/episodes/?search=${encodeURIComponent(show.name)}&limit=5`
+    `/api/v1/podcasts/${showSlug}/episodes?limit=5`
   ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
 
   const episodes = episodesResponse.results || [];
@@ -113,7 +112,7 @@ export default async function ShowPage({ params }: ShowPageProps) {
 
         <EpisodesList
           episodes={episodes}
-          totalCount={episodes.length}
+          totalCount={episodesResponse.count || episodes.length}
         />
       </div>
     </>
