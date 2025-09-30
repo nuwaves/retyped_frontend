@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
@@ -12,6 +13,7 @@ const styles = {
 
 export default function AuthButtons() {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
@@ -33,12 +35,12 @@ export default function AuthButtons() {
 
   return (
     <div className={styles.container}>
-      <Link href="/login">
+      <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
         <Button variant="outline" size="sm">
           Log in
         </Button>
       </Link>
-      <Link href="/signup">
+      <Link href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`}>
         <Button variant="primary" size="sm">
           <FontAwesomeIcon icon={faUser} className="text-white" />
           Sign up

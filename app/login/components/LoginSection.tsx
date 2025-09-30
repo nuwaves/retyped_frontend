@@ -51,15 +51,16 @@ export default function LoginSection() {
   const handleSocialLogin = async (provider: string) => {
     try {
       setIsLoading(provider);
+      const callbackUrl = searchParams.get('callbackUrl') || '/';
       const result = await signIn(provider, {
-        callbackUrl: '/',
+        callbackUrl,
         redirect: false,
       });
 
       if (result?.ok) {
         const session = await getSession();
         if (session) {
-          router.push('/');
+          router.push(callbackUrl);
         }
       }
     } catch (error) {

@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Button from '@/app/components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faLock } from '@fortawesome/free-solid-svg-icons';
@@ -34,6 +37,7 @@ const styles = {
 };
 
 export default function TranscriptSection({ transcript, scriptTranscript, isAuthenticated }: TranscriptSectionProps) {
+  const pathname = usePathname();
   const CHARACTER_LIMIT = 500;
 
   // Parse script_transcript into blocks
@@ -105,10 +109,10 @@ export default function TranscriptSection({ transcript, scriptTranscript, isAuth
                 Get access to the complete transcript, episode notes, and exclusive content by signing up.
               </p>
               <div className={styles.authButtons}>
-                <Link href="/signup">
+                <Link href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`}>
                   <Button variant="primary" size="md">Sign Up for Free</Button>
                 </Link>
-                <Link href="/login">
+                <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
                   <Button variant="outline" size="md">Log In</Button>
                 </Link>
               </div>
