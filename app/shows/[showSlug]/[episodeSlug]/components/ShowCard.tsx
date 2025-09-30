@@ -36,6 +36,7 @@ export default function ShowCard({ show }: ShowCardProps) {
               alt={show.name}
               width={64}
               height={64}
+              sizes="64px"
               className="w-full h-full object-cover"
             />
           )}

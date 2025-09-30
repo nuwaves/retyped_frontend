@@ -43,6 +43,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
               width={288}
               height={288}
               className={styles.image}
+              sizes="288px"
               priority
             />
           ) : (

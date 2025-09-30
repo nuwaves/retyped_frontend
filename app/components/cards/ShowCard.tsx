@@ -35,7 +35,7 @@ export default function ShowCard({ title, description, imageUrl, category, href,
             alt={title}
             fill
             className={styles.image}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 302px, (max-width: 768px) 302px, (max-width: 1024px) 302px, 302px"
             priority={priority}
             loading={priority ? 'eager' : 'lazy'}
           />
