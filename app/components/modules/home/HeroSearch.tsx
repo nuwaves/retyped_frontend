@@ -6,11 +6,11 @@ import Button from '@/app/components/common/Button';
 const styles = {
   container: "flex items-center justify-center px-4 py-20",
   wrapper: "max-w-4xl w-full text-center",
-  title: "text-[51px] font-bold leading-[115%] tracking-normal text-center align-middle lining-nums proportional-nums mb-6 px-8",
+  title: "text-[51px] font-bold leading-[115%] tracking-normal text-center align-middle lining-nums proportional-nums mb-6 px-8 text-slate-900",
   description: "text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-12 px-8",
   searchContainer: "w-full",
   inputWrapper: "flex gap-2",
-  input: "flex-1 h-12 px-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+  input: "flex-1 h-12 px-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent focus:bg-white transition-colors duration-300 ease-out"
 };
 
 export default function HeroSearch() {
