@@ -84,9 +84,9 @@ export default async function ShowPage({ params }: ShowPageProps) {
     notFound();
   }
 
-  // Fetch episodes from the podcast's specific endpoint
+  const INITIAL_EPISODES_LIMIT = 15;
   const episodesResponse = await api<PaginatedResponse<Episode>>(
-    `/api/v1/podcasts/${showSlug}/episodes?limit=5`
+    `/api/v1/podcasts/${showSlug}/episodes?limit=${INITIAL_EPISODES_LIMIT}`
   ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
 
   const episodes = episodesResponse.results || [];
@@ -113,6 +113,7 @@ export default async function ShowPage({ params }: ShowPageProps) {
         <EpisodesList
           episodes={episodes}
           totalCount={episodesResponse.count || episodes.length}
+          showSlug={showSlug}
         />
       </div>
     </>

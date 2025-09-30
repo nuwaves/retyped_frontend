@@ -5,6 +5,7 @@ import LoadMoreEpisodes from './LoadMoreEpisodes';
 interface EpisodesListProps {
   episodes: Episode[];
   totalCount: number;
+  showSlug: string;
 }
 
 const styles = {
@@ -15,26 +16,29 @@ const styles = {
 
 const INITIAL_EPISODES_COUNT = 5;
 
-export default function EpisodesList({ episodes, totalCount }: EpisodesListProps) {
-  const initialEpisodes = episodes.slice(0, INITIAL_EPISODES_COUNT);
-  const remainingEpisodes = episodes.slice(INITIAL_EPISODES_COUNT);
+export default function EpisodesList({ episodes, totalCount, showSlug }: EpisodesListProps) {
+  const hasMoreEpisodes = totalCount > episodes.length;
 
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>
         All Episodes ({totalCount})
       </h2>
-      
+
       {/* Server-rendered initial episodes */}
       <div className={styles.list}>
-        {initialEpisodes.map((episode) => (
+        {episodes.map((episode) => (
           <EpisodeListItem key={episode.id} episode={episode} />
         ))}
       </div>
-      
+
       {/* Client component for loading more */}
-      {remainingEpisodes.length > 0 && (
-        <LoadMoreEpisodes episodes={remainingEpisodes} />
+      {hasMoreEpisodes && (
+        <LoadMoreEpisodes
+          initialOffset={episodes.length}
+          showSlug={showSlug}
+          totalCount={totalCount}
+        />
       )}
     </div>
   );

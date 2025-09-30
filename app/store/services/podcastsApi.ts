@@ -34,10 +34,27 @@ export const podcastsApi = baseApi.injectEndpoints({
             ]
           : [{ type: 'Podcast', id: 'TRENDING' }],
     }),
+    getPodcastEpisodes: builder.query<
+      PaginatedResponse<import('@/app/types').Episode>,
+      { slug: string; limit?: number; offset?: number }
+    >({
+      query: ({ slug, limit = 5, offset = 0 }) => ({
+        url: `podcasts/${slug}/episodes`,
+        params: { limit, offset },
+      }),
+      providesTags: (result, error, { slug }) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({ type: 'Episode' as const, id })),
+              { type: 'Podcast', id: slug },
+            ]
+          : [{ type: 'Podcast', id: slug }],
+    }),
   }),
 });
 
 export const {
   useGetTopPodcastsQuery,
   useLazyGetTrendingPodcastsQuery,
+  useLazyGetPodcastEpisodesQuery,
 } = podcastsApi;
