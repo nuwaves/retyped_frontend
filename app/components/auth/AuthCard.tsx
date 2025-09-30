@@ -137,9 +137,9 @@ export default function AuthCard({ mode }: AuthCardProps) {
         backdropFilter: 'blur(8px)'
       }}>
       <div className={styles.header}>
-        <h1 className={styles.title}>
+        <div className={styles.title}>
           {currentContent.title}
-        </h1>
+        </div>
         <p className={styles.subtitle}>
           {currentContent.subtitle}
         </p>

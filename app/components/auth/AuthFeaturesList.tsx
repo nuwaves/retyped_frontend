@@ -32,9 +32,9 @@ export default function AuthFeaturesList({ features }: AuthFeaturesListProps) {
               <FontAwesomeIcon icon={feature.icon} className={styles.icon} />
             </div>
             <div className={styles.textContainer}>
-              <h3 className={styles.title}>
-                {feature.title}
-              </h3>
+              <p className={styles.title}>
+                <strong>{feature.title}</strong>
+              </p>
               <p className={styles.description}>
                 {feature.description}
               </p>

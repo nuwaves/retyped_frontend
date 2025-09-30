@@ -7,6 +7,7 @@ const styles = {
   wrapper: "flex flex-col sm:flex-row gap-12 lg:gap-24",
   brandSection: "flex-1 max-w-xs",
   brandDescription: "text-[14px] leading-[22px] font-normal text-gray-600 mt-4",
+  navTitle: "sr-only",
   sectionTitle: "text-sm font-normal mb-4",
   linksList: "space-y-2",
   link: "text-sm text-gray-600 hover:text-gray-900"
@@ -16,6 +17,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
+        <h2 className={styles.navTitle}>Site Navigation</h2>
         <div className={styles.wrapper}>
           <div className={styles.brandSection}>
             <Logo />
@@ -23,7 +25,7 @@ const Footer = () => {
               {`(Dummy Text) Discover, listen, and connect with the stories that matter. Explore the world's best podcasts`}
             </p>
           </div>
-          
+
           <div>
             <h3 className={styles.sectionTitle}>Legal</h3>
             <ul className={styles.linksList}>
