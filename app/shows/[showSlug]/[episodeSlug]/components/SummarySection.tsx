@@ -8,14 +8,6 @@ interface SummarySectionProps {
   episode: Episode;
 }
 
-const styles = {
-  summaryText: "text-gray-700 leading-relaxed mb-4",
-  guestsSection: "mt-6",
-  guestsTitle: "text-lg font-semibold mb-2",
-  guestsList: "list-disc list-inside",
-  guestItem: "text-gray-700"
-};
-
 export default function SummarySection({ episode }: SummarySectionProps) {
   return (
     <ContentSection

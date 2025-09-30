@@ -14,8 +14,6 @@ const styles = {
   list: "flex flex-col gap-4"
 };
 
-const INITIAL_EPISODES_COUNT = 5;
-
 export default function EpisodesList({ episodes, totalCount, showSlug }: EpisodesListProps) {
   const hasMoreEpisodes = totalCount > episodes.length;
 

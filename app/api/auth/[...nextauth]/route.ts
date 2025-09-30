@@ -1,4 +1,6 @@
 import NextAuth from 'next-auth'
+import type { JWT } from 'next-auth/jwt'
+import type { Session, Account, User } from 'next-auth'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 import InstagramProvider from "next-auth/providers/instagram";
@@ -49,7 +51,7 @@ export const authOptions = {
         error: '/login',
     },
     callbacks: {
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account }: { token: JWT; user?: User; account?: Account | null }) {
             if (account && user) {
                 try {
                     const convertion_payload: TokenValidation = {
@@ -75,7 +77,7 @@ export const authOptions = {
             }
             return token;
         },
-        session({ session, token, user }) {
+        session({ session, token }: { session: Session; token: JWT }) {
             session.backendToken = token.backendToken;
             return session
         },
