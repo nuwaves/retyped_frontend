@@ -10,6 +10,7 @@ interface ShowCardProps {
   imageUrl: string;
   category: string;
   href: string;
+  priority?: boolean;
 }
 
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
   buttonWrapper: "mt-auto"
 };
 
-export default function ShowCard({ title, description, imageUrl, category, href }: ShowCardProps) {
+export default function ShowCard({ title, description, imageUrl, category, href, priority = false }: ShowCardProps) {
   const secureImageUrl = ensureHttps(imageUrl);
 
   return (
@@ -35,6 +36,8 @@ export default function ShowCard({ title, description, imageUrl, category, href 
             fill
             className={styles.image}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
           />
         ) : (
           <div className={styles.image} style={{ backgroundColor: '#e5e7eb' }} />

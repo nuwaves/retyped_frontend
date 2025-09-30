@@ -119,7 +119,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
         />
       )}
       <div className={styles.grid}>
-        {shows.map(show => (
+        {shows.map((show, index) => (
           <ShowCard
             key={show.id}
             title={show.name}
@@ -127,6 +127,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
             imageUrl={show.image_url || ''}
             category={show.tags?.[0]?.name || 'Podcast'}
             href={`/shows/${show.slug}`}
+            priority={index < 8}
           />
         ))}
       </div>

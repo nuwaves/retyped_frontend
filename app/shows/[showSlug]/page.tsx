@@ -7,6 +7,7 @@ import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/components/modules/shows/EpisodesList";
 import { api } from "@/app/lib/api";
 import { Episode, PaginatedResponse, Podcast } from "@/app/types";
+import sanitizeHtml from "sanitize-html";
 
 export const revalidate = 3600;
 
@@ -24,19 +25,22 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     };
   }
 
+  const cleanDescription = sanitizeHtml(show.description, {
+    allowedTags: [],
+    allowedAttributes: {}
+  }).trim();
+
   return {
     title: `${show.name} | Retyped`,
-    description: show.description,
+    description: cleanDescription,
     openGraph: {
       title: show.name,
-      description: show.description,
+      description: cleanDescription,
       type: 'website',
       siteName: 'Retyped',
       images: [
         {
           url: show.image_url || '',
-          width: 1200,
-          height: 630,
           alt: show.name,
         },
       ],
@@ -44,7 +48,7 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     twitter: {
       card: 'summary_large_image',
       title: show.name,
-      description: show.description,
+      description: cleanDescription,
       images: [show.image_url || ''],
     },
     alternates: {

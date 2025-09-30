@@ -9,6 +9,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/lib/api";
 import { Podcast, Episode } from "@/app/types";
+import sanitizeHtml from "sanitize-html";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -48,15 +49,20 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   }
   
   const episodeTitle = `${episode.title} | ${show.name}`;
-  
+
+  const cleanDescription = sanitizeHtml(episode.description, {
+    allowedTags: [],
+    allowedAttributes: {}
+  }).trim();
+
   return {
     title: `${episodeTitle} | Retyped`,
-    description: episode.description,
+    description: cleanDescription,
     keywords: [show.tags?.[0]?.name || "Podcast", "podcast", "episode", show.name, episode.title],
     authors: [],
     openGraph: {
       title: episodeTitle,
-      description: episode.description,
+      description: cleanDescription,
       type: "article",
       siteName: "Retyped",
       publishedTime: episode.release_date,
@@ -65,8 +71,6 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       images: [
         {
           url: show.image_url || '/',
-          width: 1200,
-          height: 630,
           alt: episodeTitle,
         },
       ],
@@ -74,7 +78,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     twitter: {
       card: "summary_large_image",
       title: episodeTitle,
-      description: episode.description,
+      description: cleanDescription,
       images: [show.image_url || '/'],
       creator: undefined,
     },
