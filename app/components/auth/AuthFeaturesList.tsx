@@ -11,20 +11,31 @@ interface AuthFeaturesListProps {
   features: Feature[];
 }
 
+const styles = {
+  container: "hidden lg:block flex-1 max-w-md",
+  list: "space-y-8",
+  featureItem: "flex gap-4 items-start",
+  iconContainer: "flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center",
+  icon: "w-4 h-4 text-gray-700",
+  textContainer: "flex-1",
+  title: "font-medium text-gray-900 mb-1 text-[13.78px] leading-[21px]",
+  description: "text-gray-600 font-normal text-[12.11px] leading-[19.91px]"
+};
+
 export default function AuthFeaturesList({ features }: AuthFeaturesListProps) {
   return (
-    <div className="hidden lg:block flex-1 max-w-md">
-      <div className="space-y-8">
+    <div className={styles.container}>
+      <div className={styles.list}>
         {features.map((feature, index) => (
-          <div key={index} className="flex gap-4 items-start">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-              <FontAwesomeIcon icon={feature.icon} className="w-4 h-4 text-gray-700" />
+          <div key={index} className={styles.featureItem}>
+            <div className={styles.iconContainer}>
+              <FontAwesomeIcon icon={feature.icon} className={styles.icon} />
             </div>
-            <div className="flex-1">
-              <h3 className="font-medium text-gray-900 mb-1 text-[13.78px] leading-[21px]">
+            <div className={styles.textContainer}>
+              <h3 className={styles.title}>
                 {feature.title}
               </h3>
-              <p className="text-gray-600 font-normal text-[12.11px] leading-[19.91px]">
+              <p className={styles.description}>
                 {feature.description}
               </p>
             </div>
