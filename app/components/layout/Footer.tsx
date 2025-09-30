@@ -22,7 +22,7 @@ const Footer = () => {
           <div className={styles.brandSection}>
             <Logo />
             <p className={styles.brandDescription}>
-              {`(Dummy Text) Discover, listen, and connect with the stories that matter. Explore the world's best podcasts`}
+              Discover, listen, and connect with the stories that matter. Explore the world&apos;s best podcasts
             </p>
           </div>
 
