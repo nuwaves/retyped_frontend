@@ -10,7 +10,7 @@ import { Episode, Podcast, PaginatedResponse } from './types';
 import { formatDate } from './utils/formatters';
 import { safeApi } from './lib/api';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Retyped - Discover Your Next Favorite Podcast',

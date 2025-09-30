@@ -7,7 +7,7 @@ export interface Episode extends TimestampedModel {
   tags: Tag[];
   title: string;
   subtitle: string | null;
-  description: string;
+  description: string | null;
   summary: string | null;
   release_date: string;
   pub_date: string;

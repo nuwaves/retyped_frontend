@@ -55,7 +55,7 @@ export default function EpisodeCard({
       </div>
 
       <h3 className={styles.title}>{episodeTitle}</h3>
-      <SafeHTML html={description} className={styles.description} as="p" />
+      <SafeHTML html={description} className={styles.description} as="div" />
       <div className={styles.footer}>
         <FontAwesomeIcon icon={faClock} className={styles.icon} />
         <span>{duration}</span>
