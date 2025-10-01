@@ -31,7 +31,7 @@ const styles = {
 export default async function Home() {
   const [trendingShowsData, trendingEpisodesData, newEpisodesData] = await Promise.all([
     safeApi<PaginatedResponse<Podcast>>(
-      '/api/v1/podcasts/top-by-views/?timeframe=all&limit=4',
+      '/api/v1/podcasts/top-by-views/?timeframe=7d&limit=4',
       { count: 0, next: null, previous: null, results: [] }
     ),
     safeApi<PaginatedResponse<Episode>>(
@@ -82,8 +82,10 @@ export default async function Home() {
               key={show.id}
               title={show.name}
               description={show.description}
-              imageUrl={show.image_url || ''}
-              categories={show.tags || []}
+              imageUrl={show.image_url}
+              categories={show.tags}
+              episodeCount={show.episode_count}
+              totalViews={show.total_views}
               href={`/shows/${show.slug}`}
             />
           ))}

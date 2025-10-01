@@ -1,14 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone, faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import Pill from '@/app/components/common/Pill';
 import Button from '@/app/components/common/Button';
 import { ensureHttps } from '@/app/utils/imageUrl';
+import { formatCompactNumber } from '@/app/utils/formatters';
 
 interface ShowCardProps {
   title: string;
   description: string;
   imageUrl: string;
   categories: Array<{ name: string }>;
+  episodeCount: number;
+  totalViews: number;
   href: string;
   priority?: boolean;
 }
@@ -17,9 +22,9 @@ const styles = {
   card: "flex flex-col h-full rounded-md overflow-hidden",
   imageContainer: "relative w-full aspect-square bg-gray-200",
   image: "w-full h-full object-cover",
-  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-10 gap-2",
-  title: "text-md font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums mb-2",
-  description: "text-sm text-gray-600 mb-4 line-clamp-2",
+  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-10 gap-3",
+  title: "text-md font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums",
+  description: "text-sm text-gray-600 line-clamp-2 mb-auto",
   buttonWrapper: "mt-auto"
 };
 
@@ -28,6 +33,8 @@ export default function ShowCard({
   description,
   imageUrl,
   categories,
+  episodeCount,
+  totalViews,
   href,
   priority = false
 }: ShowCardProps) {
@@ -67,6 +74,12 @@ export default function ShowCard({
         <p className={styles.description}>{description}</p>
 
         <div className={styles.buttonWrapper}>
+          <div className="flex items-center gap-2 text-xs font-normal text-gray-500 mb-3">
+            <FontAwesomeIcon icon={faMicrophone} className="text-gray-400" />
+            <span>{episodeCount}</span>
+            <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 ml-2" />
+            <span>{formatCompactNumber(totalViews)}</span>
+          </div>
           <Link href={href} className="w-full">
             <Button variant="primary" size="md" fullWidth>
               Explore Show
