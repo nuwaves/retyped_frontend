@@ -26,17 +26,17 @@ const radiusStyles = {
   full: 'rounded-full'
 };
 
-export default function Pill({ 
-  children, 
-  size = 'sm', 
+export default function Pill({
+  children,
+  size = 'sm',
   variant = 'outline',
   radius = 'full',
   className = ''
 }: PillProps) {
-  const baseStyles = 'inline-block w-fit';
-  
+  const baseStyles = 'inline-block w-fit select-none cursor-pointer hover:text-black transition-all duration-100';
+
   const pillClasses = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${radiusStyles[radius]} ${className}`.trim();
-  
+
   return (
     <span className={pillClasses}>
       {children}

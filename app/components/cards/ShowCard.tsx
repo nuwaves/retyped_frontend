@@ -55,7 +55,7 @@ export default function ShowCard({
         {categories.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-1 max-h-[24px] overflow-hidden">
             {categories.map((category, index) => (
-              <Pill key={index} size="xs" variant="outline">
+              <Pill key={index} size="xs" variant="filled">
                 {category.name}
               </Pill>
             ))}
