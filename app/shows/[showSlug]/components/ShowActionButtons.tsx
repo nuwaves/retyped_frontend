@@ -49,9 +49,9 @@ export default function ShowActionButtons({ showId, initialFollowing = false }: 
       <button
         onClick={handleFollowClick}
         disabled={isLoading}
-        className={`px-6 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 leading-6 ${
-          isFollowing 
-            ? 'bg-gray-200 text-slate-900 hover:bg-gray-300' 
+        className={`px-6 py-1 text-sm font-medium rounded transition-colors duration-200 flex items-center justify-center gap-2 leading-6 ${
+          isFollowing
+            ? 'bg-gray-200 text-slate-900 hover:bg-gray-300'
             : 'bg-slate-900 text-white hover:bg-slate-800'
         } ${isLoading ? 'opacity-50 cursor-wait' : ''}`}
       >

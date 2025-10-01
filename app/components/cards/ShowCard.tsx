@@ -19,7 +19,7 @@ interface ShowCardProps {
 }
 
 const styles = {
-  card: "flex flex-col h-full rounded-md overflow-hidden",
+  card: "flex flex-col h-full rounded overflow-hidden",
   imageContainer: "relative w-full aspect-square bg-gray-200",
   image: "w-full h-full object-cover",
   contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-4 gap-3",

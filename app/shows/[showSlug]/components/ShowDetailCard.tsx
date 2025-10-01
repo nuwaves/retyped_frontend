@@ -19,7 +19,7 @@ const styles = {
   image: "w-full h-64 md:h-72 object-cover bg-gray-100",
   contentWrapper: "flex-1 flex flex-col gap-6 p-4 md:p-0",
   titleWrapper: "flex flex-col gap-1",
-  title: "text-[40px] font-bold text-black leading-[150%] lining-nums proportional-nums",
+  title: "text-[40px] font-bold text-black leading-[150%] tracking-normal lining-nums proportional-nums",
   author: "text-base font-bold text-black leading-6 lining-nums proportional-nums",
   descriptionWrapper: "flex flex-col gap-4",
   description: "text-base font-normal leading-6 tracking-normal text-gray-700 line-clamp-4 md:line-clamp-none",
@@ -54,9 +54,9 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
         <div className={styles.contentWrapper}>
           {/* Category pills */}
           {show.tags && show.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1">
               {show.tags.map(tag => (
-                <Pill key={tag.id} size="sm" variant="outline">
+                <Pill key={tag.id} size="sm" variant="filled">
                   {tag.name}
                 </Pill>
               ))}

@@ -7,12 +7,10 @@ export async function GET(
   context: { params: Promise<{ path: string[] }> }
 ) {
   const { path } = await context.params;
-  let pathString = path.join('/');
-  if (!pathString.endsWith('/')) {
-    pathString += '/';
-  }
+  const pathString = path.join('/');
+  const needsTrailingSlash = request.headers.get('X-Trailing-Slash') === 'true';
   const searchParams = request.nextUrl.searchParams.toString();
-  const url = `${BACKEND_URL}/api/v1/${pathString}${searchParams ? `?${searchParams}` : ''}`;
+  const url = `${BACKEND_URL}/api/v1/${pathString}${needsTrailingSlash ? '/' : ''}${searchParams ? `?${searchParams}` : ''}`;
 
   try {
     const response = await fetch(url, {

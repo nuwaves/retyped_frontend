@@ -14,7 +14,7 @@ interface EpisodeCardProps {
 }
 
 const styles = {
-  card: "relative flex flex-col gap-6 bg-white rounded-lg px-6 pt-8 pb-15 hover:shadow-md transition-shadow",
+  card: "relative flex flex-col gap-6 bg-white rounded px-6 pt-8 pb-15 hover:shadow-md transition-shadow",
   header: "flex items-center gap-2 text-xs text-gray-500",
   icon: "text-xs",
   showName: "font-normal",
