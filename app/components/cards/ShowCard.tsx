@@ -8,7 +8,7 @@ interface ShowCardProps {
   title: string;
   description: string;
   imageUrl: string;
-  category: string;
+  categories: Array<{ name: string }>;
   href: string;
   priority?: boolean;
 }
@@ -23,7 +23,14 @@ const styles = {
   buttonWrapper: "mt-auto"
 };
 
-export default function ShowCard({ title, description, imageUrl, category, href, priority = false }: ShowCardProps) {
+export default function ShowCard({
+  title,
+  description,
+  imageUrl,
+  categories,
+  href,
+  priority = false
+}: ShowCardProps) {
   const secureImageUrl = ensureHttps(imageUrl);
 
   return (
@@ -45,11 +52,15 @@ export default function ShowCard({ title, description, imageUrl, category, href,
       </div>
 
       <div className={styles.contentWrapper}>
-        <div className="mb-2">
-          <Pill size="xs" variant="outline">
-            {category}
-          </Pill>
-        </div>
+        {categories.length > 0 && (
+          <div className="mb-2 flex flex-wrap gap-1 max-h-[24px] overflow-hidden">
+            {categories.map((category, index) => (
+              <Pill key={index} size="xs" variant="outline">
+                {category.name}
+              </Pill>
+            ))}
+          </div>
+        )}
 
         <h3 className={styles.title}>{title}</h3>
 

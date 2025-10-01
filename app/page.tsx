@@ -83,7 +83,7 @@ export default async function Home() {
               title={show.name}
               description={show.description}
               imageUrl={show.image_url || ''}
-              category={show.tags?.[0]?.name || 'Podcast'}
+              categories={show.tags || []}
               href={`/shows/${show.slug}`}
             />
           ))}
