@@ -66,34 +66,36 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
           {/* Title and author */}
           <div className={styles.titleWrapper}>
             <h1 className={styles.title}>{show.name}</h1>
-            {show.author && <p className={styles.author}>By {show.author}</p>}
+            {/* {show.author && <p className={styles.author}>By {show.author}</p>} */}
           </div>
           
           {/* Description, stats and buttons grouped */}
           <div className={styles.descriptionWrapper}>
             <SafeHTML html={show.description} className={styles.description} />
-            
+
+            {/* TODO: Backend needs to provide total_views and episode_count in podcast detail endpoint */}
             <div className={styles.statsContainer}>
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {formatCompactNumber(show.followers || 0)} Followers
+                  - Views
                 </span>
               </div>
-              
+
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faMicrophone} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {show.episodeCount || 0} Episodes
+                  - Episodes
                 </span>
               </div>
               
-              <div className={styles.statItem}>
+              {/* TODO: Add releaseFrequency field to backend */}
+              {/* <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
                 <span className={styles.statText}>
-                  {show.releaseFrequency || '-'}
+                  -
                 </span>
-              </div>
+              </div> */}
             </div>
             
             {/* Action buttons slot - below stats */}

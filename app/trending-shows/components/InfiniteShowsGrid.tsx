@@ -47,7 +47,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
   useEffect(() => {
     if (cachedData && cachedData.items.length > 0) {
       // Silently check if there are new shows
-      getTrendingPodcasts({ timeframe: 'all', limit: 1, offset: 0 })
+      getTrendingPodcasts({ timeframe: '7d', limit: 1, offset: 0 })
         .unwrap()
         .then(result => {
           if (result.results[0]?.id !== cachedData.items[0]?.id) {
@@ -76,7 +76,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
 
     try {
       const result = await getTrendingPodcasts({
-        timeframe: 'all',
+        timeframe: '7d',
         limit: 20,
         offset
       }).unwrap();
@@ -124,8 +124,10 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
             key={show.id}
             title={show.name}
             description={show.description}
-            imageUrl={show.image_url || ''}
-            category={show.tags?.[0]?.name || 'Podcast'}
+            imageUrl={show.image_url}
+            categories={show.tags || []}
+            episodeCount={show.episode_count}
+            totalViews={show.total_views}
             href={`/shows/${show.slug}`}
             priority={index < 8}
           />

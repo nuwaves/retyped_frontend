@@ -16,11 +16,11 @@ const variantStyles = {
 
 const sizeStyles = {
   sm: 'px-4 py-1.5 text-sm',
-  md: 'px-6 py-1.5 text-sm',
+  md: 'px-6 py-1 text-xs',
   lg: 'px-6 py-2 text-base'
 };
 
-export default function Button({ 
+export default function Button({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
@@ -28,11 +28,11 @@ export default function Button({
   children,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 leading-6';
+  const baseStyles = 'font-medium rounded-md transition-colors duration-200 flex items-center justify-center gap-2 leading-6';
   const widthStyles = fullWidth ? 'w-full' : '';
-  
+
   const buttonClasses = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${className}`.trim();
-  
+
   return (
     <button className={buttonClasses} {...props}>
       {children}

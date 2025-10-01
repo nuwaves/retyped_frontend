@@ -44,7 +44,7 @@ export default function ShowCard({ show }: ShowCardProps) {
 
         <div className={styles.showDetails}>
           <h4 className={styles.showTitle}>{show.name}</h4>
-          {show.author && <p className={styles.showAuthor}>{show.author}</p>}
+          {/* {show.author && <p className={styles.showAuthor}>{show.author}</p>} */}
           {show.total_views !== undefined && (
             <p className={styles.showFollowers}>{formatCompactNumber(show.total_views)} views</p>
           )}

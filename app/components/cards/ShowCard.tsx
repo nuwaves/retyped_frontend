@@ -22,10 +22,11 @@ const styles = {
   card: "flex flex-col h-full rounded-md overflow-hidden",
   imageContainer: "relative w-full aspect-square bg-gray-200",
   image: "w-full h-full object-cover",
-  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-10 gap-3",
-  title: "text-md font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums",
-  description: "text-sm text-gray-600 line-clamp-2 mb-auto",
-  buttonWrapper: "mt-auto"
+  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-4 gap-3",
+  title: "text-sm font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums",
+  description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums",
+  buttonWrapper: "mt-auto",
+  shadow: "0px 4px 6px 0px #00000017"
 };
 
 export default function ShowCard({
@@ -41,7 +42,7 @@ export default function ShowCard({
   const secureImageUrl = ensureHttps(imageUrl);
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} style={{ boxShadow: styles.shadow }}>
       <div className={styles.imageContainer}>
         {secureImageUrl ? (
           <Image
@@ -59,8 +60,8 @@ export default function ShowCard({
       </div>
 
       <div className={styles.contentWrapper}>
-        {categories.length > 0 && (
-          <div className="mb-2 flex flex-wrap gap-1 max-h-[24px] overflow-hidden">
+        {categories && categories.length > 0 && (
+          <div className="mb-2 flex flex-wrap gap-1 max-h-[20px] overflow-hidden">
             {categories.map((category, index) => (
               <Pill key={index} size="xs" variant="filled">
                 {category.name}
@@ -76,7 +77,7 @@ export default function ShowCard({
         <div className={styles.buttonWrapper}>
           <div className="flex items-center gap-2 text-xs font-normal text-gray-500 mb-3">
             <FontAwesomeIcon icon={faMicrophone} className="text-gray-400" />
-            <span>{episodeCount}</span>
+            <span>{episodeCount} ep</span>
             <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 ml-2" />
             <span>{formatCompactNumber(totalViews)}</span>
           </div>

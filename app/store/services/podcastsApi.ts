@@ -22,7 +22,7 @@ export const podcastsApi = baseApi.injectEndpoints({
       PaginatedResponse<Podcast>,
       { timeframe?: string; limit?: number; offset?: number }
     >({
-      query: ({ timeframe = 'all', limit = 20, offset = 0 }) => ({
+      query: ({ timeframe = '7d', limit = 20, offset = 0 }) => ({
         url: 'podcasts/top-by-views/',
         params: { timeframe, limit, offset },
       }),

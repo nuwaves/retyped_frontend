@@ -14,8 +14,8 @@ const styles = {
   header: "flex items-center justify-between mb-8",
   titleSection: "flex items-center gap-3",
   icon: "text-xl text-slate-900",
-  title: "text-2xl font-bold text-slate-900",
-  viewAll: "text-sm font-medium text-black flex items-center"
+  title: "text-2xl font-bold leading-[115%] tracking-normal align-middle text-slate-900 lining-nums proportional-nums",
+  viewAll: "text-sm font-medium leading-6 tracking-normal text-black flex items-center"
 };
 
 export default function SectionHeader({ 

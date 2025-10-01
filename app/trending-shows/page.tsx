@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function TrendingShowsPage() {
   const initialData = await safeApi<PaginatedResponse<Podcast>>(
-    '/api/v1/podcasts/top-by-views/?timeframe=all&limit=20',
+    '/api/v1/podcasts/top-by-views/?timeframe=7d&limit=20',
     { count: 0, next: null, previous: null, results: [] }
   );
 
