@@ -6,6 +6,8 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import StoreProvider from "./providers/StoreProvider";
 import AuthProvider from '@/app/providers/AuthProvider';
+import Analytics from "./components/layout/Analytics";
+import AdSense from "./components/layout/AdSense";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,6 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <AdSense />
+      </head>
       <body
         className={`${inter.variable} ${openSans.variable} antialiased`}
       >
@@ -44,6 +49,7 @@ export default function RootLayout({
           </AuthProvider>
         </StoreProvider>
       </body>
+      <Analytics />
     </html>
   );
 }
