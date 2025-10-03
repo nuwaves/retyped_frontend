@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Episode, Podcast } from '@/app/types';
 import EpisodeCard from '@/app/components/cards/EpisodeCard';
 import ShowCard from '@/app/components/cards/ShowCard';
+import SearchSkeleton from './SearchSkeleton';
 import { formatDate } from '@/app/utils/formatters';
 
 interface SearchResultsProps {
@@ -12,6 +13,8 @@ interface SearchResultsProps {
   episodes: Episode[];
   podcasts: Podcast[];
   entities: any[];
+  isLoading?: boolean;
+  error?: any;
 }
 
 const styles = {
@@ -31,7 +34,7 @@ const styles = {
 
 type TabType = 'all' | 'podcasts' | 'episodes' | 'entities';
 
-export default function SearchResults({ query, episodes, podcasts, entities }: SearchResultsProps) {
+export default function SearchResults({ query, episodes, podcasts, entities, isLoading = false, error }: SearchResultsProps) {
   const [activeTab, setActiveTab] = useState<TabType>('all');
 
   const totalResults = episodes.length + podcasts.length + entities.length;
@@ -43,24 +46,71 @@ export default function SearchResults({ query, episodes, podcasts, entities }: S
     ...(entities.length > 0 ? [{ id: 'entities' as TabType, label: 'Entities', count: entities.length }] : [])
   ];
 
-  if (totalResults === 0) {
-    return (
-      <div className={styles.header}>
-        <h1 className={styles.title}>Search Results</h1>
-        <p className={styles.subtitle}>
-          No results found for &quot;{query}&quot;
-        </p>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className={styles.header}>
-        <h1 className={styles.title}>Search Results</h1>
-        <p className={styles.subtitle}>
-          {totalResults} {totalResults === 1 ? 'result' : 'results'} for <span className={styles.queryText}>&quot;{query}&quot;</span>
-        </p>
+        {isLoading ? (
+          <motion.h1
+            key="searching-title"
+            className={styles.title}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Searching
+            <span className="inline-flex ml-1">
+              <span className="animate-bounce">.</span>
+              <span className="animate-bounce [animation-delay:0.2s]">.</span>
+              <span className="animate-bounce [animation-delay:0.4s]">.</span>
+            </span>
+          </motion.h1>
+        ) : (
+          <motion.h1
+            key="results-title"
+            className={styles.title}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Search Results
+          </motion.h1>
+        )}
+        {isLoading ? (
+          <motion.p
+            key="loading"
+            className={styles.subtitle}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span className="animate-pulse">Searching for</span> <span className={`${styles.queryText} animate-pulse`}>&quot;{query}&quot;</span>
+          </motion.p>
+        ) : totalResults === 0 ? (
+          <motion.p
+            key="no-results"
+            className={styles.subtitle}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            No results found for <span className={styles.queryText}>&quot;{query}&quot;</span>
+          </motion.p>
+        ) : (
+          <motion.p
+            key="results"
+            className={styles.subtitle}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {totalResults} {totalResults === 1 ? 'result' : 'results'} for <span className={styles.queryText}>&quot;{query}&quot;</span>
+          </motion.p>
+        )}
       </div>
 
       <div className={styles.tabButtons}>
@@ -87,13 +137,21 @@ export default function SearchResults({ query, episodes, podcasts, entities }: S
               />
             )}
             <span className="relative z-10">
-              {tab.label} ({tab.count})
+              {tab.label} {!isLoading && `(${tab.count})`}
             </span>
           </button>
         ))}
       </div>
 
-      {activeTab === 'all' && (
+      {error && (
+        <div className="text-center py-12">
+          <p className="text-red-500">Error searching. Please try again.</p>
+        </div>
+      )}
+
+      {isLoading ? (
+        <SearchSkeleton />
+      ) : activeTab === 'all' && (
         <div className="space-y-8">
           {podcasts.length > 0 && (
             <div>
@@ -136,7 +194,7 @@ export default function SearchResults({ query, episodes, podcasts, entities }: S
         </div>
       )}
 
-      {activeTab === 'podcasts' && (
+      {!isLoading && activeTab === 'podcasts' && (
         <div className={styles.showsGrid}>
           {podcasts.length > 0 ? (
             podcasts.map((podcast) => (
@@ -157,7 +215,7 @@ export default function SearchResults({ query, episodes, podcasts, entities }: S
         </div>
       )}
 
-      {activeTab === 'episodes' && (
+      {!isLoading && activeTab === 'episodes' && (
         <div className={styles.episodesGrid}>
           {episodes.length > 0 ? (
             episodes.map((episode) => (
@@ -178,7 +236,7 @@ export default function SearchResults({ query, episodes, podcasts, entities }: S
         </div>
       )}
 
-      {activeTab === 'entities' && (
+      {!isLoading && activeTab === 'entities' && (
         <div className={styles.emptyState}>
           <p>Entities will be displayed here soon</p>
         </div>

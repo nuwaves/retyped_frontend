@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useSearchQuery } from '@/app/store/services/searchApi';
 import SearchResults from './SearchResults';
-import LoadingSpinner from '@/app/components/common/LoadingSpinner';
+import SearchSkeleton from './SearchSkeleton';
 
 interface SearchContainerProps {
   initialQuery: string;
@@ -37,26 +37,6 @@ export default function SearchContainer({ initialQuery }: SearchContainerProps) 
     );
   }
 
-  if (isLoading || isFetching) {
-    return (
-      <div className={styles.container}>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.errorContainer}>
-          <p className={styles.errorText}>
-            Error searching. Please try again.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
       <SearchResults
@@ -64,6 +44,8 @@ export default function SearchContainer({ initialQuery }: SearchContainerProps) 
         episodes={data?.episodes || []}
         podcasts={data?.podcasts || []}
         entities={data?.entities || []}
+        isLoading={isLoading || isFetching}
+        error={error}
       />
     </div>
   );
