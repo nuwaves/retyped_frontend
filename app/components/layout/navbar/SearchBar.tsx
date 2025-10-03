@@ -39,7 +39,8 @@ export default function SearchBar() {
     if (shouldRefetchInPlace) {
       triggerSearch({ q: trimmedQuery }, false);
     } else {
-      router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
+      const encodedQuery = encodeURIComponent(trimmedQuery).replace(/%20/g, '+');
+      router.push(`/search?q=${encodedQuery}`);
     }
   };
 
