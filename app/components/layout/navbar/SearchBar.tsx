@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/app/store/hooks';
 import { setSearchBarFocus } from '@/app/store/features/ui/uiSlice';
 
@@ -13,12 +14,14 @@ const styles = {
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement search functionality
-    console.log('Searching for:', query);
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
   };
 
   const handleFocus = () => {
