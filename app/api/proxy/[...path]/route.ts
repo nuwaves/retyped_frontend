@@ -12,6 +12,10 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams.toString();
   const url = `${BACKEND_URL}/api/v1/${pathString}${needsTrailingSlash ? '/' : ''}${searchParams ? `?${searchParams}` : ''}`;
 
+  console.error('[Proxy GET] Path:', path);
+  console.error('[Proxy GET] Trailing slash header:', needsTrailingSlash);
+  console.error('[Proxy GET] Final URL:', url);
+
   try {
     const response = await fetch(url, {
       headers: {
@@ -24,7 +28,16 @@ export async function GET(
       const text = await response.text();
       console.error(`Backend returned ${response.status} for ${url}:`, text.substring(0, 200));
       return NextResponse.json(
-        { error: `Backend error: ${response.status}`, details: text.substring(0, 200) },
+        {
+          error: `Backend error: ${response.status}`,
+          details: text.substring(0, 200),
+          debug: {
+            url,
+            path,
+            needsTrailingSlash,
+            backendUrl: BACKEND_URL
+          }
+        },
         { status: response.status }
       );
     }
