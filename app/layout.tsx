@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
-import "./lib/fontawesome";
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
-import StoreProvider from "./providers/StoreProvider";
-import AuthProvider from '@/app/providers/AuthProvider';
-import Analytics from "./components/layout/Analytics";
-import AdSense from "./components/layout/AdSense";
+import "@/app/_lib/fontawesome";
+import Navbar from "@/app/_components/layout/Navbar";
+import Footer from "@/app/_components/layout/Footer";
+import StoreProvider from "@/app/_providers/StoreProvider";
+import AuthProvider from '@/app/_providers/AuthProvider';
+import Analytics from "@/app/_components/layout/Analytics";
+import AdSense from "@/app/_components/layout/AdSense";
 
 const inter = Inter({
   variable: "--font-inter",

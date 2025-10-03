@@ -1,0 +1,26 @@
+import { configureStore } from '@reduxjs/toolkit'
+import uiReducer from './features/ui/uiSlice'
+import authReducer from './features/auth/authSlice'
+import podcastsReducer from './features/podcasts/podcastsSlice'
+import episodesReducer from './features/episodes/episodesSlice'
+import infiniteScrollReducer from './features/infiniteScroll/infiniteScrollSlice'
+import { clientApi } from './services/clientApi'
+
+export const makeStore = () => {
+  return configureStore({
+    reducer: {
+      ui: uiReducer,
+      auth: authReducer,
+      podcasts: podcastsReducer,
+      episodes: episodesReducer,
+      infiniteScroll: infiniteScrollReducer,
+      [clientApi.reducerPath]: clientApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(clientApi.middleware),
+  })
+}
+
+export type AppStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']

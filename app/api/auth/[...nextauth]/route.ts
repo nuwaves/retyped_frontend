@@ -5,8 +5,8 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 import InstagramProvider from "next-auth/providers/instagram";
 import TwitterProvider from "next-auth/providers/twitter";
-import { getConvertionToken } from "@/app/lib/authApi";
-import { TokenValidation, BackendToken } from '@/app/types/api.types'
+import { getConvertionToken } from "@/app/_lib/authClient";
+import { TokenValidation, BackendToken } from '@/app/_types/api.types'
 
 declare module "next-auth/jwt" {
     interface JWT {
