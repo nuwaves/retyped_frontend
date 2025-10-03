@@ -12,9 +12,9 @@ interface SearchResultsProps {
   query: string;
   episodes: Episode[];
   podcasts: Podcast[];
-  entities: any[];
+  entities: unknown[];
   isLoading?: boolean;
-  error?: any;
+  error?: unknown;
 }
 
 const styles = {

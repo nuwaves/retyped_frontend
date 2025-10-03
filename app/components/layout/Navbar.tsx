@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useAppSelector } from '@/app/store/hooks';
@@ -45,7 +45,9 @@ export default function Navbar() {
           <Logo />
           {!isAuthPage && (
             <div className={styles.rightSection}>
-              <SearchBar />
+              <Suspense fallback={<div className="flex-1 max-w-[276px]" />}>
+                <SearchBar />
+              </Suspense>
               <AuthButtons />
             </div>
           )}

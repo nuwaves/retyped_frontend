@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useAppDispatch } from '@/app/store/hooks';
 import { setSearchBarFocus } from '@/app/store/features/ui/uiSlice';
+import { useLazySearchQuery } from '@/app/store/services/searchApi';
 
 const styles = {
   container: "flex-1 max-w-[276px]",
@@ -16,11 +17,28 @@ export default function SearchBar() {
   const [query, setQuery] = useState('');
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [triggerSearch] = useLazySearchQuery();
+
+  useEffect(() => {
+    if (pathname === '/search') {
+      const urlQuery = searchParams.get('q') || '';
+      setQuery(urlQuery);
+    }
+  }, [pathname, searchParams]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+    if (!query.trim()) return;
+
+    const trimmedQuery = query.trim();
+    const isOnSearchPage = pathname === '/search';
+
+    if (isOnSearchPage) {
+      triggerSearch({ q: trimmedQuery }, false);
+    } else {
+      router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
     }
   };
 

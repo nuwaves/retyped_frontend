@@ -4,5 +4,5 @@ import { Podcast } from './podcast';
 export interface SearchResponse {
   episodes: Episode[];
   podcasts: Podcast[];
-  entities: any[];
+  entities: unknown[];
 }

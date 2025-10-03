@@ -1,9 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useSearchQuery } from '@/app/store/services/searchApi';
 import SearchResults from './SearchResults';
-import SearchSkeleton from './SearchSkeleton';
 
 interface SearchContainerProps {
   initialQuery: string;
@@ -16,16 +14,10 @@ const styles = {
 };
 
 export default function SearchContainer({ initialQuery }: SearchContainerProps) {
-  const { data, isLoading, isFetching, error, refetch } = useSearchQuery(
+  const { data, isLoading, isFetching, error } = useSearchQuery(
     { q: initialQuery },
     { skip: !initialQuery }
   );
-
-  useEffect(() => {
-    if (initialQuery) {
-      refetch();
-    }
-  }, [initialQuery, refetch]);
 
   if (!initialQuery) {
     return (
