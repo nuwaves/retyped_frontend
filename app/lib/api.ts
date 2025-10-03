@@ -1,3 +1,5 @@
+import { DJANGO_BACKEND } from '@/app/config/env';
+
 export class APIError extends Error {
   constructor(
     public status: number,
@@ -9,7 +11,6 @@ export class APIError extends Error {
   }
 }
 
-
 interface FetchOptions extends RequestInit {
   timeout?: number;
 }
@@ -18,13 +19,11 @@ export async function api<T>(
   endpoint: string,
   options?: FetchOptions
 ): Promise<T> {
-  const backendUrl = process.env.DJANGO_BACKEND;
-
-  if (!backendUrl) {
+  if (!DJANGO_BACKEND) {
     throw new Error('DJANGO_BACKEND environment variable is not set');
   }
 
-  const url = new URL(endpoint, backendUrl);
+  const url = new URL(endpoint, DJANGO_BACKEND);
   const timeout = options?.timeout ?? 30000;
 
   const controller = new AbortController();

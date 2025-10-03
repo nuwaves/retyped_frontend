@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { TokenValidation } from '@/app/types/api.types'
+import { TokenValidation } from '@/app/types/api.types';
+import { DJANGO_BACKEND } from '@/app/config/env';
 
 const authApiClient = axios.create({
-    baseURL: process.env.DJANGO_BACKEND,
+    baseURL: DJANGO_BACKEND,
     headers: {
         'Content-Type': 'application/json',
     },

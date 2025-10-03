@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const BACKEND_URL = process.env.DJANGO_BACKEND || 'http://django-app-alb-2075286004.us-east-1.elb.amazonaws.com';
+import { DJANGO_BACKEND } from '@/app/config/env';
 
 export async function GET(
   request: NextRequest,
@@ -8,12 +7,10 @@ export async function GET(
 ) {
   const { path } = await context.params;
   const pathString = path.join('/');
-  const needsTrailingSlash = request.headers.get('X-Trailing-Slash') === 'true';
   const searchParams = request.nextUrl.searchParams.toString();
-  const url = `${BACKEND_URL}/api/v1/${pathString}${needsTrailingSlash ? '/' : ''}${searchParams ? `?${searchParams}` : ''}`;
+  const url = `${DJANGO_BACKEND}/api/v1/${pathString}/${searchParams ? `?${searchParams}` : ''}`;
 
   console.error('[Proxy GET] Path:', path);
-  console.error('[Proxy GET] Trailing slash header:', needsTrailingSlash);
   console.error('[Proxy GET] Final URL:', url);
 
   try {
@@ -34,8 +31,7 @@ export async function GET(
           debug: {
             url,
             path,
-            needsTrailingSlash,
-            backendUrl: BACKEND_URL
+            backendUrl: DJANGO_BACKEND
           }
         },
         { status: response.status }
