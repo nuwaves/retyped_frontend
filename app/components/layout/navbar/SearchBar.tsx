@@ -33,9 +33,10 @@ export default function SearchBar() {
     if (!query.trim()) return;
 
     const trimmedQuery = query.trim();
-    const isOnSearchPage = pathname === '/search';
+    const currentUrlQuery = searchParams.get('q');
+    const shouldRefetchInPlace = pathname === '/search' && currentUrlQuery === trimmedQuery;
 
-    if (isOnSearchPage) {
+    if (shouldRefetchInPlace) {
       triggerSearch({ q: trimmedQuery }, false);
     } else {
       router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
