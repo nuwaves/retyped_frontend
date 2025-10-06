@@ -36,9 +36,10 @@ export default function SearchPodcastCard({
           <Image
             src={secureImageUrl}
             alt={title}
-            width={75}
-            height={75}
+            fill
             className={styles.image}
+            sizes="75px"
+            loading="lazy"
           />
         ) : (
           <div className={styles.image} style={{ backgroundColor: '#e5e7eb' }} />
