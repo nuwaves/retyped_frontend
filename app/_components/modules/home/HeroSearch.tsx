@@ -11,7 +11,8 @@ const styles = {
   description: "text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-12 px-8",
   searchContainer: "w-full",
   inputWrapper: "flex gap-2",
-  input: "flex-1 h-12 px-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent focus:bg-white transition-colors duration-300 ease-out"
+  input: "flex-1 h-12 px-4 text-[16px] font-normal leading-[24px] tracking-normal border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent focus:bg-white transition-colors duration-300 ease-out lining-nums proportional-nums",
+  inputShadow: "0px 2px 6px 0px #00000008"
 };
 
 export default function HeroSearch() {
@@ -45,6 +46,7 @@ export default function HeroSearch() {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search topics, episodes, keywords...."
               className={styles.input}
+              style={{ boxShadow: styles.inputShadow }}
             />
             <Button 
               type="submit"
