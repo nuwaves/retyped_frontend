@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Episode, Podcast } from '@/app/_types';
 import EpisodeCard from '@/app/_components/cards/EpisodeCard';
-import ShowCard from '@/app/_components/cards/ShowCard';
+import SearchPodcastList from '@/app/(app)/search/components/SearchPodcastList';
 import SearchSkeleton from './SearchSkeleton';
 import { formatDate } from '@/app/_utils/formatters';
 
@@ -154,20 +154,7 @@ export default function SearchResults({ query, episodes, podcasts, isLoading = f
           {podcasts.length > 0 && (
             <div>
               <h2 className="text-xl font-semibold mb-4">Podcasts</h2>
-              <div className={styles.showsGrid}>
-                {podcasts.map((podcast) => (
-                  <ShowCard
-                    key={podcast.id}
-                    title={podcast.name}
-                    description={podcast.description}
-                    imageUrl={podcast.image_url}
-                    categories={podcast.tags || []}
-                    episodeCount={podcast.episode_count}
-                    totalViews={podcast.total_views}
-                    href={`/shows/${podcast.slug}`}
-                  />
-                ))}
-              </div>
+              <SearchPodcastList podcasts={podcasts} />
             </div>
           )}
           {episodes.length > 0 && (
@@ -193,24 +180,13 @@ export default function SearchResults({ query, episodes, podcasts, isLoading = f
       )}
 
       {!isLoading && activeTab === 'podcasts' && (
-        <div className={styles.showsGrid}>
+        <>
           {podcasts.length > 0 ? (
-            podcasts.map((podcast) => (
-              <ShowCard
-                key={podcast.id}
-                title={podcast.name}
-                description={podcast.description}
-                imageUrl={podcast.image_url}
-                categories={podcast.tags || []}
-                episodeCount={podcast.episode_count}
-                totalViews={podcast.total_views}
-                href={`/shows/${podcast.slug}`}
-              />
-            ))
+            <SearchPodcastList podcasts={podcasts} />
           ) : (
             <p className={styles.emptyState}>No podcasts found</p>
           )}
-        </div>
+        </>
       )}
 
       {!isLoading && activeTab === 'episodes' && (
