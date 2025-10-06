@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
       },
     ],
     deviceSizes: [320, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 75, 96, 128, 256, 384],
+    imageSizes: [64, 75, 288, 302],
   },
 };
 

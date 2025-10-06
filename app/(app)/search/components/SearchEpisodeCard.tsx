@@ -2,12 +2,11 @@
 
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 
 interface SearchEpisodeCardProps {
   showName: string;
-  showSlug?: string;
   episodeTitle: string;
   description: string | null;
   duration: string;
@@ -29,7 +28,6 @@ const styles = {
 
 export default function SearchEpisodeCard({
   showName,
-  showSlug,
   episodeTitle,
   description,
   duration,

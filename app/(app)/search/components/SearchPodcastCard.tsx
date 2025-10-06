@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { ensureHttps } from '@/app/_utils/imageUrl';
 import SafeHTML from '@/app/_components/common/SafeHTML';
+import OptimizedImage from '@/app/_components/common/OptimizedImage';
 
 interface SearchPodcastCardProps {
   title: string;
@@ -31,20 +31,16 @@ export default function SearchPodcastCard({
 
   return (
     <Link href={href} className={styles.card}>
-      <div className={styles.imageContainer}>
-        {secureImageUrl ? (
-          <Image
-            src={secureImageUrl}
-            alt={title}
-            fill
-            className={styles.image}
-            sizes="75px"
-            loading="lazy"
-          />
-        ) : (
-          <div className={styles.image} style={{ backgroundColor: '#e5e7eb' }} />
-        )}
-      </div>
+      <OptimizedImage
+        src={secureImageUrl}
+        alt={title}
+        fill
+        sizes="75px"
+        className={styles.image}
+        containerClassName={styles.imageContainer}
+        loading="lazy"
+        rounded
+      />
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
         <SafeHTML html={description} className={styles.description} as="div" />

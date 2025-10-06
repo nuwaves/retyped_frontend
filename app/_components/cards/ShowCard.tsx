@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import Pill from '@/app/_components/common/Pill';
 import Button from '@/app/_components/common/Button';
+import OptimizedImage from '@/app/_components/common/OptimizedImage';
 import { ensureHttps } from '@/app/_utils/imageUrl';
 import { formatCompactNumber } from '@/app/_utils/formatters';
 
@@ -43,21 +43,16 @@ export default function ShowCard({
 
   return (
     <div className={styles.card} style={{ boxShadow: styles.shadow }}>
-      <div className={styles.imageContainer}>
-        {secureImageUrl ? (
-          <Image
-            src={secureImageUrl}
-            alt={title}
-            fill
-            className={styles.image}
-            sizes="(max-width: 640px) 302px, (max-width: 768px) 302px, (max-width: 1024px) 302px, 302px"
-            priority={priority}
-            loading={priority ? 'eager' : 'lazy'}
-          />
-        ) : (
-          <div className={styles.image} style={{ backgroundColor: '#e5e7eb' }} />
-        )}
-      </div>
+      <OptimizedImage
+        src={secureImageUrl}
+        alt={title}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 302px"
+        className={styles.image}
+        containerClassName={styles.imageContainer}
+        priority={priority}
+        loading={priority ? 'eager' : 'lazy'}
+      />
 
       <div className={styles.contentWrapper}>
         {categories && categories.length > 0 && (

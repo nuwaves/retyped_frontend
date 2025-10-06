@@ -1,11 +1,10 @@
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeadphones, faMicrophone, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHeadphones, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import type { Podcast } from '@/app/_types';
-import { formatCompactNumber } from '@/app/_utils/formatters';
 import { ensureHttps } from '@/app/_utils/imageUrl';
 import Pill from '@/app/_components/common/Pill';
 import SafeHTML from '@/app/_components/common/SafeHTML';
+import OptimizedImage from '@/app/_components/common/OptimizedImage';
 
 interface ShowDetailCardProps {
   show: Podcast;
@@ -15,8 +14,8 @@ interface ShowDetailCardProps {
 const styles = {
   container: "bg-white rounded-lg overflow-hidden",
   wrapper: "flex flex-col md:flex-row gap-0 md:gap-6 md:p-6",
-  imageContainer: "flex-shrink-0 w-full md:w-72",
-  image: "w-full h-64 md:h-72 object-cover bg-gray-100",
+  imageContainer: "flex-shrink-0",
+  image: "w-full h-auto md:w-72 md:h-72 object-cover",
   contentWrapper: "flex-1 flex flex-col gap-6 p-4 md:p-0",
   titleWrapper: "flex flex-col gap-1",
   title: "text-[40px] font-bold text-black leading-[150%] tracking-normal lining-nums proportional-nums",
@@ -35,21 +34,16 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <div className={styles.imageContainer}>
-          {secureImageUrl ? (
-            <Image
-              src={secureImageUrl}
-              alt={show.name}
-              width={288}
-              height={288}
-              className={styles.image}
-              sizes="288px"
-              priority
-            />
-          ) : (
-            <div className={styles.image} />
-          )}
-        </div>
+        <OptimizedImage
+          src={secureImageUrl}
+          alt={show.name}
+          width={288}
+          height={288}
+          sizes="288px"
+          className={styles.image}
+          containerClassName={styles.imageContainer}
+          priority
+        />
         
         <div className={styles.contentWrapper}>
           {/* Category pills */}

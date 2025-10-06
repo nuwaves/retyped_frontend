@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import Button from '@/app/_components/common/Button';
+import OptimizedImage from '@/app/_components/common/OptimizedImage';
 import type { Podcast } from '@/app/_types';
 import { formatCompactNumber } from '@/app/_utils/formatters';
 import { ensureHttps } from '@/app/_utils/imageUrl';
@@ -29,18 +29,15 @@ export default function ShowCard({ show }: ShowCardProps) {
       <h3 className={styles.header}>From this Show</h3>
 
       <div className={styles.showInfo}>
-        <div className={styles.showImage}>
-          {secureImageUrl && (
-            <Image
-              src={secureImageUrl}
-              alt={show.name}
-              width={64}
-              height={64}
-              sizes="64px"
-              className="w-full h-full object-cover"
-            />
-          )}
-        </div>
+        <OptimizedImage
+          src={secureImageUrl}
+          alt={show.name}
+          width={64}
+          height={64}
+          sizes="64px"
+          className="w-full h-full object-cover"
+          containerClassName={styles.showImage}
+        />
 
         <div className={styles.showDetails}>
           <h4 className={styles.showTitle}>{show.name}</h4>
