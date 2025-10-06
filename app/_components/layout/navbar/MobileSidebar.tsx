@@ -11,9 +11,9 @@ interface MobileSidebarProps {
 }
 
 const styles = {
-  backdrop: "fixed top-14 right-0 bottom-0 left-0 bg-black/50 z-40",
-  sidebar: "fixed top-14 right-0 bottom-0 left-0 bg-white z-50 overflow-y-auto",
-  content: "flex flex-col gap-6 p-6 max-w-7xl mx-auto",
+  backdrop: "fixed inset-0 top-14 bg-black/20 backdrop-blur-md z-40",
+  sidebar: "fixed top-14 right-0 bottom-0 w-[calc(100%-0.75rem)] bg-white z-50 overflow-y-auto",
+  content: "flex flex-col gap-6 p-6",
   searchWrapper: "w-full",
   authWrapper: "w-full"
 };

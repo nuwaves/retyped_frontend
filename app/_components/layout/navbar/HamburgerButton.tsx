@@ -30,16 +30,18 @@ export default function HamburgerButton({ isOpen, onClick }: HamburgerButtonProp
             rotate: 0,
             y: 0
           }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
         />
         <motion.span
           className={`${styles.line} top-1/2 -translate-y-1/2`}
           animate={isOpen ? {
-            opacity: 0
+            opacity: 0,
+            scale: 0.8
           } : {
-            opacity: 1
+            opacity: 1,
+            scale: 1
           }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] }}
         />
         <motion.span
           className={`${styles.line} bottom-0`}
@@ -50,7 +52,7 @@ export default function HamburgerButton({ isOpen, onClick }: HamburgerButtonProp
             rotate: 0,
             y: 0
           }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
         />
       </div>
     </button>
