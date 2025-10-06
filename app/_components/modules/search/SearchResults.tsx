@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Episode, Podcast } from '@/app/_types';
-import EpisodeCard from '@/app/_components/cards/EpisodeCard';
 import SearchPodcastList from '@/app/(app)/search/components/SearchPodcastList';
+import SearchEpisodeList from '@/app/(app)/search/components/SearchEpisodeList';
 import SearchSkeleton from './SearchSkeleton';
-import { formatDate } from '@/app/_utils/formatters';
 
 interface SearchResultsProps {
   query: string;
@@ -160,20 +159,7 @@ export default function SearchResults({ query, episodes, podcasts, isLoading = f
           {episodes.length > 0 && (
             <div>
               <h2 className="text-xl font-semibold mb-4">Episodes</h2>
-              <div className={styles.episodesGrid}>
-                {episodes.map((episode) => (
-                  <EpisodeCard
-                    key={episode.id}
-                    showName={episode.podcast?.name || ''}
-                    showSlug={episode.podcast?.slug}
-                    episodeTitle={episode.title}
-                    description={episode.description || episode.summary}
-                    duration={episode.duration || '--:--'}
-                    date={formatDate(episode.release_date)}
-                    href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
-                  />
-                ))}
-              </div>
+              <SearchEpisodeList episodes={episodes} />
             </div>
           )}
         </div>
@@ -190,24 +176,13 @@ export default function SearchResults({ query, episodes, podcasts, isLoading = f
       )}
 
       {!isLoading && activeTab === 'episodes' && (
-        <div className={styles.episodesGrid}>
+        <>
           {episodes.length > 0 ? (
-            episodes.map((episode) => (
-              <EpisodeCard
-                key={episode.id}
-                showName={episode.podcast?.name || ''}
-                showSlug={episode.podcast?.slug}
-                episodeTitle={episode.title}
-                description={episode.description || episode.summary}
-                duration={episode.duration || '--:--'}
-                date={formatDate(episode.release_date)}
-                href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
-              />
-            ))
+            <SearchEpisodeList episodes={episodes} />
           ) : (
             <p className={styles.emptyState}>No episodes found</p>
           )}
-        </div>
+        </>
       )}
     </>
   );

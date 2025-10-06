@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ensureHttps } from '@/app/_utils/imageUrl';
+import SafeHTML from '@/app/_components/common/SafeHTML';
 
 interface SearchPodcastCardProps {
   title: string;
@@ -45,7 +46,7 @@ export default function SearchPodcastCard({
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.description}>{description}</p>
+        <SafeHTML html={description} className={styles.description} as="div" />
       </div>
     </Link>
   );
