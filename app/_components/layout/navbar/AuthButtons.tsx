@@ -8,11 +8,11 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import Button from '@/app/_components/common/Button';
 
 const styles = {
-  container: "flex items-center space-x-3",
-  userInfo: "flex items-center gap-2",
+  container: "flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full md:w-auto",
+  userInfo: "flex flex-col md:flex-row md:items-center gap-2 w-full",
   initialsCircle: "w-8 h-8 rounded-full bg-slate-200 text-black flex items-center justify-center font-inter font-medium text-sm select-none",
   email: "font-inter font-normal text-sm leading-6 max-w-[300px] truncate",
-  separator: "font-inter font-normal text-sm leading-6 mx-2 text-slate-200",
+  separator: "hidden md:inline font-inter font-normal text-sm leading-6 mx-2 text-slate-200",
   logoutText: "font-inter font-normal text-sm leading-6 text-slate-900 cursor-pointer hover:opacity-80 transition-opacity"
 };
 
