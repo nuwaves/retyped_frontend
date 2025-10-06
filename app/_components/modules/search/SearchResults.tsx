@@ -12,7 +12,6 @@ interface SearchResultsProps {
   query: string;
   episodes: Episode[];
   podcasts: Podcast[];
-  entities: unknown[];
   isLoading?: boolean;
   error?: unknown;
 }
@@ -32,18 +31,17 @@ const styles = {
   emptyState: "text-center py-12 text-gray-500"
 };
 
-type TabType = 'all' | 'podcasts' | 'episodes' | 'entities';
+type TabType = 'all' | 'podcasts' | 'episodes';
 
-export default function SearchResults({ query, episodes, podcasts, entities, isLoading = false, error }: SearchResultsProps) {
+export default function SearchResults({ query, episodes, podcasts, isLoading = false, error }: SearchResultsProps) {
   const [activeTab, setActiveTab] = useState<TabType>('all');
 
-  const totalResults = episodes.length + podcasts.length + entities.length;
+  const totalResults = episodes.length + podcasts.length;
 
   const tabs = [
     { id: 'all' as TabType, label: 'All', count: totalResults },
     { id: 'podcasts' as TabType, label: 'Podcasts', count: podcasts.length },
     { id: 'episodes' as TabType, label: 'Episodes', count: episodes.length },
-    ...(entities.length > 0 ? [{ id: 'entities' as TabType, label: 'Entities', count: entities.length }] : [])
   ];
 
   return (
@@ -233,12 +231,6 @@ export default function SearchResults({ query, episodes, podcasts, entities, isL
           ) : (
             <p className={styles.emptyState}>No episodes found</p>
           )}
-        </div>
-      )}
-
-      {!isLoading && activeTab === 'entities' && (
-        <div className={styles.emptyState}>
-          <p>Entities will be displayed here soon</p>
         </div>
       )}
     </>

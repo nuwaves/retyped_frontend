@@ -35,7 +35,6 @@ export default function SearchContainer({ initialQuery }: SearchContainerProps) 
         query={initialQuery}
         episodes={data?.episodes || []}
         podcasts={data?.podcasts || []}
-        entities={data?.entities || []}
         isLoading={isLoading || isFetching}
         error={error}
       />
