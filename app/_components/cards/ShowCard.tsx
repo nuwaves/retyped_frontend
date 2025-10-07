@@ -19,14 +19,13 @@ interface ShowCardProps {
 }
 
 const styles = {
-  card: "flex flex-col h-full rounded overflow-hidden",
+  card: "flex flex-col h-full rounded overflow-hidden shadow-md",
   imageContainer: "relative w-full aspect-square bg-gray-200",
   image: "w-full h-full object-cover",
   contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-4 gap-3",
   title: "text-sm font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums",
   description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums",
-  buttonWrapper: "mt-auto",
-  shadow: "0px 4px 6px 0px #00000017"
+  buttonWrapper: "mt-auto"
 };
 
 export default function ShowCard({
@@ -42,17 +41,19 @@ export default function ShowCard({
   const secureImageUrl = ensureHttps(imageUrl);
 
   return (
-    <div className={styles.card} style={{ boxShadow: styles.shadow }}>
-      <OptimizedImage
-        src={secureImageUrl}
-        alt={title}
-        fill
-        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 302px"
-        className={styles.image}
-        containerClassName={styles.imageContainer}
-        priority={priority}
-        loading={priority ? 'eager' : 'lazy'}
-      />
+    <div className={styles.card}>
+      <Link href={href}>
+        <OptimizedImage
+          src={secureImageUrl}
+          alt={title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 302px"
+          className={styles.image}
+          containerClassName={styles.imageContainer}
+          priority={priority}
+          loading={priority ? 'eager' : 'lazy'}
+        />
+      </Link>
 
       <div className={styles.contentWrapper}>
         {categories && categories.length > 0 && (
