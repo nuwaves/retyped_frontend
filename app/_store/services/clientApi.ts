@@ -14,11 +14,21 @@ const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
     ? args.endsWith('/')
     : args.url?.endsWith('/');
 
+  // Get access token from Redux state
+  const state = api.getState();
+  const accessToken = state.auth.backendToken?.access_token;
+
   return fetchBaseQuery({
     baseUrl: '/api/proxy',
     prepareHeaders: (headers) => {
       headers.set('Accept', 'application/json');
       headers.set('Content-Type', 'application/json');
+
+      // Inject bearer token if available
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
+      }
+
       if (hasTrailingSlash) {
         headers.set('X-Trailing-Slash', 'true');
       }
@@ -30,6 +40,6 @@ const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
 export const clientApi = createApi({
   reducerPath: 'api',
   baseQuery: customBaseQuery,
-  tagTypes: ['Episode', 'Podcast', 'User'],
+  tagTypes: ['Episode', 'Podcast', 'User', 'Bookmark', 'Follow'],
   endpoints: () => ({}),
 });

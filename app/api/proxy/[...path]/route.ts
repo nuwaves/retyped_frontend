@@ -13,6 +13,7 @@ const ALLOWED_HEADERS = [
   'content-type',
   'user-agent',
   'x-trailing-slash',
+  'authorization',
 ];
 
 function getForwardHeaders(request: NextRequest): HeadersInit {
@@ -51,10 +52,17 @@ async function proxyRequest(
   }
 
   try {
-    const response = await fetch(url.toString(), {
+    const requestInit: RequestInit = {
       method: request.method,
       headers: getForwardHeaders(request),
-    });
+    };
+
+    // Include body for methods that support it
+    if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+      requestInit.body = await request.text();
+    }
+
+    const response = await fetch(url.toString(), requestInit);
 
     if (!response.ok && isDevelopment) {
       const text = await response.text();
@@ -75,6 +83,34 @@ async function proxyRequest(
 }
 
 export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
+) {
+  return proxyRequest(request, context);
+}
+
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
+) {
+  return proxyRequest(request, context);
+}
+
+export async function PUT(
+  request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
+) {
+  return proxyRequest(request, context);
+}
+
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
+) {
+  return proxyRequest(request, context);
+}
+
+export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ path: string[] }> }
 ) {
