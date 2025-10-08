@@ -12,9 +12,9 @@ interface SectionHeaderProps {
 
 const styles = {
   header: "flex items-center justify-between mb-8",
-  titleSection: "flex items-center gap-3",
-  icon: "text-xl text-slate-900",
-  title: "text-2xl font-bold leading-[115%] tracking-normal align-middle text-slate-900 lining-nums proportional-nums",
+  titleSection: "flex items-center gap-2 lg:gap-3",
+  icon: "text-lg lg:text-xl text-slate-900",
+  title: "text-xl lg:text-2xl font-bold leading-[115%] tracking-normal align-middle text-slate-900 lining-nums proportional-nums",
   viewAll: "text-sm font-medium leading-6 tracking-normal text-black flex items-center"
 };
 
