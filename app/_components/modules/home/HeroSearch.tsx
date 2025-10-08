@@ -5,14 +5,15 @@ import { useRouter } from 'next/navigation';
 import Button from '@/app/_components/common/Button';
 
 const styles = {
-  container: "flex items-center justify-center px-4 py-20",
+  container: "flex items-center justify-center px-4 py-12 lg:py-20",
   wrapper: "max-w-4xl w-full text-center",
-  title: "text-[51px] font-bold leading-[115%] tracking-normal text-center align-middle lining-nums proportional-nums mb-6 px-8 text-slate-900",
-  description: "text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-12 px-8",
-  searchContainer: "w-full",
-  inputWrapper: "flex gap-2",
-  input: "flex-1 h-12 px-4 text-[16px] font-normal leading-[24px] tracking-normal border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent focus:bg-white transition-colors duration-300 ease-out lining-nums proportional-nums",
-  inputShadow: "0px 2px 6px 0px #00000008"
+  title: "text-4xl lg:text-[51px] font-bold leading-[115%] tracking-normal text-center align-middle lining-nums proportional-nums mb-6 px-4 lg:px-8 text-slate-900",
+  description: "text-sm lg:text-base font-normal leading-6 tracking-normal text-center text-gray-600 lining-nums proportional-nums mb-8 lg:mb-12 px-4 lg:px-8",
+  searchContainer: "w-full px-4 lg:px-0",
+  inputWrapper: "flex gap-2 max-w-[732px] mx-auto",
+  input: "flex-1 h-[40px] px-4 text-sm lg:text-[16px] font-normal leading-[24px] tracking-normal border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent focus:bg-white transition-colors duration-300 ease-out lining-nums proportional-nums placeholder:text-sm lg:placeholder:text-base",
+  inputShadow: "0px 2px 6px 0px #00000008",
+  button: "hidden min-[380px]:block !h-[40px] !w-auto lg:!w-[79px] !px-3 lg:!px-0 !py-0"
 };
 
 export default function HeroSearch() {
@@ -30,12 +31,11 @@ export default function HeroSearch() {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <h1 className={styles.title}>
-          Build your podcast library
+          Find shows <br className="min-[500px]:hidden" />you love
         </h1>
         
         <p className={styles.description}>
-          Discover episodes to bookmark, podcasts to follow, and transcript moments to highlight. Search podcasts 
-          and transcripts to build your personalized listening library.
+          Build your personal media library. Follow your favorite people, shows, and topics
         </p>
         
         <form onSubmit={handleSearch} className={styles.searchContainer}>
@@ -44,14 +44,15 @@ export default function HeroSearch() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search topics, episodes, keywords...."
+              placeholder="Search people, shows, topics"
               className={styles.input}
               style={{ boxShadow: styles.inputShadow }}
             />
-            <Button 
+            <Button
               type="submit"
               variant="secondary"
-              size="lg"
+              size="md"
+              className={styles.button}
             >
               Search
             </Button>
