@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo, animate } from 'framer-motion';
 import { useEffect } from 'react';
 import SearchBar from './SearchBar';
 import AuthButtons from './AuthButtons';
@@ -32,7 +32,7 @@ const sidebarVariants = {
     transition: {
       type: 'tween' as const,
       duration: 0.3,
-      ease: 'easeInOut' as const
+      ease: [0.25, 0.1, 0.25, 1] as const
     }
   }
 };
@@ -56,10 +56,25 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
     };
   }, [isOpen]);
 
+  const handleDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (info.offset.x < 0) {
+      x.set(0);
+    }
+  };
+
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 150; // 150px or about 40% of typical mobile screen width
+    if (info.offset.x < 0) {
+      return;
+    }
+    const threshold = 150;
     if (info.offset.x > threshold) {
       onClose();
+    } else {
+      animate(x, 0, {
+        type: "spring",
+        stiffness: 300,
+        damping: 30
+      });
     }
   };
 
@@ -85,14 +100,16 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             className={styles.sidebar}
             style={{ x }}
             drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0, right: 0.5 }}
+            dragConstraints={{ left: 0, right: 300 }}
+            dragElastic={0}
             dragMomentum={false}
+            onDrag={handleDrag}
             onDragEnd={handleDragEnd}
             variants={sidebarVariants}
             initial="closed"
             animate="open"
             exit="closed"
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <div className={styles.content}>
               <div className={styles.searchWrapper}>
