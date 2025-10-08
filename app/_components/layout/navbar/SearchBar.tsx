@@ -7,7 +7,7 @@ import { setSearchBarFocus } from '@/app/_store/features/ui/uiSlice';
 import { useLazySearchQuery } from '@/app/_store/services/searchApi';
 
 const styles = {
-  container: "flex-1 max-w-[276px]",
+  container: "flex-1 w-full md:max-w-[276px]",
   wrapper: "relative",
   input: "w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-transparent",
   button: "absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 const styles = {
-  container: 'flex flex-col gap-12'
+  container: 'flex flex-col gap-4'
 };
 
 export default async function Home() {
