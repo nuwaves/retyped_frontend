@@ -6,6 +6,7 @@ import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { motion } from 'framer-motion';
 import Button from '@/app/_components/common/Button';
+import { useFollow } from '@/app/_hooks/useFollow';
 
 interface ShowActionButtonsProps {
   showId: string;
@@ -16,27 +17,19 @@ const styles = {
   container: "flex gap-4 items-center"
 };
 
-export default function ShowActionButtons({ showId, initialFollowing = false }: ShowActionButtonsProps) {
-  const [isFollowing, setIsFollowing] = useState(initialFollowing);
-  const [isLoading, setIsLoading] = useState(false);
+export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
+  const { isFollowing, toggleFollow, isLoading } = useFollow('podcast', parseInt(showId));
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleFollowClick = async () => {
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
+    // Trigger animation before API call
     if (!isFollowing) {
       setIsAnimating(true);
       setTimeout(() => setIsAnimating(false), 1200);
     }
-    
-    setIsFollowing(!isFollowing);
-    setIsLoading(false);
-    
-    // In production, this would make an API call
-    console.log(`${isFollowing ? 'Unfollowed' : 'Followed'} show with ID: ${showId}`);
+
+    // Call the real API
+    await toggleFollow();
   };
 
   const handleClaimClick = () => {

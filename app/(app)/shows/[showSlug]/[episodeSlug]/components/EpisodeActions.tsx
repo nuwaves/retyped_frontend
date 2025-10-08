@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
 import Button from '@/app/_components/common/Button';
+import { useBookmark } from '@/app/_hooks/useBookmark';
 
 interface EpisodeActionsProps {
   episodeId: string;
@@ -15,8 +15,8 @@ const styles = {
   actions: "flex items-center gap-2"
 };
 
-export default function EpisodeActions({ }: EpisodeActionsProps) {
-  const [isSaved, setIsSaved] = useState(false);
+export default function EpisodeActions({ episodeId }: EpisodeActionsProps) {
+  const { isBookmarked, toggleBookmark, isLoading } = useBookmark('episode', parseInt(episodeId));
   
   const handleShare = async () => {
     if (navigator.share) {
@@ -38,25 +38,26 @@ export default function EpisodeActions({ }: EpisodeActionsProps) {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => setIsSaved(!isSaved)}
-        aria-label={isSaved ? "Unsave episode" : "Save episode"}
+        onClick={toggleBookmark}
+        disabled={isLoading}
+        aria-label={isBookmarked ? "Unsave episode" : "Save episode"}
         className="!p-3 relative"
       >
         <AnimatePresence mode="wait">
           <motion.div
-            key={isSaved ? 'saved' : 'unsaved'}
+            key={isBookmarked ? 'saved' : 'unsaved'}
             className="flex items-center justify-center"
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ 
-              scale: 1, 
+            animate={{
+              scale: 1,
               opacity: 1,
               transition: {
                 duration: 0.2,
                 ease: "easeOut"
               }
             }}
-            exit={{ 
-              scale: 0.8, 
+            exit={{
+              scale: 0.8,
               opacity: 0,
               transition: {
                 duration: 0.15,
@@ -65,9 +66,9 @@ export default function EpisodeActions({ }: EpisodeActionsProps) {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            <FontAwesomeIcon 
-              icon={isSaved ? faBookmark : faBookmarkRegular} 
-              className={`w-5 h-5 transition-colors duration-200 ${isSaved ? 'text-blue-500' : 'text-gray-500'}`}
+            <FontAwesomeIcon
+              icon={isBookmarked ? faBookmark : faBookmarkRegular}
+              className={`w-5 h-5 transition-colors duration-200 ${isBookmarked ? 'text-blue-500' : 'text-gray-500'}`}
             />
           </motion.div>
         </AnimatePresence>

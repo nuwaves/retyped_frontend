@@ -11,7 +11,7 @@ const authApiClient = axios.create({
 
 export const getConvertionToken = async (data: TokenValidation) => {
     try {
-        const response = await authApiClient.post('/auth/convert-token', data);
+        const response = await authApiClient.post('/auth/convert-token/', data);
         return response.data;
     } catch (error) {
         console.error('Failed token convertion:', error);
