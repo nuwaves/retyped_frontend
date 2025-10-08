@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { DJANGO_BACKEND } from '@/app/_config/env';
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -41,6 +42,24 @@ const nextConfig: NextConfig = {
     'WhatsApp',
     'TelegramBot',
   ].join('|')),
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/sitemap.xml',
+          destination: `${DJANGO_BACKEND}/sitemap.xml`,
+        },
+        {
+          source: '/sitemap-episodes:id.xml',
+          destination: `${DJANGO_BACKEND}/sitemap-episodes:id.xml`,
+        },
+        {
+          source: '/sitemap-podcasts:id.xml',
+          destination: `${DJANGO_BACKEND}/sitemap-podcasts:id.xml`,
+        }
+      ]
+    }
+  }
 };
 
 export default nextConfig;
