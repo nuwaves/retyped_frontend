@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import BackNavigation from '@/app/_components/common/BackNavigation';
 import InfiniteEpisodesList from './components/InfiniteEpisodesList';
 import { Episode, PaginatedResponse } from '@/app/_types';
@@ -23,41 +22,8 @@ export default async function NewEpisodesPage() {
     { count: 0, next: null, previous: null, results: [] }
   );
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'New Episodes',
-    description: 'Latest podcast episodes on Retyped',
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/new-episodes`,
-    numberOfItems: initialData.count,
-    itemListElement: initialData.results.slice(0, 10).map((episode, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'PodcastEpisode',
-        name: episode.title,
-        description: episode.description,
-        datePublished: episode.release_date,
-        duration: episode.duration,
-        partOfSeries: {
-          '@type': 'PodcastSeries',
-          name: episode.podcast?.name || 'Unknown Podcast'
-        },
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${episode.podcast?.slug}/${episode.slug}`,
-      }
-    }))
-  };
-
   return (
     <>
-      <Script
-        id="new-episodes-structured-data"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(structuredData)}
-      </Script>
-
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <BackNavigation href="/" label="Home" />
 
