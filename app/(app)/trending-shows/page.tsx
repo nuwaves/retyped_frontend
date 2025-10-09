@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import BackNavigation from '@/app/_components/common/BackNavigation';
 import InfiniteShowsGrid from './components/InfiniteShowsGrid';
 import { Podcast, PaginatedResponse } from '@/app/_types';
@@ -23,35 +22,8 @@ export default async function TrendingShowsPage() {
     { count: 0, next: null, previous: null, results: [] }
   );
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Trending Podcasts',
-    description: 'Most popular podcasts trending on Retyped',
-    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/trending-shows`,
-    numberOfItems: initialData.count,
-    itemListElement: initialData.results.slice(0, 10).map((show, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'PodcastSeries',
-        name: show.name,
-        description: show.description,
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${show.slug}`,
-      }
-    }))
-  };
-
   return (
     <>
-      <Script
-        id="trending-shows-structured-data"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(structuredData)}
-      </Script>
-
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <BackNavigation href="/" label="Home" />
 

@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BackNavigation from "@/app/_components/common/BackNavigation";
@@ -94,65 +93,6 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   };
 }
 
-// Generate JSON-LD structured data for SEO
-function generateStructuredData(show: Podcast, episode: Episode) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "PodcastEpisode",
-    "name": episode.title,
-    "description": episode.description,
-    "datePublished": episode.release_date,
-    "duration": episode.duration || "PT0S",
-    "episodeNumber": episode.episode_number || 1,
-    "partOfSeries": {
-      "@type": "PodcastSeries",
-      "name": show.name,
-      "url": `https://retyped.xyz/shows/${show.slug}`
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Retyped",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://retyped.xyz/logo.png"
-      }
-    },
-    "url": `https://retyped.xyz/shows/${show.slug}/${episode.slug}`,
-    "audio": episode.raw_audio_url ? {
-      "@type": "AudioObject",
-      "contentUrl": episode.raw_audio_url,
-      "duration": episode.duration || "PT0S"
-    } : undefined
-  };
-}
-
-// Breadcrumb structured data for better navigation in search results
-function generateBreadcrumbData(show: Podcast, episode: Episode) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://retyped.xyz"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": show.name,
-        "item": `https://retyped.xyz/shows/${show.slug}`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": episode.title,
-        "item": `https://retyped.xyz/shows/${show.slug}/${episode.slug}`
-      }
-    ]
-  };
-}
 
 export default async function EpisodePage({ params }: EpisodePageProps) {
   const { showSlug, episodeSlug } = await params;
@@ -179,26 +119,8 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
   const session = await getServerSession(authOptions);
   const isAuthenticated = !!session?.backendToken;
 
-  const structuredData = generateStructuredData(show, episode);
-  const breadcrumbData = generateBreadcrumbData(show, episode);
-
   return (
     <>
-      <Script
-        id="podcast-episode-structured-data"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(structuredData)}
-      </Script>
-      <Script
-        id="breadcrumb-structured-data"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(breadcrumbData)}
-      </Script>
-
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
 
