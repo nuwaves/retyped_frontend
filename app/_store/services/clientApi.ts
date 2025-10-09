@@ -10,17 +10,20 @@ import { clearAuthToken } from '@/app/_store/features/auth/authSlice';
  * TODO: Consider setting APPEND_SLASH=False in Django to avoid this workaround.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const customBaseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
-> = async(args: any, api: any, extraOptions: any) => {
+> = 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async(args: any, api: any, extraOptions: any) => {
   const hasTrailingSlash = typeof args === 'string'
     ? args.endsWith('/')
     : args.url?.endsWith('/');
   const state = api.getState();
   const accessToken = state.auth.backendToken?.access_token;
-  let result = await fetchBaseQuery({
+  const result = await fetchBaseQuery({
     baseUrl: '/api/proxy',
     prepareHeaders: (headers) => {
       headers.set('Accept', 'application/json');
