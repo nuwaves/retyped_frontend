@@ -77,6 +77,8 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
     cachedScrollPosition: cachedData?.scrollPosition,
   });
 
+  const LOAD_MORE_LIMIT = 10;
+
   const loadMore = useCallback(async () => {
     if (isLoading || !hasMore) return;
 
@@ -85,7 +87,7 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
 
     try {
       const result = await getNewEpisodes({
-        limit: 10,
+        limit: LOAD_MORE_LIMIT,
         offset
       }).unwrap();
 
@@ -135,11 +137,11 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
         {episodes.length > 0 && (
           <motion.div className={styles.list}>
             {episodes.map((episode, index) => {
-              // Determine if this card should animate
               const isNewCard = index >= lastLoadIndex && isExpanding;
-              const shouldAnimate = isInitialLoad || isNewCard;
+              const isInInitialBatch = isInitialLoad && index < LOAD_MORE_LIMIT;
+              const shouldAnimate = isInInitialBatch || isNewCard;
               const cardDelay = shouldAnimate
-                ? isInitialLoad
+                ? isInInitialBatch
                   ? index * 0.08
                   : (index - lastLoadIndex) * 0.08
                 : 0;
