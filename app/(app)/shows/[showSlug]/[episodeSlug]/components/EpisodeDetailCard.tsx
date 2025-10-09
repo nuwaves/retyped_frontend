@@ -56,10 +56,10 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <span>{listenCount}</span>
         </div>
       </div>
-      {episode.raw_audio_url == null &&
+      {episode.raw_audio_url != null &&
         <div className={styles.titleSection}>
           <div className={styles.statItem}>
-            <AudioPlayer 
+            <AudioPlayer
               src={episode.raw_audio_url}
               autoPlay={false}
               showSkipControls={true}
