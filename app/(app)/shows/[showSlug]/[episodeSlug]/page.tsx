@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   }
   
   const episodeTitle = `Retyped summary of ${episode.title}`;
-  const metaDescription = episode.summary || `Listen to ${episode.title} from ${show.name} summarized by Retyped.`;
+  const metaDescription = episode.summary || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
 
   return {
     title: `${episodeTitle} | Retyped`,
