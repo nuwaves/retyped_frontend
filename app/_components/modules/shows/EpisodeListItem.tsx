@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import type { Episode } from '@/app/_types';
@@ -11,7 +12,9 @@ interface EpisodeCardProps {
 }
 
 const styles = {
-  container: "flex flex-col gap-2 p-6 bg-white rounded-lg hover:shadow-md transition-shadow",
+  container: "flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow",
+  imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100",
+  content: "flex flex-col gap-2 flex-1 min-w-0",
   header: "flex items-center gap-2",
   title: "text-lg font-bold text-black leading-6",
   newBadge: "flex-shrink-0",
@@ -32,8 +35,24 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
   };
 
   return (
-    <Link href={`/shows/${episode.podcast?.slug}/${episode.slug}`} className="block">
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <Link
+        href={`/shows/${episode.podcast?.slug}`}
+        className={styles.imageWrapper}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {episode.podcast?.image_url && (
+          <Image
+            src={episode.podcast.image_url}
+            alt={episode.podcast.name || 'Podcast'}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 64px, 80px"
+          />
+        )}
+      </Link>
+
+      <Link href={`/shows/${episode.podcast?.slug}/${episode.slug}`} className={styles.content}>
         <div className={styles.header}>
           <h3 className={styles.title}>{episode.title}</h3>
           {isNewEpisode() && (
@@ -53,7 +72,7 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
           <span className={styles.statSeparator}>•</span>
           <span>{formatDate(episode.release_date, true)}</span>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

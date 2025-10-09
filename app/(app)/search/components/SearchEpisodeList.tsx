@@ -15,11 +15,13 @@ export default function SearchEpisodeList({ episodes }: SearchEpisodeListProps) 
         <SearchEpisodeCard
           key={episode.id}
           showName={episode.podcast?.name || ''}
+          showSlug={episode.podcast?.slug}
           episodeTitle={episode.title}
           description={episode.description || episode.summary}
           duration={episode.duration || '--:--'}
           date={formatDate(episode.release_date)}
           href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+          imageUrl={episode.podcast?.image_url}
         />
       ))}
     </div>

@@ -13,8 +13,8 @@ interface SearchPodcastCardProps {
 }
 
 const styles = {
-  card: "flex gap-3 bg-white rounded p-3 hover:shadow-md transition-shadow",
-  imageContainer: "relative w-[75px] h-[75px] flex-shrink-0",
+  card: "flex gap-3 bg-white rounded p-4 lg:p-6 hover:shadow-md transition-shadow",
+  imageContainer: "relative w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0",
   image: "w-full h-full object-cover rounded",
   content: "flex flex-col justify-center gap-2 flex-1 min-w-0",
   title: "text-sm font-bold leading-[115%] tracking-normal line-clamp-1",
@@ -35,7 +35,7 @@ export default function SearchPodcastCard({
         src={secureImageUrl}
         alt={title}
         fill
-        sizes="75px"
+        sizes="(max-width: 1024px) 64px, 80px"
         className={styles.image}
         containerClassName={styles.imageContainer}
         loading="lazy"
