@@ -32,21 +32,21 @@ export default function LoginSection() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const errorMessages = {
-    'Configuration': 'Authentication service configuration error. Please try again.',
-    'AccessDenied': 'Access denied. Please check your permissions.',
-    'Verification': 'Email verification required. Please check your email.',
-    'Default': 'Authentication failed. Please try again.',
-    'BackendConnection': 'Unable to connect to authentication service. Please try again later.',
-    'TokenConversion': 'Authentication successful, but service connection failed. Please contact support.'
-  };
-
   useEffect(() => {
+    const errorMessages = {
+      'Configuration': 'Authentication service configuration error. Please try again.',
+      'AccessDenied': 'Access denied. Please check your permissions.',
+      'Verification': 'Email verification required. Please check your email.',
+      'Default': 'Authentication failed. Please try again.',
+      'BackendConnection': 'Unable to connect to authentication service. Please try again later.',
+      'TokenConversion': 'Authentication successful, but service connection failed. Please contact support.'
+    };
+
     const error = searchParams.get('error');
     if (error) {
       setErrorMessage(errorMessages[error as keyof typeof errorMessages] || errorMessages.Default);
     }
-  }, [searchParams, errorMessages]);
+  }, [searchParams]);
 
   const handleSocialLogin = async (provider: string) => {
     try {
