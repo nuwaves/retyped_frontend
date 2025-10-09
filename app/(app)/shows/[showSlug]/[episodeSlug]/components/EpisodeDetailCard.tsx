@@ -5,6 +5,7 @@ import type { Episode, Podcast } from '@/app/_types';
 import Pill from '@/app/_components/common/Pill';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
+import AudioPlayer from './AudioPlayer';
 import { formatDate } from '@/app/_utils/formatters';
 
 interface EpisodeDetailCardProps {
@@ -55,7 +56,17 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <span>{listenCount}</span>
         </div>
       </div>
-      
+      {episode.raw_audio_url != null &&
+        <div className={styles.titleSection}>
+          <div className={styles.statItem}>
+            <AudioPlayer
+              src={episode.raw_audio_url}
+              autoPlay={false}
+              showSkipControls={true}
+            />
+          </div>
+        </div>
+      }
       <div className={styles.topics}>
         {topics.map((topic, index) => (
           <Link 
