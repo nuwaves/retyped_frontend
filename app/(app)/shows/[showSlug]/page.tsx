@@ -7,7 +7,6 @@ import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/_components/modules/shows/EpisodesList";
 import { api } from "@/app/_lib/serverApi";
 import { Episode, PaginatedResponse, Podcast } from "@/app/_types";
-import { sanitize } from "@/app/_utils/sanitizeHtml";
 
 export const revalidate = 3600;
 
@@ -25,17 +24,15 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     };
   }
 
-  const cleanDescription = sanitize(show.description, {
-    allowedTags: [],
-    allowedAttributes: {}
-  }).trim();
+  const metaTitle = `Retyped summaries of ${show.name}`;
+  const metaDescription = `Explore AI-generated summaries of ${show.name} episodes on Retyped. Get quick insights and key takeaways from every episode.`;
 
   return {
-    title: `${show.name} | Retyped`,
-    description: cleanDescription,
+    title: `${metaTitle} | Retyped`,
+    description: metaDescription,
     openGraph: {
-      title: show.name,
-      description: cleanDescription,
+      title: metaTitle,
+      description: metaDescription,
       type: 'website',
       siteName: 'Retyped',
       images: [
@@ -47,8 +44,8 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
-      title: show.name,
-      description: cleanDescription,
+      title: metaTitle,
+      description: metaDescription,
       images: [show.image_url || ''],
     },
     alternates: {
