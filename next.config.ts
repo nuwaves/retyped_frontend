@@ -42,24 +42,23 @@ const nextConfig: NextConfig = {
     'WhatsApp',
     'TelegramBot',
   ].join('|')),
-  async redirects() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: `${DJANGO_BACKEND}/sitemap.xml`,
-        permanent: false,
-      },
-      {
-        source: '/sitemap-episodes:id.xml',
-        destination: `${DJANGO_BACKEND}/sitemap-episodes:id.xml`,
-        permanent: false,
-      },
-      {
-        source: '/sitemap-podcasts:id.xml',
-        destination: `${DJANGO_BACKEND}/sitemap-podcasts:id.xml`,
-        permanent: false,
-      }
-    ]
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/sitemap.xml',
+          destination: `${DJANGO_BACKEND}/sitemap.xml`,
+        },
+        {
+          source: '/sitemap-episodes:id.xml',
+          destination: `${DJANGO_BACKEND}/sitemap-episodes:id.xml`,
+        },
+        {
+          source: '/sitemap-podcasts:id.xml',
+          destination: `${DJANGO_BACKEND}/sitemap-podcasts:id.xml`,
+        }
+      ]
+    }
   }
 };
 
