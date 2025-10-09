@@ -64,6 +64,8 @@ export const authOptions = {
                     const backend_token: BackendToken = {
                         access_token: convertion_data.access_token,
                         refresh_token: convertion_data.refresh_token,
+                        expires_in: convertion_data.expires_in,
+                        token_created_at: convertion_data.token_created_at,
                         user: convertion_data.user ?? {}
                     }
                     token.backendToken = backend_token;

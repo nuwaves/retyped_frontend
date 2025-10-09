@@ -63,10 +63,26 @@ async function proxyRequest(
     }
 
     const response = await fetch(url.toString(), requestInit);
+    const proxyResponse = response.clone()
 
     if (!response.ok && isDevelopment) {
-      const text = await response.text();
+      const text = await proxyResponse.text();
       console.error(`Backend ${response.status}:`, text.substring(0, 200));
+    }
+
+    // Handle 401 Unauthorized - add custom header to signal client to clear session
+    if (response.status === 401) {
+      const responseHeaders = new Headers(response.headers);
+      responseHeaders.set('X-Auth-Invalid', 'true');
+
+      if (isDevelopment) {
+        console.log('[Proxy] 401 Unauthorized - Added X-Auth-Invalid header');
+      }
+
+      return NextResponse.json(
+        { error: 'Not authorized' },
+        { status: 401 }
+      );
     }
 
     return new Response(response.body, {

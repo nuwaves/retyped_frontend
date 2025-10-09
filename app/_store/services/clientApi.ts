@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError,} from '@reduxjs/toolkit/query'
+import { signOut } from 'next-auth/react';
+import { clearAuthToken } from '@/app/_store/features/auth/authSlice';
 /**
  * Custom base query that preserves trailing slashes for Django URLs.
  * fetchBaseQuery normalizes URLs and removes trailing slashes, but Django requires them.
@@ -8,17 +10,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
  * TODO: Consider setting APPEND_SLASH=False in Django to avoid this workaround.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
+const customBaseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async(args: any, api: any, extraOptions: any) => {
   const hasTrailingSlash = typeof args === 'string'
     ? args.endsWith('/')
     : args.url?.endsWith('/');
-
-  // Get access token from Redux state
   const state = api.getState();
   const accessToken = state.auth.backendToken?.access_token;
-
-  return fetchBaseQuery({
+  let result = await fetchBaseQuery({
     baseUrl: '/api/proxy',
     prepareHeaders: (headers) => {
       headers.set('Accept', 'application/json');
@@ -28,13 +30,19 @@ const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
       if (accessToken) {
         headers.set('Authorization', `Bearer ${accessToken}`);
       }
-
       if (hasTrailingSlash) {
         headers.set('X-Trailing-Slash', 'true');
       }
       return headers;
     },
   })(args, api, extraOptions);
+  if (result.error && result.error.status === 401) {
+    // If we get a 401 http from backend we log out the user and clear the session
+    // ToDO: some feedback to the user
+    await signOut({ redirect: false });
+    api.dispatch(clearAuthToken());
+  }
+  return result;
 };
 
 export const clientApi = createApi({
