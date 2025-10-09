@@ -12,7 +12,7 @@ interface SectionHeaderProps {
 
 const styles = {
   header: "flex items-center justify-between mb-8",
-  titleSection: "flex items-center gap-2 lg:gap-3",
+  titleSection: "flex items-center gap-2 lg:gap-3 hover:opacity-70 transition-opacity cursor-pointer",
   icon: "text-lg lg:text-xl text-slate-900",
   title: "text-xl lg:text-2xl font-bold leading-[115%] tracking-normal align-middle text-slate-900 lining-nums proportional-nums",
   viewAll: "text-sm font-medium leading-6 tracking-normal text-black flex items-center"
@@ -26,10 +26,10 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className={styles.header}>
-      <div className={styles.titleSection}>
+      <a href={viewAllLink} className={styles.titleSection}>
         <FontAwesomeIcon icon={icon} className={styles.icon} />
         <h2 className={styles.title}>{title}</h2>
-      </div>
+      </a>
       <a href={viewAllLink} className={styles.viewAll}>
         {viewAllText} <FontAwesomeIcon icon={faArrowRight} className="ml-1 text-xs" />
       </a>
