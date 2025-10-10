@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import type { ReactElement } from 'react'
 import type H5AudioPlayerType from 'react-h5-audio-player'
+import { RHAP_UI } from 'react-h5-audio-player'
 import 'react-h5-audio-player/lib/styles.css'
 import './audio-player.css'
 
@@ -34,12 +34,12 @@ export default function AudioPlayer({ src, className, ...props }: AudioPlayerPro
       showSkipControls={false}
       showJumpControls={true}
       customProgressBarSection={[
-        'PROGRESS_BAR',
-        'CURRENT_TIME',
+        RHAP_UI.PROGRESS_BAR,
+        RHAP_UI.CURRENT_TIME,
       ]}
       customControlsSection={[
-        'MAIN_CONTROLS',
-        'VOLUME_CONTROLS',
+        RHAP_UI.MAIN_CONTROLS,
+        RHAP_UI.VOLUME_CONTROLS,
       ]}
       customAdditionalControls={[]}
       progressJumpSteps={{ backward: 5000, forward: 5000 }}
