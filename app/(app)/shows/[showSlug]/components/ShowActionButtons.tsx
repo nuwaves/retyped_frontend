@@ -85,7 +85,7 @@ export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
         variant="outline"
         size="md"
       >
-        Claim Podcast
+        Claim Show
       </Button>
     </div>
   );

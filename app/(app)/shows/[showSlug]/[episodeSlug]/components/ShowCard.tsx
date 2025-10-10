@@ -55,7 +55,7 @@ export default function ShowCard({ show }: ShowCardProps) {
           </Button>
         </Link>
         <Button variant="outline" size="md" fullWidth>
-          Claim Podcast
+          Claim Show
         </Button>
       </div>
     </div>

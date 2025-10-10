@@ -35,7 +35,6 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        {/* Image - always first */}
         <OptimizedImage
           src={secureImageUrl}
           alt={show.name}
@@ -47,9 +46,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
           priority
         />
 
-        {/* Tags and Title - second on mobile, hidden on desktop */}
         <div className={styles.headerContent}>
-          {/* Category pills */}
           {show.tags && show.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {show.tags.map(tag => (
@@ -60,16 +57,12 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
             </div>
           )}
 
-          {/* Title and author */}
           <div className={styles.titleWrapper}>
             <h1 className={styles.title}>{show.name}</h1>
-            {/* {show.author && <p className={styles.author}>By {show.author}</p>} */}
           </div>
         </div>
 
-        {/* Content column - third on mobile, second on desktop */}
         <div className={styles.contentColumn}>
-          {/* Tags - visible on desktop */}
           {show.tags && show.tags.length > 0 && (
             <div className="hidden md:flex flex-wrap gap-1">
               {show.tags.map(tag => (
@@ -80,17 +73,13 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
             </div>
           )}
 
-          {/* Title - visible on desktop */}
           <div className={`hidden md:block ${styles.titleWrapper}`}>
             <h1 className={styles.title}>{show.name}</h1>
-            {/* {show.author && <p className={styles.author}>By {show.author}</p>} */}
           </div>
 
-          {/* Description, stats and buttons */}
           <div className={styles.descriptionWrapper}>
             <SafeHTML html={show.description} className={styles.description} />
 
-            {/* TODO: Backend needs to provide total_views and episode_count in podcast detail endpoint */}
             <div className={styles.statsContainer}>
               <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faHeadphones} className={styles.statIcon} />
@@ -105,17 +94,8 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
                   - Episodes
                 </span>
               </div>
-
-              {/* TODO: Add releaseFrequency field to backend */}
-              {/* <div className={styles.statItem}>
-                <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
-                <span className={styles.statText}>
-                  -
-                </span>
-              </div> */}
             </div>
 
-            {/* Action buttons slot - below stats */}
             {children}
           </div>
         </div>
