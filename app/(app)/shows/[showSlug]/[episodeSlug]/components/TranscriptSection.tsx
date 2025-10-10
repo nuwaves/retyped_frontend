@@ -28,8 +28,9 @@ const styles = {
   speaker: "text-base font-normal leading-6 text-gray-900",
   gradualBlurSection: "relative select-none pointer-events-none pb-6",
   gradualBlurContent: "relative",
-  fadeOverlay: "absolute inset-0 bg-gradient-to-b from-transparent from-[20%] via-white/30 via-[60%] to-white pointer-events-none",
-  authPrompt: "text-center w-full px-6 pb-6 pt-6",
+  blurOverlay: "absolute -inset-x-6 inset-y-0 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_20%,black_80%,black_100%)] pointer-events-none",
+  fadeOverlay: "absolute -inset-x-6 inset-y-0 bg-gradient-to-b from-transparent from-[20%] via-white/30 via-[60%] to-white pointer-events-none",
+  authPrompt: "text-center w-full pb-6 mx-auto max-w-md mb-12",
   lockIcon: "text-gray-400 text-sm mb-4",
   authTitle: "text-sm font-normal leading-[22px] mb-2 text-gray-900",
   authDescription: "text-sm font-normal leading-[22px] text-gray-600 mb-6",
@@ -97,6 +98,7 @@ export default function TranscriptSection({ transcript, scriptTranscript, isAuth
                 ))}
               </div>
             </div>
+            <div className={styles.blurOverlay} />
             <div className={styles.fadeOverlay} />
           </div>
 
