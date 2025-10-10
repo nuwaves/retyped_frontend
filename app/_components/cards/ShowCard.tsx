@@ -19,13 +19,14 @@ interface ShowCardProps {
 }
 
 const styles = {
-  card: "flex flex-col h-full rounded overflow-hidden shadow-md",
-  imageContainer: "relative w-full aspect-square bg-gray-200",
+  card: "relative flex flex-row lg:flex-col gap-3 lg:gap-0 bg-white rounded p-4 lg:p-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden h-full",
+  imageContainer: "relative flex-shrink-0 w-20 h-20 lg:w-full lg:h-0 lg:pb-[100%] rounded lg:rounded-none bg-gray-200",
+  imageWrapper: "lg:absolute lg:inset-0 w-full h-full",
   image: "w-full h-full object-cover",
-  contentWrapper: "flex flex-col flex-grow bg-white px-4 pt-4 pb-4 gap-3",
-  title: "text-sm font-bold leading-[115%] tracking-normal align-middle lining-nums proportional-nums",
-  description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums",
-  buttonWrapper: "mt-auto"
+  contentWrapper: "relative flex flex-col gap-2 lg:gap-3 flex-1 min-w-0 lg:px-4 lg:pt-4 lg:pb-4",
+  title: "text-base lg:text-sm font-bold line-clamp-2 lg:leading-[115%] relative z-20",
+  description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums relative z-20",
+  buttonWrapper: "mt-2 lg:mt-auto relative z-20"
 };
 
 export default function ShowCard({
@@ -42,22 +43,29 @@ export default function ShowCard({
 
   return (
     <div className={styles.card}>
-      <Link href={href}>
-        <OptimizedImage
-          src={secureImageUrl}
-          alt={title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 302px"
-          className={styles.image}
-          containerClassName={styles.imageContainer}
-          priority={priority}
-          loading={priority ? 'eager' : 'lazy'}
-        />
+      <Link
+        href={href}
+        className="absolute inset-0 lg:hidden z-10"
+        aria-label={`View ${title}`}
+      />
+
+      <Link href={href} className={`${styles.imageContainer} relative z-20`}>
+        <div className={styles.imageWrapper}>
+          <OptimizedImage
+            src={secureImageUrl}
+            alt={title}
+            fill
+            sizes="(max-width: 1024px) 80px, (max-width: 1280px) 45vw, (max-width: 1536px) 30vw, 25vw"
+            className={styles.image}
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+          />
+        </div>
       </Link>
 
       <div className={styles.contentWrapper}>
         {categories && categories.length > 0 && (
-          <div className="mb-2 flex flex-wrap gap-1 max-h-[20px] overflow-hidden">
+          <div className="hidden lg:flex flex-wrap gap-1 mb-2 max-h-[20px] overflow-hidden relative z-20">
             {categories.map((category, index) => (
               <Pill key={index} size="xs" variant="filled">
                 {category.name}
@@ -70,14 +78,15 @@ export default function ShowCard({
 
         <p className={styles.description}>{description}</p>
 
+        <div className="flex items-center gap-2 text-xs font-normal text-gray-500 relative z-20">
+          <FontAwesomeIcon icon={faMicrophone} className="text-gray-400 text-xs" />
+          <span>{episodeCount} ep</span>
+          <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 text-xs ml-1" />
+          <span>{formatCompactNumber(totalViews)}</span>
+        </div>
+
         <div className={styles.buttonWrapper}>
-          <div className="flex items-center gap-2 text-xs font-normal text-gray-500 mb-3">
-            <FontAwesomeIcon icon={faMicrophone} className="text-gray-400" />
-            <span>{episodeCount} ep</span>
-            <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 ml-2" />
-            <span>{formatCompactNumber(totalViews)}</span>
-          </div>
-          <Link href={href} className="w-full">
+          <Link href={href} className="hidden lg:block w-full relative z-20">
             <Button variant="primary" size="md" fullWidth>
               Explore Show
             </Button>

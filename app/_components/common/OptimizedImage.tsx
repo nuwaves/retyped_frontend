@@ -50,8 +50,12 @@ export default function OptimizedImage({
     );
   }
 
+  const wrapperClass = fill && !containerClassName
+    ? 'relative w-full h-full'
+    : `relative ${containerClassName}`;
+
   return (
-    <div className={`relative ${containerClassName}`}>
+    <div className={wrapperClass}>
       {isLoading && !hasError && (
         <ImageSkeleton
           className="absolute inset-0 w-full h-full"
