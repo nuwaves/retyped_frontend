@@ -12,7 +12,7 @@ interface ShowCardProps {
 
 const styles = {
   container: "bg-white rounded-lg p-6",
-  header: "text-sm font-bold leading-6 text-slate-900 mb-4",
+  header: "text-base font-bold leading-6 text-slate-900 mb-4",
   showInfo: "flex gap-4 mb-6",
   showImage: "w-16 h-16 flex-shrink-0 overflow-hidden bg-gradient-to-br from-purple-400 to-blue-500",
   showDetails: "flex flex-col justify-center",

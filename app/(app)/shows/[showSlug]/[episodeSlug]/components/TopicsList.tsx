@@ -19,7 +19,7 @@ const styles = {
 
 export default function TopicsList({ topics }: TopicsListProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [shouldShowButton, setShouldShowButton] = useState(false);
+  const [shouldShowButton, setShouldShowButton] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function TopicsList({ topics }: TopicsListProps) {
     <div className={styles.wrapper}>
       <motion.div
         ref={containerRef}
-        initial={false}
+        initial={{ height: '64px' }}
         animate={{
           height: isExpanded || !shouldShowButton ? 'auto' : '64px',
         }}

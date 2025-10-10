@@ -11,7 +11,7 @@ interface ViewMoreContentProps {
 }
 
 const styles = {
-  container: "relative overflow-hidden",
+  container: "relative",
   fade: "absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none",
   viewMoreButton: "text-sm font-normal text-gray-600 hover:text-black transition-colors underline self-start min-h-[45px] flex items-center py-2 mt-2"
 };
@@ -23,7 +23,7 @@ export default function ViewMoreContent({
   mobileOnly = false
 }: ViewMoreContentProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [shouldShowButton, setShouldShowButton] = useState(false);
+  const [shouldShowButton, setShouldShowButton] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,19 +46,22 @@ export default function ViewMoreContent({
     };
   }, [maxHeight, children]);
 
+  const collapsedHeight = isExpanded || !shouldShowButton ? 'auto' : maxHeight;
+
   return (
     <>
       <motion.div
         ref={containerRef}
         initial={false}
         animate={{
-          height: isExpanded || !shouldShowButton ? 'auto' : maxHeight,
+          height: collapsedHeight,
         }}
         transition={{
           duration: 0.4,
           ease: [0.4, 0, 0.2, 1]
         }}
         className={`${styles.container} ${className}`}
+        style={{ overflow: 'hidden' }}
       >
         {children}
 
