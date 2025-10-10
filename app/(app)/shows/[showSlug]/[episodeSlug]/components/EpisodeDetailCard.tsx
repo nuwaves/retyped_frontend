@@ -1,11 +1,10 @@
-import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import type { Episode, Podcast } from '@/app/_types';
-import Pill from '@/app/_components/common/Pill';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
 import AudioPlayer from './AudioPlayer';
+import TopicsList from './TopicsList';
 import { formatDate } from '@/app/_utils/formatters';
 
 interface EpisodeDetailCardProps {
@@ -23,8 +22,6 @@ const styles = {
   stats: "flex items-center gap-4 mb-4 text-sm text-gray-500",
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
-  topics: "flex flex-wrap gap-2",
-  topicLink: "no-underline",
   audioPlayer: "mt-8"
 };
 
@@ -66,25 +63,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           />
         </div>
       }
-      <div className={styles.topics}>
-        {topics.map((topic, index) => (
-          <Link 
-            key={index} 
-            href={`/search?topic=${encodeURIComponent(topic)}`}
-            className={styles.topicLink}
-          >
-            <Pill 
-              variant="filled" 
-              size="xs" 
-              radius="full" 
-              icon={false}
-              className="bg-slate-200 text-gray-500"
-            >
-              {topic}
-            </Pill>
-          </Link>
-        ))}
-      </div>
+      <TopicsList topics={topics} />
     </div>
   );
 }
