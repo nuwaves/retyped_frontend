@@ -11,7 +11,7 @@ import { useBookmark } from '@/app/_hooks/useBookmark';
 interface EpisodeActionsProps {
   episodeId: string;
   episodeTitle?: string;
-  episodeDescription?: string;
+  episodeDescription?: string | null;
 }
 
 const styles = {
@@ -26,6 +26,12 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  const showToastMessage = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2500);
+  };
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -34,24 +40,22 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
           text: episodeDescription || '',
           url: window.location.href,
         });
-      } catch (error) {
+      } catch {
         console.log('Share cancelled');
       }
-    } else if (navigator.clipboard) {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        setToastMessage('Link copied!');
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2500);
-      } catch (error) {
-        setToastMessage('Sharing not supported');
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2500);
-      }
-    } else {
-      setToastMessage('Sharing not supported');
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2500);
+      return;
+    }
+
+    if (!navigator.clipboard) {
+      showToastMessage('Sharing not supported');
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToastMessage('Link copied!');
+    } catch {
+      showToastMessage('Sharing not supported');
     }
   };
   
