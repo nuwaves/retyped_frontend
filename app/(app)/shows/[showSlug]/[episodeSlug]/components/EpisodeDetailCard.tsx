@@ -36,7 +36,11 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <FontAwesomeIcon icon={faCalendar} className="mr-2" />
           {formatDate(episode.release_date, true)}
         </time>
-        <EpisodeActions episodeId={episode.id.toString()} />
+        <EpisodeActions
+          episodeId={episode.id.toString()}
+          episodeTitle={episode.title}
+          episodeDescription={episode.description}
+        />
       </div>
       
       <div className={styles.titleSection}>
