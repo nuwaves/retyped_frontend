@@ -113,10 +113,10 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           >
             <div className={styles.content}>
               <div className={styles.searchWrapper}>
-                <SearchBar />
+                <SearchBar onSearchComplete={onClose} />
               </div>
               <div className={styles.authWrapper}>
-                <AuthButtons />
+                <AuthButtons onActionComplete={onClose} />
               </div>
             </div>
           </motion.div>

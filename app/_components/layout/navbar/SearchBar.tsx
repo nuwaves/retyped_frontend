@@ -13,7 +13,11 @@ const styles = {
   button: "absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
 };
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onSearchComplete?: () => void;
+}
+
+export default function SearchBar({ onSearchComplete }: SearchBarProps = {}) {
   const [query, setQuery] = useState('');
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -42,6 +46,8 @@ export default function SearchBar() {
       const encodedQuery = encodeURIComponent(trimmedQuery).replace(/%20/g, '+');
       router.push(`/search?q=${encodedQuery}`);
     }
+
+    onSearchComplete?.();
   };
 
   const handleFocus = () => {
