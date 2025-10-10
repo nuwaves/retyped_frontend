@@ -12,10 +12,10 @@ interface AuthCardProps {
 }
 
 const styles = {
-  container: "w-[480px] bg-white rounded-2xl p-8",
-  header: "text-center mb-8",
-  title: "text-gray-900 mb-2 text-[19.36px] leading-[28px] font-normal text-center",
-  subtitle: "text-gray-500",
+  container: "w-full max-w-[480px] bg-white rounded-2xl p-6 md:p-8",
+  header: "text-center mb-6 md:mb-8",
+  title: "text-gray-900 mb-2 text-[17px] md:text-[19.36px] leading-[24px] md:leading-[28px] font-normal text-center",
+  subtitle: "text-gray-500 text-[13px] md:text-[14px]",
   errorBox: "mb-6 p-3 bg-red-50 border border-red-200 rounded-lg",
   errorContent: "flex items-start",
   errorIcon: "h-5 w-5 text-red-400 mt-0.5",
@@ -25,12 +25,15 @@ const styles = {
   errorExpand: "ml-3 flex-1",
   errorButton: "ml-3 flex-shrink-0",
   socialsContainer: "space-y-3",
-  socialButton: "w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 text-[12.11px] leading-[17.5px] font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed",
+  socialButton: "w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-all duration-200 text-[11px] md:text-[12.11px] leading-[16px] md:leading-[17.5px] font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed",
   spinner: "animate-spin rounded-full h-5 w-5 border-2 border-current border-t-transparent",
   iconSize: "w-5 h-5",
-  alternateSection: "mt-8 text-center",
-  alternateText: "text-gray-600 text-center text-[14px] leading-[21px] font-normal",
-  alternateLink: "font-semibold text-gray-900 hover:underline"
+  whySignUpSection: "mt-6 md:mt-8",
+  whySignUpTitle: "text-center text-gray-400 text-[11px] md:text-[12px] font-medium mb-4 tracking-wide flex items-center gap-3",
+  titleLine: "flex-1 h-px bg-gray-300",
+  featuresList: "space-y-2",
+  featureItem: "flex items-center gap-2 text-gray-600 font-medium text-[12px] leading-[16px]",
+  featureBullet: "w-1 h-1 rounded-full bg-gray-600 flex-shrink-0"
 };
 
 export default function AuthCard({ mode }: AuthCardProps) {
@@ -39,22 +42,14 @@ export default function AuthCard({ mode }: AuthCardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const isLogin = mode === 'login';
-
   const content = {
     login: {
-      title: <>Welcome Back to <span className="font-black">RETYPED</span></>,
-      subtitle: 'Sign in with your social account',
-      alternateText: 'New to Retyped?',
-      alternateLinkText: 'Sign Up',
-      alternateHref: '/signup'
+      title: <>Welcome to <span className="font-black">RETYPED</span></>,
+      subtitle: 'Sign in with your social account'
     },
     signup: {
       title: <>Welcome to <span className="font-black">RETYPED</span></>,
-      subtitle: '',
-      alternateText: 'Already have an account?',
-      alternateLinkText: 'Sign In',
-      alternateHref: '/login'
+      subtitle: 'Sign in with your social account'
     }
   };
 
@@ -194,13 +189,34 @@ export default function AuthCard({ mode }: AuthCardProps) {
         ))}
       </div>
 
-      <div className={styles.alternateSection}>
-        <p className={styles.alternateText}>
-          {currentContent.alternateText}{' '}
-          <a href={currentContent.alternateHref} className={styles.alternateLink}>
-            {currentContent.alternateLinkText}
-          </a>
-        </p>
+      <div className={styles.whySignUpSection}>
+        <h3 className={styles.whySignUpTitle}>
+          <span className={styles.titleLine}></span>
+          <span>WHY SIGN UP?</span>
+          <span className={styles.titleLine}></span>
+        </h3>
+        <ul className={styles.featuresList}>
+          <li className={styles.featureItem}>
+            <span className={styles.featureBullet}></span>
+            <span>Access full episode transcripts</span>
+          </li>
+          <li className={styles.featureItem}>
+            <span className={styles.featureBullet}></span>
+            <span>Highlight and share transcript segments</span>
+          </li>
+          <li className={styles.featureItem}>
+            <span className={styles.featureBullet}></span>
+            <span>Bookmark episodes for later</span>
+          </li>
+          <li className={styles.featureItem}>
+            <span className={styles.featureBullet}></span>
+            <span>Follow your favorite podcasts</span>
+          </li>
+          <li className={styles.featureItem}>
+            <span className={styles.featureBullet}></span>
+            <span>Build your personal library</span>
+          </li>
+        </ul>
       </div>
     </div>
   );
