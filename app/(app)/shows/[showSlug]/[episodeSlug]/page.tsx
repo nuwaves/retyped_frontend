@@ -61,8 +61,6 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   return {
     title: `${episodeTitle} | Retyped`,
     description: metaDescription,
-    keywords: [show.tags?.[0]?.name || "Podcast", "podcast", "episode", show.name, episode.title],
-    authors: [],
     openGraph: {
       title: episodeTitle,
       description: metaDescription,
@@ -74,7 +72,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       images: [
         {
           url: show.image_url || '/',
-          alt: episodeTitle,
+          alt: `${show.name} podcast cover`,
           width: 1080,
           height: 1080,
         },
