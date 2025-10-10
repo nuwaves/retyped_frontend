@@ -61,7 +61,7 @@ export default function AuthButtons() {
       <Link href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}>
         <Button variant="primary" size="sm">
           <FontAwesomeIcon icon={faUser} className="text-white" />
-          Sign in
+          Sign In / Sign Up
         </Button>
       </Link>
     </div>

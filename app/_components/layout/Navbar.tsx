@@ -14,7 +14,7 @@ const styles = {
   nav: "w-full h-14 bg-white fixed top-0 left-0 right-0 z-10 border-b border-black/[0.08]",
   container: "h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
   wrapper: "h-full flex justify-between items-center",
-  rightSection: "hidden md:flex items-center gap-4 w-1/2"
+  rightSection: "hidden md:flex items-center justify-end gap-4 w-1/2"
 };
 
 export default function Navbar() {
