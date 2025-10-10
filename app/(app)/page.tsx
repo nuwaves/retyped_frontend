@@ -77,7 +77,7 @@ export default async function Home() {
         <HeroSearch />
 
         <TrendingShows>
-          {trendingShows.map(show => (
+          {trendingShows.map((show, index) => (
             <ShowCard
               key={show.id}
               title={show.name}
@@ -87,6 +87,7 @@ export default async function Home() {
               episodeCount={show.episode_count}
               totalViews={show.total_views}
               href={`/shows/${show.slug}`}
+              priority={index === 0}
             />
           ))}
         </TrendingShows>
