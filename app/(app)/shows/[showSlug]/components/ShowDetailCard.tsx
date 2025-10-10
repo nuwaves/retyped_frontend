@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import type { Podcast } from '@/app/_types';
@@ -21,8 +25,11 @@ const styles = {
   titleWrapper: "flex flex-col gap-1",
   title: "text-xl md:text-[40px] font-bold text-black leading-[150%] tracking-normal lining-nums proportional-nums",
   author: "text-base font-bold text-black leading-6 lining-nums proportional-nums",
-  descriptionWrapper: "flex flex-col gap-4",
-  description: "text-base font-normal leading-6 tracking-normal text-gray-700 line-clamp-4 md:line-clamp-none",
+  descriptionWrapper: "flex flex-col gap-3",
+  descriptionContainer: "relative overflow-hidden",
+  description: "text-base font-normal leading-6 tracking-normal text-gray-700",
+  descriptionFade: "absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none",
+  viewMoreButton: "text-sm font-normal text-gray-600 hover:text-black transition-colors underline md:hidden self-start min-h-[45px] flex items-center py-2",
   statsContainer: "flex flex-wrap gap-6 text-gray-600",
   statItem: "flex items-center gap-2",
   statIcon: "text-gray-400 text-xs",
@@ -30,6 +37,7 @@ const styles = {
 };
 
 export default function ShowDetailCard({ show, children }: ShowDetailCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const secureImageUrl = ensureHttps(show.image_url);
 
   return (
@@ -78,7 +86,42 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
           </div>
 
           <div className={styles.descriptionWrapper}>
-            <SafeHTML html={show.description} className={styles.description} />
+            <motion.div
+              initial={false}
+              animate={{
+                height: isExpanded ? 'auto' : '3rem',
+              }}
+              transition={{
+                duration: 0.4,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+              className={styles.descriptionContainer}
+            >
+              <SafeHTML
+                html={show.description}
+                className={styles.description}
+              />
+
+              {!isExpanded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`${styles.descriptionFade} md:hidden`}
+                />
+              )}
+            </motion.div>
+
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              onClick={() => setIsExpanded(!isExpanded)}
+              className={styles.viewMoreButton}
+            >
+              {isExpanded ? 'View less' : 'View more'}
+            </motion.button>
 
             <div className={styles.statsContainer}>
               <div className={styles.statItem}>
