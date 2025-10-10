@@ -6,6 +6,7 @@ import episodesReducer from './features/episodes/episodesSlice'
 import infiniteScrollReducer from './features/infiniteScroll/infiniteScrollSlice'
 import bookmarksReducer from './features/bookmarks/bookmarksSlice'
 import followsReducer from './features/follows/followsSlice'
+import audioPlayerReducer from './features/audioPlayer/audioPlayerSlice'
 import { clientApi } from './services/clientApi'
 
 export const makeStore = () => {
@@ -18,6 +19,7 @@ export const makeStore = () => {
       infiniteScroll: infiniteScrollReducer,
       bookmarks: bookmarksReducer,
       follows: followsReducer,
+      audioPlayer: audioPlayerReducer,
       [clientApi.reducerPath]: clientApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

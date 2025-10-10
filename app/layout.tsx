@@ -8,6 +8,7 @@ import StoreProvider from "@/app/_providers/StoreProvider";
 import AuthProvider from '@/app/_providers/AuthProvider';
 import Analytics from "@/app/_components/layout/Analytics";
 import AdSense from "@/app/_components/layout/AdSense";
+import GlobalAudioPlayer from "@/app/_components/audio/GlobalAudioPlayer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -57,6 +58,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <GlobalAudioPlayer />
           </AuthProvider>
         </StoreProvider>
       </body>

@@ -1,12 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faHeadphones, faCalendar, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import type { Episode, Podcast } from '@/app/_types';
 import Pill from '@/app/_components/common/Pill';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
-import AudioPlayer from './AudioPlayer';
 import { formatDate } from '@/app/_utils/formatters';
+import { useDispatch, useSelector } from 'react-redux';
+import { playEpisode, togglePlay } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
+import { RootState } from '@/app/_store/store';
+import Button from '@/app/_components/common/Button';
 
 interface EpisodeDetailCardProps {
   episode: Episode;
@@ -25,13 +30,26 @@ const styles = {
   statIcon: "text-xs",
   topics: "flex flex-wrap gap-2",
   topicLink: "no-underline",
-  audioPlayer: "mt-8"
+  playButton: "mt-8",
+  nowPlaying: "flex items-center gap-2 text-sm text-blue-600 font-medium"
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
+  const dispatch = useDispatch();
+  const { currentEpisode, isPlaying } = useSelector((state: RootState) => state.audioPlayer);
   const topics = episode.tags?.map(tag => tag.name) || [];
   const listenCount = episode.total_views ? `${episode.total_views}` : '0';
-  
+
+  const isCurrentEpisode = currentEpisode?.id === episode.id;
+
+  const handlePlayClick = () => {
+    if (isCurrentEpisode) {
+      dispatch(togglePlay());
+    } else {
+      dispatch(playEpisode(episode));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -57,15 +75,18 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <span>{listenCount}</span>
         </div>
       </div>
-      {episode.raw_audio_url != null &&
-        <div className={styles.audioPlayer}>
-          <AudioPlayer
-            src={episode.raw_audio_url}
-            autoPlay={false}
-            showSkipControls={true}
-          />
+      {episode.raw_audio_url != null && (
+        <div className={styles.playButton}>
+          <Button
+            variant={isCurrentEpisode && isPlaying ? "outline" : "primary"}
+            size="md"
+            onClick={handlePlayClick}
+          >
+            <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" />
+            {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
+          </Button>
         </div>
-      }
+      )}
       <div className={styles.topics}>
         {topics.map((topic, index) => (
           <Link 

@@ -1,0 +1,117 @@
+'use client';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/app/_store/store';
+import { closePlayer, setPlaying, setCurrentTime, setDuration } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
+import AudioPlayer from '@/app/(app)/shows/[showSlug]/[episodeSlug]/components/AudioPlayer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useRef, useEffect } from 'react';
+import Link from 'next/link';
+
+const styles = {
+  container: 'fixed bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gray-200',
+  wrapper: 'container mx-auto px-4 py-3 flex flex-col md:flex-row items-start md:items-center gap-4',
+  episodeInfoWrapper: 'flex items-center gap-3 w-full md:w-auto flex-1 min-w-0 order-1 md:order-1',
+  podcastImageLink: 'flex-shrink-0',
+  podcastImage: 'w-12 h-12 rounded-md object-cover',
+  episodeInfo: 'flex-1 min-w-0',
+  episodeTitleLink: 'text-sm font-semibold text-gray-900 truncate block hover:text-blue-600 transition-colors',
+  showName: 'text-xs text-gray-500 truncate',
+  playerWrapper: 'flex-[2] min-w-0 w-full md:w-auto order-3 md:order-2',
+  closeButton: 'flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-full hover:bg-gray-100 absolute top-3 right-4 md:static md:order-3',
+};
+
+export default function GlobalAudioPlayer() {
+  const dispatch = useDispatch();
+  const { currentEpisode, isVisible, isPlaying } = useSelector((state: RootState) => state.audioPlayer);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    const audio = audioRef.current;
+
+    const handlePlay = () => dispatch(setPlaying(true));
+    const handlePause = () => dispatch(setPlaying(false));
+    const handleTimeUpdate = () => dispatch(setCurrentTime(audio.currentTime));
+    const handleLoadedMetadata = () => dispatch(setDuration(audio.duration));
+
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+    return () => {
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
+
+  if (!isVisible || !currentEpisode || !currentEpisode.raw_audio_url) {
+    return null;
+  }
+
+  const handleClose = () => {
+    dispatch(closePlayer());
+  };
+
+  const podcastSlug = currentEpisode.podcast?.slug;
+  const episodeSlug = currentEpisode.slug;
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.episodeInfoWrapper}>
+          {podcastSlug && (
+            <Link href={`/shows/${podcastSlug}`} className={styles.podcastImageLink}>
+              <img
+                src={currentEpisode.podcast?.image_url || currentEpisode.image_url || '/placeholder-podcast.png'}
+                alt={currentEpisode.podcast?.name || 'Podcast'}
+                className={styles.podcastImage}
+              />
+            </Link>
+          )}
+          <div className={styles.episodeInfo}>
+            {podcastSlug && episodeSlug ? (
+              <Link href={`/shows/${podcastSlug}/${episodeSlug}`} className={styles.episodeTitleLink}>
+                {currentEpisode.title}
+              </Link>
+            ) : (
+              <h3 className={styles.episodeTitleLink}>{currentEpisode.title}</h3>
+            )}
+            <p className={styles.showName}>{currentEpisode.podcast?.name || 'Unknown Show'}</p>
+          </div>
+        </div>
+
+        <div className={styles.playerWrapper}>
+          <AudioPlayer
+            src={currentEpisode.raw_audio_url}
+            autoPlay={true}
+            showSkipControls={true}
+          />
+        </div>
+
+        <button
+          onClick={handleClose}
+          className={styles.closeButton}
+          aria-label="Close player"
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+      </div>
+    </div>
+  );
+}
