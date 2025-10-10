@@ -10,7 +10,7 @@ interface BackNavigationProps {
 }
 
 const styles = {
-  container: "inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-10",
+  container: "inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-4 md:mb-10",
   icon: "text-xs font-light",
   text: "text-sm font-normal tracking-normal align-middle lining-nums proportional-nums"
 };

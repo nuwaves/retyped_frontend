@@ -53,7 +53,7 @@ export default function RootLayout({
         <StoreProvider>
           <AuthProvider>
             <Navbar />
-            <main className="pt-14 pb-28">
+            <main className="pt-12 md:pt-14 pb-28">
               {children}
             </main>
             <Footer />
