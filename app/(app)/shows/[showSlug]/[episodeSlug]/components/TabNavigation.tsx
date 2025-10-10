@@ -15,7 +15,6 @@ const styles = {
   tabButton: "px-6 py-2 font-medium text-sm transition-colors rounded-md relative z-10",
   activeTab: "text-black",
   inactiveTab: "text-gray-600 hover:text-gray-900",
-  tabContent: "min-h-[300px]",
   backgroundPill: "absolute inset-0 bg-white rounded-md"
 };
 
@@ -83,8 +82,8 @@ export default function TabNavigation({ summaryContent, transcriptContent }: Tab
           Transcript
         </button>
       </div>
-      
-      <div className={styles.tabContent} role="tabpanel">
+
+      <div role="tabpanel">
         {activeTab === 'summary' ? summaryContent : transcriptContent}
       </div>
     </div>

@@ -22,6 +22,13 @@ interface EpisodePageProps {
   }>;
 }
 
+const styles = {
+  container: "container mx-auto px-4 py-8 max-w-7xl",
+  layout: "flex flex-col md:flex-row gap-8",
+  mainContent: "flex-1",
+  sidebar: "md:w-[350px] md:flex-shrink-0"
+};
+
 // Generate metadata for SEO
 export async function generateMetadata({ params }: EpisodePageProps): Promise<Metadata> {
   const { showSlug, episodeSlug } = await params;
@@ -121,16 +128,16 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={styles.container}>
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
 
-        <div className="flex gap-8">
-          <div className="flex-1">
+        <div className={styles.layout}>
+          <div className={styles.mainContent}>
             <EpisodeDetailCard episode={episode} show={show} />
             <EpisodeTabs episode={episode} isAuthenticated={isAuthenticated} />
           </div>
 
-          <aside className="w-[350px] flex-shrink-0">
+          <aside className={styles.sidebar}>
             <ShowCard show={show} />
           </aside>
         </div>

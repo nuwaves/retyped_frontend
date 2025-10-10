@@ -8,7 +8,7 @@ interface ContentSectionProps {
 }
 
 const styles = {
-  container: "bg-white rounded-lg p-6",
+  container: "bg-white rounded-lg p-6 min-h-[150px] md:min-h-[300px]",
   title: "flex items-center gap-3 text-2xl font-bold leading-tight mb-8"
 };
 
