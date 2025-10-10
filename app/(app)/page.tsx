@@ -22,8 +22,6 @@ export const metadata: Metadata = {
     title: 'Retyped - Discover Your Next Favorite Podcast',
     description: 'Discover, listen, and connect with the stories that matter. Explore the world\'s best podcasts',
     type: 'website',
-    // TODO: Replace with actual OpenGraph image
-    images: ['https://placehold.co/1200x630/000000/FFFFFF/png?text=RETYPED'],
   },
 };
 
