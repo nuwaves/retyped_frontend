@@ -16,17 +16,23 @@ interface ShowCardProps {
   totalViews: number;
   href: string;
   priority?: boolean;
+  variant?: 'vertical' | 'horizontal';
 }
 
-const styles = {
-  card: "relative flex flex-row lg:flex-col gap-3 lg:gap-0 bg-white rounded p-4 lg:p-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden h-full",
-  imageContainer: "relative flex-shrink-0 w-20 h-20 lg:w-full lg:h-0 lg:pb-[100%] rounded lg:rounded-none bg-gray-200",
-  imageWrapper: "lg:absolute lg:inset-0 w-full h-full",
-  image: "w-full h-full object-cover",
-  contentWrapper: "relative flex flex-col gap-2 lg:gap-3 flex-1 min-w-0 lg:px-4 lg:pt-4 lg:pb-4",
-  title: "text-base lg:text-sm font-bold line-clamp-2 lg:leading-[115%] relative z-20",
-  description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums relative z-20",
-  buttonWrapper: "mt-2 lg:mt-auto relative z-20"
+const getStyles = (variant: 'vertical' | 'horizontal') => {
+  const isHorizontal = variant === 'horizontal';
+
+  return {
+    card: `relative flex ${isHorizontal ? 'flex-row lg:flex-col' : 'flex-col'} gap-3 lg:gap-0 bg-white rounded ${isHorizontal ? 'p-4 lg:p-0' : 'overflow-hidden'} shadow-md hover:shadow-lg transition-shadow ${!isHorizontal ? 'overflow-hidden' : ''} h-full`,
+    imageContainer: `relative flex-shrink-0 ${isHorizontal ? 'w-20 h-20' : 'w-full h-0 pb-[100%]'} lg:w-full lg:h-0 lg:pb-[100%] ${isHorizontal ? 'rounded' : ''} lg:rounded-none bg-gray-200`,
+    imageWrapper: `${isHorizontal ? '' : 'absolute inset-0'} lg:absolute lg:inset-0 w-full h-full`,
+    image: "w-full h-full object-cover",
+    contentWrapper: `relative flex flex-col gap-2 lg:gap-3 flex-1 min-w-0 ${isHorizontal ? '' : 'px-4 pt-4 pb-4'} lg:px-4 lg:pt-4 lg:pb-4`,
+    title: "text-base lg:text-sm font-bold line-clamp-2 lg:leading-[115%] relative z-20",
+    description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums relative z-20",
+    buttonWrapper: "mt-2 lg:mt-auto relative z-20",
+    overlay: isHorizontal ? "absolute inset-0 lg:hidden z-10" : "hidden"
+  };
 };
 
 export default function ShowCard({
@@ -37,15 +43,17 @@ export default function ShowCard({
   episodeCount,
   totalViews,
   href,
-  priority = false
+  priority = false,
+  variant = 'vertical'
 }: ShowCardProps) {
   const secureImageUrl = ensureHttps(imageUrl);
+  const styles = getStyles(variant);
 
   return (
     <div className={styles.card}>
       <Link
         href={href}
-        className="absolute inset-0 lg:hidden z-10"
+        className={styles.overlay}
         aria-label={`View ${title}`}
       />
 
@@ -65,7 +73,7 @@ export default function ShowCard({
 
       <div className={styles.contentWrapper}>
         {categories && categories.length > 0 && (
-          <div className="hidden lg:flex flex-wrap gap-1 mb-2 max-h-[20px] overflow-hidden relative z-20">
+          <div className={`${variant === 'vertical' ? 'flex lg:flex' : 'hidden lg:flex'} flex-wrap gap-1 mb-2 max-h-[20px] overflow-hidden relative z-20`}>
             {categories.map((category, index) => (
               <Pill key={index} size="xs" variant="filled">
                 {category.name}
@@ -86,7 +94,7 @@ export default function ShowCard({
         </div>
 
         <div className={styles.buttonWrapper}>
-          <Link href={href} className="hidden lg:block w-full relative z-20">
+          <Link href={href} className={`${variant === 'vertical' ? 'block' : 'hidden lg:block'} w-full relative z-20`}>
             <Button variant="primary" size="md" fullWidth>
               Explore Show
             </Button>

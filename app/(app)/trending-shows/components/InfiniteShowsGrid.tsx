@@ -130,6 +130,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
             totalViews={show.total_views}
             href={`/shows/${show.slug}`}
             priority={index < 8}
+            variant="horizontal"
           />
         ))}
       </div>
