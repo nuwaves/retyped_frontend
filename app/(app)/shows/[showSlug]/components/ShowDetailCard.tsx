@@ -13,12 +13,13 @@ interface ShowDetailCardProps {
 
 const styles = {
   container: "bg-white rounded-lg overflow-hidden",
-  wrapper: "flex flex-col md:flex-row gap-0 md:gap-6 md:p-6",
-  imageContainer: "flex-shrink-0",
-  image: "w-full h-auto md:w-72 md:h-72 object-cover",
-  contentWrapper: "flex-1 flex flex-col gap-6 p-4 md:p-0",
+  wrapper: "flex flex-wrap md:flex-nowrap gap-3 md:gap-6 p-4 md:p-6",
+  imageContainer: "order-1 flex-shrink-0",
+  image: "w-24 h-24 md:w-72 md:h-72 object-cover rounded-lg",
+  headerContent: "order-2 flex-1 md:hidden flex flex-col gap-2 min-w-0",
+  contentColumn: "order-3 w-full md:order-2 md:w-auto md:flex-1 flex flex-col gap-4 md:gap-6",
   titleWrapper: "flex flex-col gap-1",
-  title: "text-[40px] font-bold text-black leading-[150%] tracking-normal lining-nums proportional-nums",
+  title: "text-xl md:text-[40px] font-bold text-black leading-[150%] tracking-normal lining-nums proportional-nums",
   author: "text-base font-bold text-black leading-6 lining-nums proportional-nums",
   descriptionWrapper: "flex flex-col gap-4",
   description: "text-base font-normal leading-6 tracking-normal text-gray-700 line-clamp-4 md:line-clamp-none",
@@ -34,18 +35,20 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {/* Image - always first */}
         <OptimizedImage
           src={secureImageUrl}
           alt={show.name}
           width={288}
           height={288}
-          sizes="288px"
+          sizes="(max-width: 768px) 96px, 288px"
           className={styles.image}
           containerClassName={styles.imageContainer}
           priority
         />
-        
-        <div className={styles.contentWrapper}>
+
+        {/* Tags and Title - second on mobile, hidden on desktop */}
+        <div className={styles.headerContent}>
           {/* Category pills */}
           {show.tags && show.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
@@ -62,8 +65,28 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
             <h1 className={styles.title}>{show.name}</h1>
             {/* {show.author && <p className={styles.author}>By {show.author}</p>} */}
           </div>
-          
-          {/* Description, stats and buttons grouped */}
+        </div>
+
+        {/* Content column - third on mobile, second on desktop */}
+        <div className={styles.contentColumn}>
+          {/* Tags - visible on desktop */}
+          {show.tags && show.tags.length > 0 && (
+            <div className="hidden md:flex flex-wrap gap-1">
+              {show.tags.map(tag => (
+                <Pill key={tag.id} size="sm" variant="filled">
+                  {tag.name}
+                </Pill>
+              ))}
+            </div>
+          )}
+
+          {/* Title - visible on desktop */}
+          <div className={`hidden md:block ${styles.titleWrapper}`}>
+            <h1 className={styles.title}>{show.name}</h1>
+            {/* {show.author && <p className={styles.author}>By {show.author}</p>} */}
+          </div>
+
+          {/* Description, stats and buttons */}
           <div className={styles.descriptionWrapper}>
             <SafeHTML html={show.description} className={styles.description} />
 
@@ -82,7 +105,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
                   - Episodes
                 </span>
               </div>
-              
+
               {/* TODO: Add releaseFrequency field to backend */}
               {/* <div className={styles.statItem}>
                 <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
@@ -91,7 +114,7 @@ export default function ShowDetailCard({ show, children }: ShowDetailCardProps) 
                 </span>
               </div> */}
             </div>
-            
+
             {/* Action buttons slot - below stats */}
             {children}
           </div>

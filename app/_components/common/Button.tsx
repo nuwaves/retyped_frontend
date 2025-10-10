@@ -15,9 +15,9 @@ const variantStyles = {
 };
 
 const sizeStyles = {
-  sm: 'px-4 py-1.5 text-sm',
-  md: 'px-6 py-1 text-sm',
-  lg: 'px-6 py-2 text-base'
+  sm: 'px-4 py-2.5 md:py-1.5 text-sm min-h-[45px] md:min-h-0',
+  md: 'px-6 py-3 md:py-1 text-sm min-h-[45px] md:min-h-0',
+  lg: 'px-6 py-3.5 md:py-2 text-base min-h-[45px] md:min-h-0'
 };
 
 export default function Button({
