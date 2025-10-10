@@ -40,6 +40,16 @@ export const metadata: Metadata = {
     description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",
     type: "website",
     siteName: "Retyped",
+    url: "https://retyped.xyz",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "Retyped - Discover Your Next Favorite Podcast",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
