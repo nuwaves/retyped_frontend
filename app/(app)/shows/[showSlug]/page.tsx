@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import BackNavigation from "@/app/_components/common/BackNavigation";
 import ShowDetailCard from "./components/ShowDetailCard";
 import ShowActionButtons from "./components/ShowActionButtons";
@@ -80,11 +81,67 @@ export default async function ShowPage({ params }: ShowPageProps) {
 
   const episodes = episodesResponse.results || [];
 
+  const podcastSeriesData = {
+    '@context': 'https://schema.org',
+    '@type': 'PodcastSeries',
+    name: show.name,
+    description: show.description,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${show.slug}`,
+    image: show.image_url,
+    ...(show.author && {
+      author: show.author,
+    }),
+    ...(show.url && {
+      webFeed: show.url,
+    }),
+  };
+
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Shows',
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: show.name,
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${show.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <Script
+        id="podcast-series-structured-data"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(podcastSeriesData)}
+      </Script>
+
+      <Script
+        id="breadcrumb-structured-data"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(breadcrumbData)}
+      </Script>
+
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <BackNavigation href="/" label="Home" />
-        
+
         <ShowDetailCard show={show}>
           <ShowActionButtons showId={show.id.toString()} />
         </ShowDetailCard>

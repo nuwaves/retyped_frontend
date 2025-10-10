@@ -22,8 +22,19 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'),
   title: "Retyped - Discover Your Next Favorite Podcast",
   description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: "Retyped - Discover Your Next Favorite Podcast",
     description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",

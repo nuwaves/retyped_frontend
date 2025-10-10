@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BackNavigation from "@/app/_components/common/BackNavigation";
@@ -8,6 +9,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
+import { convertToISO8601Duration } from "@/app/_utils/formatters";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -92,7 +94,6 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       googleBot: {
         index: true,
         follow: true,
-        'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,
       },
@@ -122,12 +123,81 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
     notFound();
   }
 
-  // Get server session to check authentication status
   const session = await getServerSession(authOptions);
   const isAuthenticated = !!session?.backendToken;
 
+  const podcastEpisodeData = {
+    '@context': 'https://schema.org',
+    '@type': 'PodcastEpisode',
+    name: episode.title,
+    description: episode.summary || episode.description,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${showSlug}/${episodeSlug}`,
+    datePublished: episode.release_date,
+    ...(episode.duration && {
+      duration: convertToISO8601Duration(episode.duration),
+    }),
+    ...(episode.raw_audio_url && {
+      associatedMedia: {
+        '@type': 'MediaObject',
+        contentUrl: episode.raw_audio_url,
+      },
+    }),
+    partOfSeries: {
+      '@type': 'PodcastSeries',
+      name: show.name,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${showSlug}`,
+    },
+  };
+
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Shows',
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: show.name,
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${show.slug}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: episode.title,
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${showSlug}/${episodeSlug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <Script
+        id="podcast-episode-structured-data"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(podcastEpisodeData)}
+      </Script>
+
+      <Script
+        id="breadcrumb-structured-data"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+      >
+        {JSON.stringify(breadcrumbData)}
+      </Script>
+
       <div className={styles.container}>
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
 
