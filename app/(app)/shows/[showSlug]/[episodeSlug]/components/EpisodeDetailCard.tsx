@@ -24,7 +24,8 @@ const styles = {
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
   topics: "flex flex-wrap gap-2",
-  topicLink: "no-underline"
+  topicLink: "no-underline",
+  audioPlayer: "mt-8"
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
@@ -57,14 +58,12 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
         </div>
       </div>
       {episode.raw_audio_url != null &&
-        <div className={styles.titleSection}>
-          <div className={styles.statItem}>
-            <AudioPlayer
-              src={episode.raw_audio_url}
-              autoPlay={false}
-              showSkipControls={true}
-            />
-          </div>
+        <div className={styles.audioPlayer}>
+          <AudioPlayer
+            src={episode.raw_audio_url}
+            autoPlay={false}
+            showSkipControls={true}
+          />
         </div>
       }
       <div className={styles.topics}>

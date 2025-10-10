@@ -26,22 +26,23 @@ export type AudioPlayerProps = React.ComponentProps<typeof H5AudioPlayerType> & 
 }
 
 export default function AudioPlayer({ src, className, ...props }: AudioPlayerProps): ReactElement {
-  const [audioSrc, setAudioSrc] = useState<string | undefined>(undefined)
-  const [hasInteracted, setHasInteracted] = useState(false)
-
-  const handlePlay = () => {
-    if (!hasInteracted && src) {
-      setAudioSrc(src)
-      setHasInteracted(true)
-    }
-  }
-
   return (
     <H5AudioPlayer
       {...props}
-      src={audioSrc}
+      src={src}
       preload="none"
-      onPlay={handlePlay}
+      showSkipControls={false}
+      showJumpControls={true}
+      customProgressBarSection={[
+        'PROGRESS_BAR',
+        'CURRENT_TIME',
+      ]}
+      customControlsSection={[
+        'MAIN_CONTROLS',
+        'VOLUME_CONTROLS',
+      ]}
+      customAdditionalControls={[]}
+      progressJumpSteps={{ backward: 5000, forward: 5000 }}
       className={className}
     />
   )
