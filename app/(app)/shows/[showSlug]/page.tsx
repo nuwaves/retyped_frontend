@@ -39,6 +39,8 @@ function generateShowMetadata(show: Podcast | null): Metadata {
         {
           url: show.image_url || '',
           alt: show.name,
+          width: 1080,
+          height: 1080,
         },
       ],
     },

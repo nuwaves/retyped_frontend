@@ -75,6 +75,8 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
         {
           url: show.image_url || '/',
           alt: episodeTitle,
+          width: 1080,
+          height: 1080,
         },
       ],
     },
