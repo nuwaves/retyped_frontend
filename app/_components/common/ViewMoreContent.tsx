@@ -1,23 +1,27 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useRef, useEffect, ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import Pill from '@/app/_components/common/Pill';
 
-interface TopicsListProps {
-  topics: string[];
+interface ViewMoreContentProps {
+  children: ReactNode;
+  maxHeight?: string;
+  className?: string;
+  mobileOnly?: boolean;
 }
 
 const styles = {
-  wrapper: "mt-6",
-  container: "flex flex-wrap gap-2 relative overflow-hidden",
-  topicLink: "no-underline",
+  container: "relative overflow-hidden",
   fade: "absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none",
   viewMoreButton: "text-sm font-normal text-gray-600 hover:text-black transition-colors underline self-start min-h-[45px] flex items-center py-2 mt-2"
 };
 
-export default function TopicsList({ topics }: TopicsListProps) {
+export default function ViewMoreContent({
+  children,
+  maxHeight = '3rem',
+  className = '',
+  mobileOnly = false
+}: ViewMoreContentProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [shouldShowButton, setShouldShowButton] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,11 +29,11 @@ export default function TopicsList({ topics }: TopicsListProps) {
   useEffect(() => {
     const checkHeight = () => {
       if (containerRef.current) {
-        const lineHeight = 32;
-        const twoLinesHeight = lineHeight * 2;
+        const maxHeightPx = maxHeight.includes('px')
+          ? parseFloat(maxHeight)
+          : parseFloat(maxHeight) * 16;
         const actualHeight = containerRef.current.scrollHeight;
-
-        setShouldShowButton(actualHeight > twoLinesHeight);
+        setShouldShowButton(actualHeight > maxHeightPx);
       }
     };
 
@@ -40,39 +44,23 @@ export default function TopicsList({ topics }: TopicsListProps) {
       clearTimeout(timer);
       window.removeEventListener('resize', checkHeight);
     };
-  }, [topics]);
+  }, [maxHeight, children]);
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <motion.div
         ref={containerRef}
         initial={false}
         animate={{
-          height: isExpanded || !shouldShowButton ? 'auto' : '64px',
+          height: isExpanded || !shouldShowButton ? 'auto' : maxHeight,
         }}
         transition={{
           duration: 0.4,
           ease: [0.4, 0, 0.2, 1]
         }}
-        className={styles.container}
+        className={`${styles.container} ${className}`}
       >
-        {topics.map((topic) => (
-          <Link
-            key={topic}
-            href={`/search?topic=${encodeURIComponent(topic)}`}
-            className={styles.topicLink}
-          >
-            <Pill
-              variant="filled"
-              size="xs"
-              radius="full"
-              icon={false}
-              className="bg-slate-200 text-gray-500"
-            >
-              {topic}
-            </Pill>
-          </Link>
-        ))}
+        {children}
 
         {!isExpanded && shouldShowButton && (
           <motion.div
@@ -80,7 +68,7 @@ export default function TopicsList({ topics }: TopicsListProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className={styles.fade}
+            className={`${styles.fade} ${mobileOnly ? 'md:hidden' : ''}`}
           />
         )}
       </motion.div>
@@ -91,11 +79,11 @@ export default function TopicsList({ topics }: TopicsListProps) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
           onClick={() => setIsExpanded(!isExpanded)}
-          className={styles.viewMoreButton}
+          className={`${styles.viewMoreButton} ${mobileOnly ? 'md:hidden' : ''}`}
         >
           {isExpanded ? 'View less' : 'View more'}
         </motion.button>
       )}
-    </div>
+    </>
   );
 }
