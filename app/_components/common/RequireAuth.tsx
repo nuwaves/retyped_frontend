@@ -28,8 +28,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!isValidAuth) {
-      // Redirect to login with callback URL to return after login
-      router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      router.push(`/auth?callbackUrl=${encodeURIComponent(pathname)}`);
     }
   }, [isValidAuth, pathname, router]);
 

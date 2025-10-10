@@ -34,12 +34,10 @@ export function useRequireAuth() {
    */
   const requireAuth = (callback: () => void): boolean => {
     if (!isValidAuth) {
-      // Redirect to login with callback URL
-      router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      router.push(`/auth?callbackUrl=${encodeURIComponent(pathname)}`);
       return false;
     }
 
-    // Execute the callback if authenticated
     callback();
     return true;
   };

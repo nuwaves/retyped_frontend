@@ -109,11 +109,8 @@ export default function TranscriptSection({ transcript, scriptTranscript, isAuth
               Get access to the complete transcript, episode notes, and exclusive content by signing up.
             </p>
             <div className={styles.authButtons}>
-              <Link href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`}>
-                <Button variant="primary" size="md">Sign Up for Free</Button>
-              </Link>
-              <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
-                <Button variant="outline" size="md">Log In</Button>
+              <Link href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}>
+                <Button variant="primary" size="md">Sign In / Sign Up</Button>
               </Link>
             </div>
           </div>
