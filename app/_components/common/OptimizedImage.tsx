@@ -77,7 +77,7 @@ export default function OptimizedImage({
           priority={priority}
           loading={priority ? 'eager' : loading}
           onError={handleError}
-          onLoadingComplete={handleLoad}
+          onLoad={handleLoad}
           draggable={false}
         />
       )}
