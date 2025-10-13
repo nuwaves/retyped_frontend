@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import type { Episode } from '@/app/_types';
 import { useLazyGetPodcastEpisodesQuery } from '@/app/_store/services/podcastsApi';
 import EpisodeListItem from './EpisodeListItem';
@@ -62,7 +62,7 @@ export default function LoadMoreEpisodes({ initialOffset, showSlug, totalCount }
       {/* Dynamically rendered episodes with animation */}
       <AnimatePresence mode="popLayout">
         {episodes.length > 0 && (
-          <motion.div
+          <m.div
             className="flex flex-col gap-4 mt-4"
           >
             {episodes.map((episode, index) => {
@@ -71,7 +71,7 @@ export default function LoadMoreEpisodes({ initialOffset, showSlug, totalCount }
               const cardDelay = isNewCard ? (index - lastLoadIndex) * 0.08 : 0;
 
               return (
-                <motion.div
+                <m.div
                   key={episode.id}
                   initial={isNewCard ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -83,16 +83,16 @@ export default function LoadMoreEpisodes({ initialOffset, showSlug, totalCount }
                   layout
                 >
                   <EpisodeListItem episode={episode} />
-                </motion.div>
+                </m.div>
               );
             })}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Load more button */}
       {hasMore && (
-        <motion.div
+        <m.div
           className="flex justify-center mt-8"
           initial={{ opacity: 1 }}
           animate={{
@@ -110,7 +110,7 @@ export default function LoadMoreEpisodes({ initialOffset, showSlug, totalCount }
           >
             {isLoading ? 'Loading...' : 'Load more'}
           </Button>
-        </motion.div>
+        </m.div>
       )}
     </>
   );

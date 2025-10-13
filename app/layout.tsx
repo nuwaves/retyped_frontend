@@ -8,6 +8,7 @@ import StoreProvider from "@/app/_providers/StoreProvider";
 import AuthProvider from '@/app/_providers/AuthProvider';
 import Analytics from "@/app/_components/layout/Analytics";
 import AdSense from "@/app/_components/layout/AdSense";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -68,15 +69,17 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${openSans.variable} antialiased`}
       >
-        <StoreProvider>
-          <AuthProvider>
-            <Navbar />
-            <main className="pt-12 md:pt-14 pb-28">
-              {children}
-            </main>
-            <Footer />
-          </AuthProvider>
-        </StoreProvider>
+        <LazyMotion features={domAnimation} strict>
+          <StoreProvider>
+            <AuthProvider>
+              <Navbar />
+              <main className="pt-12 md:pt-14 pb-28">
+                {children}
+              </main>
+              <Footer />
+            </AuthProvider>
+          </StoreProvider>
+        </LazyMotion>
       </body>
       <AdSense />
       <Analytics />

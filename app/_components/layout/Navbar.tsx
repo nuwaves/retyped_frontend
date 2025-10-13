@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { m, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useAppSelector } from '@/app/_store/hooks';
 import Logo from './navbar/Logo';
 import SearchBar from './navbar/SearchBar';
@@ -44,7 +44,7 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         className={styles.nav}
         animate={{ y: hidden ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -70,7 +70,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </motion.nav>
+      </m.nav>
 
       {/* Mobile Sidebar */}
       {!isAuthPage && (

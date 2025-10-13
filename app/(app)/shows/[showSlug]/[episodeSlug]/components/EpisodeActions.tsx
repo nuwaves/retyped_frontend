@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faBookmarkRegular, faArrowUpFromBracket } from '@/app/_lib/icons';
 import Button from '@/app/_components/common/Button';
@@ -69,7 +69,7 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
         className="!p-3 relative"
       >
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={isBookmarked ? 'saved' : 'unsaved'}
             className="flex items-center justify-center"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -95,7 +95,7 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
               icon={isBookmarked ? faBookmark : faBookmarkRegular}
               className={`w-5 h-5 transition-colors duration-200 ${isBookmarked ? 'text-blue-500' : 'text-gray-500'}`}
             />
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </Button>
       <div className={styles.shareButtonWrapper}>
@@ -110,7 +110,7 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
         </Button>
         <AnimatePresence>
           {showToast && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -119,7 +119,7 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
             >
               <div className={styles.toastArrow} />
               {toastMessage}
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

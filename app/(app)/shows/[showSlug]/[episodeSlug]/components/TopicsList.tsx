@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Pill from '@/app/_components/common/Pill';
 
 interface TopicsListProps {
@@ -44,7 +44,7 @@ export default function TopicsList({ topics }: TopicsListProps) {
 
   return (
     <div className={styles.wrapper}>
-      <motion.div
+      <m.div
         ref={containerRef}
         initial={{ height: '64px' }}
         animate={{
@@ -75,7 +75,7 @@ export default function TopicsList({ topics }: TopicsListProps) {
         ))}
 
         {!isExpanded && shouldShowButton && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -83,10 +83,10 @@ export default function TopicsList({ topics }: TopicsListProps) {
             className={styles.fade}
           />
         )}
-      </motion.div>
+      </m.div>
 
       {shouldShowButton && (
-        <motion.button
+        <m.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -94,7 +94,7 @@ export default function TopicsList({ topics }: TopicsListProps) {
           className={styles.viewMoreButton}
         >
           {isExpanded ? 'View less' : 'View more'}
-        </motion.button>
+        </m.button>
       )}
     </div>
   );

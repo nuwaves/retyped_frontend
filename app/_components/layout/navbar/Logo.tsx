@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useState } from 'react';
 
 const styles = {
@@ -14,7 +14,7 @@ export default function Logo() {
 
   return (
     <Link href="/" className={styles.logo}>
-      <motion.span
+      <m.span
         className="inline-flex"
         whileHover={{
           scale: 1.03,
@@ -25,7 +25,7 @@ export default function Logo() {
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
         {letters.map((letter, index) => (
-          <motion.span
+          <m.span
             key={index}
             className="inline-block"
             animate={isHovered ? {
@@ -40,9 +40,9 @@ export default function Logo() {
             }}
           >
             {letter}
-          </motion.span>
+          </m.span>
         ))}
-      </motion.span>
+      </m.span>
     </Link>
   );
 }

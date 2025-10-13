@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 interface TabNavigationProps {
   summaryContent: ReactNode;
@@ -25,7 +25,7 @@ export default function TabNavigation({ summaryContent, transcriptContent }: Tab
     <div className={styles.container}>
       <div className={styles.tabButtons}>
         {activeTab === 'summary' && (
-          <motion.div
+          <m.div
             className={styles.backgroundPill}
             layoutId="activeTabBackground"
             initial={false}
@@ -43,7 +43,7 @@ export default function TabNavigation({ summaryContent, transcriptContent }: Tab
           />
         )}
         {activeTab === 'transcript' && (
-          <motion.div
+          <m.div
             className={styles.backgroundPill}
             layoutId="activeTabBackground"
             initial={false}

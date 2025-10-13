@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import LoadingDots from './LoadingDots';
 
 interface SearchHeaderProps {
@@ -34,47 +34,47 @@ export default function SearchHeader({ query, isLoading, totalResults }: SearchH
   return (
     <div className={styles.header}>
       {isLoading ? (
-        <motion.h1
+        <m.h1
           key="searching-title"
           className={styles.title}
           {...fadeAnimation}
         >
           Searching
           <LoadingDots />
-        </motion.h1>
+        </m.h1>
       ) : (
-        <motion.h1
+        <m.h1
           key="results-title"
           className={styles.title}
           {...fadeAnimation}
         >
           Search Results
-        </motion.h1>
+        </m.h1>
       )}
       {isLoading ? (
-        <motion.p
+        <m.p
           key="loading"
           className={styles.subtitle}
           {...slideAnimation}
         >
           <span className="animate-pulse">Searching for</span> <span className={`${styles.queryText} animate-pulse`}>&quot;{query}&quot;</span>
-        </motion.p>
+        </m.p>
       ) : totalResults === 0 ? (
-        <motion.p
+        <m.p
           key="no-results"
           className={styles.subtitle}
           {...slideAnimation}
         >
           No results found for <span className={styles.queryText}>&quot;{query}&quot;</span>
-        </motion.p>
+        </m.p>
       ) : (
-        <motion.p
+        <m.p
           key="results"
           className={styles.subtitle}
           {...slideAnimation}
         >
           {totalResults} {totalResults === 1 ? 'result' : 'results'} for <span className={styles.queryText}>&quot;{query}&quot;</span>
-        </motion.p>
+        </m.p>
       )}
     </div>
   );

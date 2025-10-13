@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 interface ViewMoreContentProps {
   children: ReactNode;
@@ -50,7 +50,7 @@ export default function ViewMoreContent({
 
   return (
     <>
-      <motion.div
+      <m.div
         ref={containerRef}
         initial={false}
         animate={{
@@ -66,7 +66,7 @@ export default function ViewMoreContent({
         {children}
 
         {!isExpanded && shouldShowButton && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -74,10 +74,10 @@ export default function ViewMoreContent({
             className={`${styles.fade} ${mobileOnly ? 'md:hidden' : ''}`}
           />
         )}
-      </motion.div>
+      </m.div>
 
       {shouldShowButton && (
-        <motion.button
+        <m.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -85,7 +85,7 @@ export default function ViewMoreContent({
           className={`${styles.viewMoreButton} ${mobileOnly ? 'md:hidden' : ''}`}
         >
           {isExpanded ? 'View less' : 'View more'}
-        </motion.button>
+        </m.button>
       )}
     </>
   );

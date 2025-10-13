@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faHeartRegular } from '@/app/_lib/icons';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Button from '@/app/_components/common/Button';
 import { useFollow } from '@/app/_hooks/useFollow';
 
@@ -47,7 +47,7 @@ export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
             : 'bg-slate-900 text-white hover:bg-slate-800'
         } ${isLoading ? 'opacity-50 cursor-wait' : ''}`}
       >
-        <motion.div
+        <m.div
           animate={isAnimating ? {
             scale: [1, 1.3, 0.9, 1.2, 1, 1, 1],
           } : {}}
@@ -58,7 +58,7 @@ export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
           }}
           className="flex items-center"
         >
-          <motion.div
+          <m.div
             animate={isAnimating ? {
               color: ['#ffffff', '#ef4444', '#ef4444', '#ef4444', '#0f172a']
             } : {
@@ -74,8 +74,8 @@ export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
               icon={isFollowing ? faHeart : faHeartRegular} 
               className="text-sm"
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
         <span>{isFollowing ? 'Unfollow' : 'Follow'}</span>
       </button>
       
