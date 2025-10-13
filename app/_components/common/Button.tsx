@@ -28,7 +28,7 @@ export default function Button({
   children,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-medium rounded-md transition-colors duration-200 flex items-center justify-center gap-2 leading-6';
+  const baseStyles = 'font-medium rounded-md transition-colors duration-200 flex items-center justify-center gap-2 leading-6 cursor-pointer';
   const widthStyles = fullWidth ? 'w-full' : '';
 
   const buttonClasses = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${className}`.trim();
