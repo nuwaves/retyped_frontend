@@ -9,6 +9,7 @@ import EpisodeCard from '@/app/_components/cards/EpisodeCard';
 import { Episode, Podcast, PaginatedResponse } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
 import { safeApi } from '@/app/_lib/serverApi';
+import { sanitize } from '@/app/_utils/sanitizeHtml';
 
 export const revalidate = 60;
 
@@ -46,8 +47,14 @@ export default async function Home() {
   ]);
 
   const trendingShows = trendingShowsData.results || [];
-  const trendingEpisodes = trendingEpisodesData.results || [];
-  const newEpisodes = newEpisodesData.results || [];
+  const trendingEpisodes = (trendingEpisodesData.results || []).map(episode => ({
+    ...episode,
+    description: sanitize(episode.description)
+  }));
+  const newEpisodes = (newEpisodesData.results || []).map(episode => ({
+    ...episode,
+    description: sanitize(episode.description)
+  }));
 
   const structuredData = {
     '@context': 'https://schema.org',

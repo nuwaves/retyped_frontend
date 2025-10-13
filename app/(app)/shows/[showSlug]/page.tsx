@@ -7,6 +7,7 @@ import ShowActionButtons from "./components/ShowActionButtons";
 import EpisodesList from "@/app/_components/modules/shows/EpisodesList";
 import { api } from "@/app/_lib/serverApi";
 import { Episode, PaginatedResponse, Podcast } from "@/app/_types";
+import { sanitize } from "@/app/_utils/sanitizeHtml";
 
 export const revalidate = 3600;
 
@@ -81,7 +82,10 @@ export default async function ShowPage({ params }: ShowPageProps) {
     `/api/v1/podcasts/${showSlug}/episodes?limit=${INITIAL_EPISODES_LIMIT}`
   ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
 
-  const episodes = episodesResponse.results || [];
+  const episodes = (episodesResponse.results || []).map(episode => ({
+    ...episode,
+    description: sanitize(episode.description)
+  }));
 
   const podcastSeriesData = {
     '@context': 'https://schema.org',
