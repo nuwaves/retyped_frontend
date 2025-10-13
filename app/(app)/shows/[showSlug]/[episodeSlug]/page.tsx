@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/_lib/authOptions";
 import BackNavigation from "@/app/_components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
