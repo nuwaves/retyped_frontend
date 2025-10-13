@@ -7,7 +7,7 @@ export interface Bookmark extends TimestampedModel {
   user: number;
   entity_type: BookmarkEntityType;
   entity_id: number;
-  entity: string; // Serialized entity data from backend
+  entity: string | Record<string, any>; // Can be JSON string or parsed object from backend
 }
 
 export interface CreateBookmarkRequest {

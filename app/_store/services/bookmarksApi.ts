@@ -20,16 +20,17 @@ export const bookmarksApi = clientApi.injectEndpoints({
 
     // GET /api/v1/bookmarks/{entity_type}/ - List bookmarks by type
     getBookmarksByType: builder.query<
-      Bookmark[],
-      { entity_type: 'episode' | 'podcast' }
+      PaginatedResponse<Bookmark>,
+      { entity_type: 'episode' | 'podcast'; limit?: number; offset?: number }
     >({
-      query: ({ entity_type }) => ({
+      query: ({ entity_type, limit = 100, offset = 0 }) => ({
         url: `bookmarks/${entity_type}/`,
+        params: { limit, offset },
       }),
       providesTags: (result, error, { entity_type }) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'Bookmark' as const, id })),
+              ...result.results.map(({ id }) => ({ type: 'Bookmark' as const, id })),
               { type: 'Bookmark', id: `TYPE_${entity_type.toUpperCase()}` },
             ]
           : [{ type: 'Bookmark', id: `TYPE_${entity_type.toUpperCase()}` }],
