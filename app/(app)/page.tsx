@@ -40,7 +40,7 @@ export default async function Home() {
       { count: 0, next: null, previous: null, results: [] }
     ),
     safeApi<PaginatedResponse<Episode>>(
-      '/api/v1/episodes/?ordering=-updated_at&limit=4',
+      '/api/v1/episodes/?ordering=-release_date&limit=4',
       { count: 0, next: null, previous: null, results: [] }
     ),
   ]);

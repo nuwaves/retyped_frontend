@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default async function NewEpisodesPage() {
   const initialData = await safeApi<PaginatedResponse<Episode>>(
-    '/api/v1/episodes/?ordering=-updated_at&limit=20',
+    '/api/v1/episodes/?ordering=-release_date&limit=20',
     { count: 0, next: null, previous: null, results: [] }
   );
 
