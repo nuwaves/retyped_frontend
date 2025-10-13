@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       '@fortawesome/free-regular-svg-icons',
       '@fortawesome/free-brands-svg-icons',
     ],
+    // Inline CSS to eliminate render-blocking resources
+    inlineCss: true,
   },
 
   images: {
