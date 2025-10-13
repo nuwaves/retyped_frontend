@@ -65,9 +65,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <AdSense />
-      </head>
       <body
         className={`${inter.variable} ${openSans.variable} antialiased`}
       >
@@ -81,6 +78,7 @@ export default function RootLayout({
           </AuthProvider>
         </StoreProvider>
       </body>
+      <AdSense />
       <Analytics />
     </html>
   );

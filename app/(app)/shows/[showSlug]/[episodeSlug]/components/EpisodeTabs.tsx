@@ -1,7 +1,7 @@
 import type { Episode } from '@/app/_types';
-import TabNavigation from './TabNavigation';
 import SummarySection from './SummarySection';
 import TranscriptSection from './TranscriptSection';
+import TabNavigationWrapper from './TabNavigationWrapper';
 
 interface EpisodeTabsProps {
   episode: Episode;
@@ -14,7 +14,7 @@ const styles = {
 
 export default function EpisodeTabs({ episode, isAuthenticated }: EpisodeTabsProps) {
   const summaryContent = <SummarySection episode={episode} />;
-  
+
   const transcriptContent = (
     <TranscriptSection
       transcript={episode.transcript}
@@ -25,7 +25,7 @@ export default function EpisodeTabs({ episode, isAuthenticated }: EpisodeTabsPro
 
   return (
     <div className={styles.container}>
-      <TabNavigation
+      <TabNavigationWrapper
         summaryContent={summaryContent}
         transcriptContent={transcriptContent}
       />

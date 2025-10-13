@@ -1,0 +1,20 @@
+# Conservative modern browsers - balances performance and compatibility
+# Reduces bundle size while maintaining broad browser support
+# Covers ~97% of global traffic
+
+# Support browsers with >0.2% market share
+>0.2%
+
+# Last 3 versions of major browsers (more conservative)
+last 3 Chrome versions
+last 3 Firefox versions
+last 3 Safari versions
+last 3 Edge versions
+
+# Exclude only truly dead browsers
+not dead
+not IE 11
+not IE_Mob 11
+not op_mini all
+not Android < 4.4
+Safari >= 12
