@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark, faBookmarkRegular, faArrowUpFromBracket } from '@/app/_lib/icons';
 import Button from '@/app/_components/common/Button';
 import { useBookmark } from '@/app/_hooks/useBookmark';
 

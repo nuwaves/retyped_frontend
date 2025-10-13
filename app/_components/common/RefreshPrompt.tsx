@@ -1,7 +1,7 @@
 'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp } from '@/app/_lib/icons';
 
 interface RefreshPromptProps {
   onRefresh: () => void;

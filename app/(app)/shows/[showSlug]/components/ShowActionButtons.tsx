@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faHeartRegular } from '@/app/_lib/icons';
 import { motion } from 'framer-motion';
 import Button from '@/app/_components/common/Button';
 import { useFollow } from '@/app/_hooks/useFollow';
@@ -72,7 +71,7 @@ export default function ShowActionButtons({ showId }: ShowActionButtonsProps) {
             }}
           >
             <FontAwesomeIcon 
-              icon={isFollowing ? faHeartSolid : faHeartRegular} 
+              icon={isFollowing ? faHeart : faHeartRegular} 
               className="text-sm"
             />
           </motion.div>

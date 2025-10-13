@@ -1,4 +1,4 @@
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { IconDefinition } from '@/app/_lib/icons';
 import SectionHeader from './SectionHeader';
 import { ReactNode } from 'react';
 

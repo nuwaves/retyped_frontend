@@ -1,4 +1,4 @@
-import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@/app/_lib/icons';
 import SectionHeader from '../../common/SectionHeader';
 import { ReactNode } from 'react';
 

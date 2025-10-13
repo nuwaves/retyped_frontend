@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeadphones, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faHeadphones, faMicrophone } from '@/app/_lib/icons';
 
 const styles = {
   statsContainer: "flex flex-wrap gap-6 text-gray-600",

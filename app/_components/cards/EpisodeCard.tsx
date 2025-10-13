@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faClock } from '@/app/_lib/icons';
 import SafeHTML from '../common/SafeHTML';
 
 interface EpisodeCardProps {

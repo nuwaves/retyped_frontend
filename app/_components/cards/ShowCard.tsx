@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faHeadphones } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faHeadphones } from '@/app/_lib/icons';
 import Pill from '@/app/_components/common/Pill';
 import Button from '@/app/_components/common/Button';
 import OptimizedImage from '@/app/_components/common/OptimizedImage';

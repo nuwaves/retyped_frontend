@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faHeadphones, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faHeadphones, faCalendar } from '@/app/_lib/icons';
 import type { Episode, Podcast } from '@/app/_types';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';

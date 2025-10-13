@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from '@/app/_components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faFileAlt, faLock } from '@/app/_lib/icons';
 import Pill from '@/app/_components/common/Pill';
 import ContentSection from './ContentSection';
 

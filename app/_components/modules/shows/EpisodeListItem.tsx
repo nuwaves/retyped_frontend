@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faClockRegular } from '@/app/_lib/icons';
 import type { Episode } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
 import Pill from '../../common/Pill';
@@ -76,7 +76,7 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
         <SafeHTML html={episode.description} className={styles.description} as="p" />
 
         <div className={styles.stats}>
-          <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
+          <FontAwesomeIcon icon={faClockRegular} className={styles.statIcon} />
           <span>{episode.duration || '--:--'}</span>
           <span className={styles.statSeparator}>•</span>
           <span>{formatDate(episode.release_date, true)}</span>

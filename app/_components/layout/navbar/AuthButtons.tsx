@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faUserRegular } from '@/app/_lib/icons';
 import Button from '@/app/_components/common/Button';
 
 const styles = {
@@ -65,7 +65,7 @@ export default function AuthButtons({ onActionComplete }: AuthButtonsProps = {})
     <div className={styles.container}>
       <Link href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`} onClick={() => onActionComplete?.()}>
         <Button variant="primary" size="sm">
-          <FontAwesomeIcon icon={faUser} className="text-white" />
+          <FontAwesomeIcon icon={faUserRegular} className="text-white" />
           Sign In / Sign Up
         </Button>
       </Link>
