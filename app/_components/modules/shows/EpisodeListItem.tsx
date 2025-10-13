@@ -14,9 +14,9 @@ interface EpisodeCardProps {
 }
 
 const styles = {
-  container: "relative flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow",
+  container: "relative flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow cursor-pointer",
   imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100 z-20",
-  content: "flex flex-col gap-2 flex-1 min-w-0 relative z-10",
+  content: "flex flex-col gap-2 flex-1 min-w-0 relative",
   header: "flex items-center gap-2",
   title: "text-lg font-bold text-black leading-6",
   newBadge: "flex-shrink-0",
