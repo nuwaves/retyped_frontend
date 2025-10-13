@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import HeroSearch from '@/app/_components/modules/home/HeroSearch';
 import TrendingShows from '@/app/_components/modules/home/TrendingShows';
 import TrendingEpisodes from '@/app/_components/modules/home/TrendingEpisodes';
@@ -73,13 +72,12 @@ export default async function Home() {
 
   return (
     <>
-      <Script
-        id="website-structured-data"
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(structuredData)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData)
+        }}
+      />
 
       <div className={styles.container}>
         <HeroSearch />

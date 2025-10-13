@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BackNavigation from "@/app/_components/common/BackNavigation";
@@ -182,21 +181,19 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   return (
     <>
-      <Script
-        id="podcast-episode-structured-data"
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(podcastEpisodeData)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(podcastEpisodeData)
+        }}
+      />
 
-      <Script
-        id="breadcrumb-structured-data"
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(breadcrumbData)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData)
+        }}
+      />
 
       <div className={styles.container}>
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />

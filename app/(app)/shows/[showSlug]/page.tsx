@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import BackNavigation from "@/app/_components/common/BackNavigation";
 import ShowDetailCard from "./components/ShowDetailCard";
 import ShowActionButtons from "./components/ShowActionButtons";
@@ -129,21 +128,19 @@ export default async function ShowPage({ params }: ShowPageProps) {
 
   return (
     <>
-      <Script
-        id="podcast-series-structured-data"
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(podcastSeriesData)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(podcastSeriesData)
+        }}
+      />
 
-      <Script
-        id="breadcrumb-structured-data"
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(breadcrumbData)}
-      </Script>
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData)
+        }}
+      />
 
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <BackNavigation href="/" label="Home" />
