@@ -2,13 +2,18 @@
 
 import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useAppSelector } from '@/app/_store/hooks';
 import Logo from './navbar/Logo';
 import SearchBar from './navbar/SearchBar';
 import AuthButtons from './navbar/AuthButtons';
 import HamburgerButton from './navbar/HamburgerButton';
-import MobileSidebar from './navbar/MobileSidebar';
+
+// Lazy load MobileSidebar - only loads when hamburger is clicked
+const MobileSidebar = dynamic(() => import('./navbar/MobileSidebar'), {
+  ssr: false,
+});
 
 const styles = {
   nav: "w-full h-14 bg-white fixed top-0 left-0 right-0 z-10 border-b border-black/[0.08]",

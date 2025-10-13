@@ -3,6 +3,24 @@ import { DJANGO_BACKEND } from '@/app/_config/env';
 
 const nextConfig: NextConfig = {
   output: "standalone",
+
+  // Compiler optimizations
+  compiler: {
+    // Remove console.log in production
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
+  // Optimize package imports for better tree-shaking
+  experimental: {
+    optimizePackageImports: [
+      'framer-motion',
+      '@fortawesome/react-fontawesome',
+      '@fortawesome/free-solid-svg-icons',
+      '@fortawesome/free-regular-svg-icons',
+      '@fortawesome/free-brands-svg-icons',
+    ],
+  },
+
   images: {
     remotePatterns: [
       {
