@@ -8,7 +8,7 @@ import StoreProvider from "@/app/_providers/StoreProvider";
 import AuthProvider from '@/app/_providers/AuthProvider';
 import Analytics from "@/app/_components/layout/Analytics";
 import AdSense from "@/app/_components/layout/AdSense";
-import { LazyMotion, domAnimation } from "framer-motion";
+import { LazyMotion, domMax } from "framer-motion";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -69,7 +69,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${openSans.variable} antialiased`}
       >
-        <LazyMotion features={domAnimation} strict>
+        <LazyMotion features={domMax} strict>
           <StoreProvider>
             <AuthProvider>
               <Navbar />
