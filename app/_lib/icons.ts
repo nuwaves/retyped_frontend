@@ -6,7 +6,7 @@
 // Export icon type
 export type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-// Solid icons (17 total)
+// Solid icons (19 total)
 export {
   faArrowLeft,
   faArrowRight,
@@ -22,7 +22,9 @@ export {
   faHeadphones,
   faLock,
   faMicrophone,
+  faPause,
   faPen,
+  faPlay,
   faQuoteLeft,
   faStar,
 } from '@fortawesome/free-solid-svg-icons';

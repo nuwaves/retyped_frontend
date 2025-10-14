@@ -2,11 +2,10 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/_store/store';
-import { closePlayer, setPlaying, setCurrentTime, setDuration } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
+import { closePlayer } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
 import AudioPlayer from '@/app/(app)/shows/[showSlug]/[episodeSlug]/components/AudioPlayer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 const styles = {
@@ -24,41 +23,7 @@ const styles = {
 
 export default function GlobalAudioPlayer() {
   const dispatch = useDispatch();
-  const { currentEpisode, isVisible, isPlaying } = useSelector((state: RootState) => state.audioPlayer);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    const audio = audioRef.current;
-
-    const handlePlay = () => dispatch(setPlaying(true));
-    const handlePause = () => dispatch(setPlaying(false));
-    const handleTimeUpdate = () => dispatch(setCurrentTime(audio.currentTime));
-    const handleLoadedMetadata = () => dispatch(setDuration(audio.duration));
-
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-
-    return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
-    }
-  }, [isPlaying]);
+  const { currentEpisode, isVisible } = useSelector((state: RootState) => state.audioPlayer);
 
   if (!isVisible || !currentEpisode || !currentEpisode.raw_audio_url) {
     return null;
@@ -98,6 +63,7 @@ export default function GlobalAudioPlayer() {
 
         <div className={styles.playerWrapper}>
           <AudioPlayer
+            key={currentEpisode.id}
             src={currentEpisode.raw_audio_url}
             autoPlay={true}
             showSkipControls={true}
