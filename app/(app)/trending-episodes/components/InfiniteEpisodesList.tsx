@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import EpisodeListItem from '@/app/_components/modules/shows/EpisodeListItem';
 import LoadingSpinner from '@/app/_components/common/LoadingSpinner';
 import InfiniteScrollTrigger from '@/app/_components/common/InfiniteScrollTrigger';
@@ -136,7 +136,7 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
       )}
       <AnimatePresence mode="popLayout">
         {episodes.length > 0 && (
-          <motion.div className={styles.list}>
+          <m.div className={styles.list}>
             {episodes.map((episode, index) => {
               const isNewCard = index >= lastLoadIndex && isExpanding;
               const isInInitialBatch = isInitialLoad && index < LOAD_MORE_LIMIT;
@@ -148,7 +148,7 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
                 : 0;
 
               return (
-                <motion.div
+                <m.div
                   key={episode.id}
                   initial={shouldAnimate ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -160,10 +160,10 @@ export default function InfiniteEpisodesList({ initialEpisodes, totalCount }: In
                   layout
                 >
                   <EpisodeListItem episode={episode} />
-                </motion.div>
+                </m.div>
               );
             })}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

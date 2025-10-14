@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faUserRegular } from '@/app/_lib/icons';
 import Button from '@/app/_components/common/Button';
 
 const styles = {
@@ -16,12 +16,17 @@ const styles = {
   logoutText: "font-inter font-normal text-sm leading-6 text-slate-900 cursor-pointer hover:opacity-80 transition-opacity"
 };
 
-export default function AuthButtons() {
+interface AuthButtonsProps {
+  onActionComplete?: () => void;
+}
+
+export default function AuthButtons({ onActionComplete }: AuthButtonsProps = {}) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
+    onActionComplete?.();
   };
 
   const getInitials = () => {
@@ -58,15 +63,10 @@ export default function AuthButtons() {
 
   return (
     <div className={styles.container}>
-      <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
-        <Button variant="outline" size="sm">
-          Log in
-        </Button>
-      </Link>
-      <Link href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`}>
+      <Link href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`} onClick={() => onActionComplete?.()}>
         <Button variant="primary" size="sm">
-          <FontAwesomeIcon icon={faUser} className="text-white" />
-          Sign up
+          <FontAwesomeIcon icon={faUserRegular} className="text-white" />
+          Sign In / Sign Up
         </Button>
       </Link>
     </div>

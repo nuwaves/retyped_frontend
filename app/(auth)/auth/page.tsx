@@ -6,6 +6,8 @@ import AuthCard from '@/app/_components/auth/AuthCard';
 export default function LoginPage() {
   return (
     <AuthLayout
+      headerTitle="Discover amazing podcasts"
+      headerDescription="Build your personal podcast library with bookmarks, follows, transcript highlights, and more."
       hero={
         <AuthHero
           title="Discover amazing podcasts"

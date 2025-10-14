@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Episode, Podcast } from '@/app/_types';
 import SearchPodcastList from '@/app/(app)/search/components/SearchPodcastList';
 import SearchEpisodeList from '@/app/(app)/search/components/SearchEpisodeList';
@@ -56,7 +56,7 @@ export default function SearchResults({ query, episodes, podcasts, isLoading = f
             role="tab"
           >
             {activeTab === tab.id && (
-              <motion.div
+              <m.div
                 className={styles.backgroundPill}
                 layoutId="searchTabBackground"
                 initial={false}

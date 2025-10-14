@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faClockRegular } from '@/app/_lib/icons';
 import type { Episode } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
 import Pill from '../../common/Pill';
@@ -14,16 +14,17 @@ interface EpisodeCardProps {
 }
 
 const styles = {
-  container: "flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow",
-  imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100",
-  content: "flex flex-col gap-2 flex-1 min-w-0",
+  container: "relative flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow cursor-pointer",
+  imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100 z-20",
+  content: "flex flex-col gap-2 flex-1 min-w-0 relative",
   header: "flex items-center gap-2",
   title: "text-lg font-bold text-black leading-6",
   newBadge: "flex-shrink-0",
   description: "text-base font-normal leading-6 text-gray-600 line-clamp-2",
   stats: "flex items-center gap-1 text-xs font-normal text-gray-500 mt-2",
   statIcon: "text-gray-400",
-  statSeparator: "mx-2 text-gray-400"
+  statSeparator: "mx-2 text-gray-400",
+  overlay: "absolute inset-0 z-10"
 };
 
 export default function EpisodeListItem({ episode }: EpisodeCardProps) {
@@ -38,6 +39,12 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
 
   return (
     <div className={styles.container}>
+      <Link
+        href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+        className={styles.overlay}
+        aria-label={`View episode: ${episode.title}`}
+      />
+
       <Link
         href={`/shows/${episode.podcast?.slug}`}
         className={styles.imageWrapper}
@@ -54,7 +61,7 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
         )}
       </Link>
 
-      <Link href={`/shows/${episode.podcast?.slug}/${episode.slug}`} className={styles.content}>
+      <div className={styles.content}>
         <div className={styles.header}>
           <h3 className={styles.title}>{episode.title}</h3>
           {isNewEpisode() && (
@@ -66,15 +73,15 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
           )}
         </div>
 
-        <SafeHTML html={episode.description} className={styles.description} as="p" />
+        <SafeHTML html={episode.description} className={styles.description} as="div" />
 
         <div className={styles.stats}>
-          <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
+          <FontAwesomeIcon icon={faClockRegular} className={styles.statIcon} />
           <span>{episode.duration || '--:--'}</span>
           <span className={styles.statSeparator}>•</span>
           <span>{formatDate(episode.release_date, true)}</span>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

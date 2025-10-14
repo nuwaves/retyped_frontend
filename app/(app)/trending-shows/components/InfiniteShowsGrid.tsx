@@ -19,7 +19,7 @@ interface InfiniteShowsGridProps {
 }
 
 const styles = {
-  grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
+  grid: "grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 lg:gap-6",
   noMore: "text-center text-gray-500 py-8"
 };
 
@@ -130,6 +130,7 @@ export default function InfiniteShowsGrid({ initialShows, totalCount }: Infinite
             totalViews={show.total_views}
             href={`/shows/${show.slug}`}
             priority={index < 8}
+            variant="horizontal"
           />
         ))}
       </div>

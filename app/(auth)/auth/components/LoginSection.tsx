@@ -4,8 +4,7 @@ import { signIn, getSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebook, faInstagram, faXTwitter } from '@/app/_lib/icons';
 
 const styles = {
   container: "w-full max-w-md bg-white rounded-2xl p-8",

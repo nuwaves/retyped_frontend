@@ -1,12 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faHeadphones, faCalendar, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faHeadphones, faCalendar, faPlay, faPause } from '@/app/_lib/icons';
 import type { Episode, Podcast } from '@/app/_types';
-import Pill from '@/app/_components/common/Pill';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
+import TopicsList from './TopicsList';
 import { formatDate } from '@/app/_utils/formatters';
 import { useDispatch, useSelector } from 'react-redux';
 import { playEpisode, togglePlay } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
@@ -28,10 +27,7 @@ const styles = {
   stats: "flex items-center gap-4 mb-4 text-sm text-gray-500",
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
-  topics: "flex flex-wrap gap-2",
-  topicLink: "no-underline",
-  playButton: "mt-8",
-  nowPlaying: "flex items-center gap-2 text-sm text-blue-600 font-medium"
+  playButton: "mt-8"
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
@@ -57,14 +53,18 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <FontAwesomeIcon icon={faCalendar} className="mr-2" />
           {formatDate(episode.release_date, true)}
         </time>
-        <EpisodeActions episodeId={episode.id.toString()} />
+        <EpisodeActions
+          episodeId={episode.id.toString()}
+          episodeTitle={episode.title}
+          episodeDescription={episode.description}
+        />
       </div>
-      
+
       <div className={styles.titleSection}>
         <h1 className={styles.title}>{episode.title}</h1>
         <SafeHTML html={episode.description} className={styles.description} />
       </div>
-      
+
       <div className={styles.stats}>
         <div className={styles.statItem}>
           <FontAwesomeIcon icon={faClock} className={styles.statIcon} />
@@ -87,25 +87,7 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           </Button>
         </div>
       )}
-      <div className={styles.topics}>
-        {topics.map((topic, index) => (
-          <Link 
-            key={index} 
-            href={`/search?topic=${encodeURIComponent(topic)}`}
-            className={styles.topicLink}
-          >
-            <Pill 
-              variant="filled" 
-              size="xs" 
-              radius="full" 
-              icon={false}
-              className="bg-slate-200 text-gray-500"
-            >
-              {topic}
-            </Pill>
-          </Link>
-        ))}
-      </div>
+      <TopicsList topics={topics} />
     </div>
   );
 }

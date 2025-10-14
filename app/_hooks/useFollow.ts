@@ -30,8 +30,7 @@ export function useFollow(entity_type: 'tag' | 'podcast', entity_id: number) {
 
   const toggleFollow = useCallback(async () => {
     if (!isAuthenticated) {
-      // Redirect to login
-      window.location.href = '/login';
+      window.location.href = '/auth';
       return;
     }
 

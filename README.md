@@ -4,7 +4,7 @@ A high-performance podcast discovery platform built with Next.js 15 and React 19
 
 ## Tech Stack
 
-- **Next.js** 15.5.2 with Turbopack
+- **Next.js** 15.1.3 (Turbopack for dev, Webpack for production)
 - **React** 19.1.0
 - **TypeScript** 5.x
 - **Redux Toolkit** 2.8.2 & **React-Redux** 9.2.0 (State Management with RTK Query for API caching)

@@ -1,7 +1,7 @@
 'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faArrowRight } from '@/app/_lib/icons';
 
 interface SectionHeaderProps {
   icon: IconDefinition;

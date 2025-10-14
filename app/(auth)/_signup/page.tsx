@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import AuthLayout from '@/app/_components/auth/AuthLayout';
 import AuthFeaturesList from '@/app/_components/auth/AuthFeaturesList';
 import AuthCard from '@/app/_components/auth/AuthCard';
-import { faFileAlt, faPen, faBookmark, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faFileAlt, faPen, faBookmark, faHeart } from '@/app/_lib/icons';
 
 export default function SignupPage() {
   const features = [

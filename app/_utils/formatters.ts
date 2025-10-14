@@ -38,3 +38,21 @@ export function formatDate(dateString: string, longFormat = false): string {
 
   return `${month} ${day}, ${year}`;
 }
+
+export function convertToISO8601Duration(duration: string | null): string | undefined {
+  if (!duration) return undefined;
+  const [hours, minutes, seconds] = duration.split(':').map(Number);
+  let iso = 'PT';
+  if (hours > 0) iso += `${hours}H`;
+  if (minutes > 0) iso += `${minutes}M`;
+  if (seconds > 0) iso += `${seconds}S`;
+  return iso !== 'PT' ? iso : undefined;
+}
+
+export function sanitizeForMetaDescription(text: string | null | undefined): string {
+  if (!text) return '';
+  return text
+    .replace(/\n+/g, ' ')  // Replace all newlines with spaces
+    .replace(/\s+/g, ' ')  // Collapse multiple spaces into one
+    .trim();               // Remove leading/trailing spaces
+}
