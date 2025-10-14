@@ -27,11 +27,11 @@ const getStyles = (variant: 'vertical' | 'horizontal') => {
     imageContainer: `relative flex-shrink-0 ${isHorizontal ? 'w-20 h-20' : 'w-full h-0 pb-[100%]'} lg:w-full lg:h-0 lg:pb-[100%] ${isHorizontal ? 'rounded' : ''} lg:rounded-none bg-gray-200`,
     imageWrapper: `${isHorizontal ? '' : 'absolute inset-0'} lg:absolute lg:inset-0 w-full h-full`,
     image: "w-full h-full object-cover",
-    contentWrapper: `relative flex flex-col gap-2 lg:gap-3 flex-1 min-w-0 ${isHorizontal ? '' : 'px-4 pt-4 pb-4'} lg:px-4 lg:pt-4 lg:pb-4`,
-    title: "text-base lg:text-sm font-bold line-clamp-2 lg:leading-[115%] relative z-20",
-    description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums relative z-20",
-    buttonWrapper: "mt-2 lg:mt-auto relative z-20",
-    overlay: isHorizontal ? "absolute inset-0 lg:hidden z-10" : "hidden"
+    contentWrapper: `relative flex flex-col gap-2 lg:gap-3 flex-1 min-w-0 ${isHorizontal ? 'pointer-events-none lg:pointer-events-auto' : 'px-4 pt-4 pb-4'} lg:px-4 lg:pt-4 lg:pb-4`,
+    title: "text-base lg:text-sm font-bold line-clamp-2 lg:leading-[115%]",
+    description: "text-xs font-normal leading-4 tracking-normal text-gray-600 line-clamp-2 mb-auto lining-nums proportional-nums",
+    buttonWrapper: "mt-2 lg:mt-auto",
+    overlay: isHorizontal ? "absolute inset-0 lg:hidden" : "hidden"
   };
 };
 
@@ -57,7 +57,7 @@ export default function ShowCard({
         aria-label={`View ${title}`}
       />
 
-      <Link href={href} className={`${styles.imageContainer} relative z-20`}>
+      <Link href={href} className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <OptimizedImage
             src={secureImageUrl}
@@ -73,7 +73,7 @@ export default function ShowCard({
 
       <div className={styles.contentWrapper}>
         {categories && categories.length > 0 && (
-          <div className={`${variant === 'vertical' ? 'flex lg:flex' : 'hidden lg:flex'} flex-wrap gap-1 mb-2 max-h-[20px] overflow-hidden relative z-20`}>
+          <div className={`${variant === 'vertical' ? 'flex lg:flex' : 'hidden lg:flex'} flex-wrap gap-1 mb-2 max-h-[20px] overflow-hidden`}>
             {categories.map((category, index) => (
               <Pill key={index} size="xs" variant="filled">
                 {category.name}
@@ -86,7 +86,7 @@ export default function ShowCard({
 
         <p className={styles.description}>{description}</p>
 
-        <div className="flex items-center gap-2 text-xs font-normal text-gray-500 relative z-20">
+        <div className="flex items-center gap-2 text-xs font-normal text-gray-500">
           <FontAwesomeIcon icon={faMicrophone} className="text-gray-400 text-xs" />
           <span>{episodeCount} ep</span>
           <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 text-xs ml-1" />
@@ -94,7 +94,7 @@ export default function ShowCard({
         </div>
 
         <div className={styles.buttonWrapper}>
-          <Link href={href} className={`${variant === 'vertical' ? 'block' : 'hidden lg:block'} w-full relative z-20`}>
+          <Link href={href} className={`${variant === 'vertical' ? 'block' : 'hidden lg:block'} w-full`}>
             <Button variant="primary" size="md" fullWidth>
               Explore Show
             </Button>
