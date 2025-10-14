@@ -80,8 +80,18 @@ export default function GlobalAudioPlayer() {
             showSkipControls={true}
             defaultCurrentTime={currentTime}
             volume={volume}
-            onListen={(e) => dispatch(setCurrentTime(e.target.currentTime))}
-            onVolumeChange={(e) => dispatch(setVolume(e.target.volume))}
+            onListen={(e) => {
+              const audio = e.target as HTMLAudioElement;
+              if (audio) {
+                dispatch(setCurrentTime(audio.currentTime));
+              }
+            }}
+            onVolumeChange={(e) => {
+              const audio = e.target as HTMLAudioElement;
+              if (audio) {
+                dispatch(setVolume(audio.volume));
+              }
+            }}
           />
         </div>
 

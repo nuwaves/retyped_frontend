@@ -15,7 +15,7 @@ export default function AudioPlayer({ src, className, defaultCurrentTime, volume
   const playerRef = useRef<H5AudioPlayer>(null)
   const hasRestoredTime = useRef(false)
 
-  const handleCanPlay = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+  const handleCanPlay = (e: Event) => {
     const audio = playerRef.current?.audio?.current
     if (audio && defaultCurrentTime && defaultCurrentTime > 0 && !hasRestoredTime.current) {
       audio.currentTime = defaultCurrentTime
@@ -24,7 +24,9 @@ export default function AudioPlayer({ src, className, defaultCurrentTime, volume
     if (audio && volume !== undefined) {
       audio.volume = volume
     }
-    props.onCanPlay?.(e)
+    if (props.onCanPlay) {
+      props.onCanPlay(e)
+    }
   }
 
   return (

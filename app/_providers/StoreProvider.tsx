@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { persistStore } from 'redux-persist'
+import { persistStore, Persistor } from 'redux-persist'
 import { makeStore, AppStore } from '@/app/_store/store'
 
 declare global {
@@ -16,8 +16,8 @@ export default function StoreProvider({
 }: {
   children: React.ReactNode
 }) {
-  const storeRef = useRef<AppStore>()
-  const persistorRef = useRef<any>()
+  const storeRef = useRef<AppStore | null>(null)
+  const persistorRef = useRef<Persistor | null>(null)
 
   if (!storeRef.current) {
     if (typeof window !== 'undefined') {
