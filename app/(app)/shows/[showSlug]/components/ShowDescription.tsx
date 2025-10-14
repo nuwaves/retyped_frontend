@@ -8,7 +8,7 @@ interface ShowDescriptionProps {
 }
 
 const styles = {
-  description: "text-base font-normal leading-6 tracking-normal text-gray-700"
+  description: "text-base font-normal leading-6 tracking-normal text-gray-700 break-words overflow-wrap-anywhere"
 };
 
 export default function ShowDescription({ description }: ShowDescriptionProps) {

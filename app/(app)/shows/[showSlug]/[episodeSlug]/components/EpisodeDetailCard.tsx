@@ -24,7 +24,7 @@ const styles = {
   date: "text-sm text-gray-500",
   titleSection: "mb-4",
   title: "text-3xl font-bold mb-3 text-black",
-  description: "text-base text-gray-600 leading-relaxed mb-4",
+  description: "text-base text-gray-600 leading-relaxed mb-4 break-words overflow-wrap-anywhere",
   stats: "flex items-center gap-4 mb-4 text-sm text-gray-500",
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
