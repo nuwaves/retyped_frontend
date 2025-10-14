@@ -8,7 +8,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
-import { convertToISO8601Duration } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, sanitizeForMetaDescription } from "@/app/_utils/formatters";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   }
   
   const episodeTitle = `Retyped summary of ${episode.title}`;
-  const metaDescription = episode.summary || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+  const metaDescription = sanitizeForMetaDescription(episode.summary) || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
 
   return {
     title: `${episodeTitle} | Retyped`,
@@ -129,7 +129,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
     '@context': 'https://schema.org',
     '@type': 'PodcastEpisode',
     name: episode.title,
-    description: episode.summary || episode.description,
+    description: sanitizeForMetaDescription(episode.summary) || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`,
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${showSlug}/${episodeSlug}`,
     datePublished: episode.release_date,
     ...(episode.duration && {

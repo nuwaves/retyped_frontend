@@ -48,3 +48,11 @@ export function convertToISO8601Duration(duration: string | null): string | unde
   if (seconds > 0) iso += `${seconds}S`;
   return iso !== 'PT' ? iso : undefined;
 }
+
+export function sanitizeForMetaDescription(text: string | null | undefined): string {
+  if (!text) return '';
+  return text
+    .replace(/\n+/g, ' ')  // Replace all newlines with spaces
+    .replace(/\s+/g, ' ')  // Collapse multiple spaces into one
+    .trim();               // Remove leading/trailing spaces
+}
