@@ -10,15 +10,15 @@ import Link from 'next/link';
 
 const styles = {
   container: 'fixed bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gray-200',
-  wrapper: 'container mx-auto px-4 py-3 flex flex-col md:flex-row items-start md:items-center gap-4',
+  wrapper: 'container mx-auto px-4 py-3 pr-12 flex flex-col md:flex-row items-start md:items-center gap-4 relative',
   episodeInfoWrapper: 'flex items-center gap-3 w-full md:w-auto flex-1 min-w-0 order-1 md:order-1',
   podcastImageLink: 'flex-shrink-0',
   podcastImage: 'w-12 h-12 rounded-md object-cover',
   episodeInfo: 'flex-1 min-w-0',
   episodeTitleLink: 'text-sm font-semibold text-gray-900 truncate block hover:text-blue-600 transition-colors',
   showName: 'text-xs text-gray-500 truncate',
-  playerWrapper: 'flex-[2] min-w-0 w-full md:w-auto order-3 md:order-2',
-  closeButton: 'flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-full hover:bg-gray-100 absolute top-3 right-4 md:static md:order-3',
+  playerWrapper: 'flex-[2] min-w-0 w-full md:w-auto md:max-w-2xl order-3 md:order-2',
+  closeButton: 'flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-full hover:bg-gray-100 absolute top-3 right-4',
 };
 
 export default function GlobalAudioPlayer() {
