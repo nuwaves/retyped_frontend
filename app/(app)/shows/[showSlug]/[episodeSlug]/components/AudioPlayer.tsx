@@ -11,7 +11,7 @@ export type AudioPlayerProps = React.ComponentProps<typeof H5AudioPlayer> & {
   defaultCurrentTime?: number
 }
 
-export default function AudioPlayer({ src, className, defaultCurrentTime, ...props }: AudioPlayerProps): ReactElement {
+export default function AudioPlayer({ src, className, defaultCurrentTime, volume, ...props }: AudioPlayerProps): ReactElement {
   const playerRef = useRef<H5AudioPlayer>(null)
   const hasRestoredTime = useRef(false)
 
@@ -20,6 +20,9 @@ export default function AudioPlayer({ src, className, defaultCurrentTime, ...pro
     if (audio && defaultCurrentTime && defaultCurrentTime > 0 && !hasRestoredTime.current) {
       audio.currentTime = defaultCurrentTime
       hasRestoredTime.current = true
+    }
+    if (audio && volume !== undefined) {
+      audio.volume = volume
     }
     props.onCanPlay?.(e)
   }

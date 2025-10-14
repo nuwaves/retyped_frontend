@@ -3,7 +3,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { RootState } from '@/app/_store/store';
-import { closePlayer, setCurrentTime } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
+import { closePlayer, setCurrentTime, setVolume } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
 import AudioPlayer from '@/app/(app)/shows/[showSlug]/[episodeSlug]/components/AudioPlayer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -25,7 +25,7 @@ const styles = {
 
 export default function GlobalAudioPlayer() {
   const dispatch = useDispatch();
-  const { currentEpisode, isVisible, isPlaying, currentTime } = useSelector((state: RootState) => state.audioPlayer);
+  const { currentEpisode, isVisible, isPlaying, currentTime, volume } = useSelector((state: RootState) => state.audioPlayer);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -79,7 +79,9 @@ export default function GlobalAudioPlayer() {
             autoPlay={isPlaying}
             showSkipControls={true}
             defaultCurrentTime={currentTime}
+            volume={volume}
             onListen={(e) => dispatch(setCurrentTime(e.target.currentTime))}
+            onVolumeChange={(e) => dispatch(setVolume(e.target.volume))}
           />
         </div>
 

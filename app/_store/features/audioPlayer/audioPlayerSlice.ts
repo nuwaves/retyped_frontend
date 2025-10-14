@@ -7,6 +7,7 @@ interface AudioPlayerState {
   currentTime: number;
   duration: number;
   isVisible: boolean;
+  volume: number;
 }
 
 const initialState: AudioPlayerState = {
@@ -15,6 +16,7 @@ const initialState: AudioPlayerState = {
   currentTime: 0,
   duration: 0,
   isVisible: false,
+  volume: 1,
 };
 
 const audioPlayerSlice = createSlice({
@@ -39,6 +41,9 @@ const audioPlayerSlice = createSlice({
     setDuration: (state, action: PayloadAction<number>) => {
       state.duration = action.payload;
     },
+    setVolume: (state, action: PayloadAction<number>) => {
+      state.volume = action.payload;
+    },
     closePlayer: (state) => {
       state.isVisible = false;
       state.isPlaying = false;
@@ -55,6 +60,7 @@ export const {
   setPlaying,
   setCurrentTime,
   setDuration,
+  setVolume,
   closePlayer,
 } = audioPlayerSlice.actions;
 
