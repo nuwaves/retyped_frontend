@@ -73,7 +73,7 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
           )}
         </div>
 
-        <SafeHTML html={episode.description} className={styles.description} as="p" />
+        <SafeHTML html={episode.description} className={styles.description} as="div" />
 
         <div className={styles.stats}>
           <FontAwesomeIcon icon={faClockRegular} className={styles.statIcon} />
