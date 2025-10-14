@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Trending Episodes | Retyped',
   description: 'Discover the most popular podcast episodes trending right now. Listen to what everyone is talking about.',
   alternates: {
-    canonical: '/trending-episodes',
+    canonical: './',
   },
   openGraph: {
     title: 'Trending Episodes | Retyped',

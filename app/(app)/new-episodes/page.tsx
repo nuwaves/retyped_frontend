@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'New Episodes | Retyped',
   description: 'Discover the latest podcast episodes. Stay up to date with fresh content from your favorite shows.',
   alternates: {
-    canonical: '/new-episodes',
+    canonical: './',
   },
   openGraph: {
     title: 'New Episodes | Retyped',

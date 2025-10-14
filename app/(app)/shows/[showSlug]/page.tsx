@@ -51,7 +51,7 @@ function generateShowMetadata(show: Podcast | null): Metadata {
       images: [show.image_url || ''],
     },
     alternates: {
-      canonical: `/shows/${show.slug}`,
+      canonical: './',
     },
   };
 }

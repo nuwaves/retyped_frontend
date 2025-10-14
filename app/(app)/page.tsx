@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: 'Retyped - Discover Your Next Favorite Podcast',
   description: 'Explore trending podcasts, discover new episodes, and find your next audio obsession. Updated daily with the best content from around the web.',
   alternates: {
-    canonical: '/',
+    canonical: './',
   },
   openGraph: {
     title: 'Retyped - Discover Your Next Favorite Podcast',

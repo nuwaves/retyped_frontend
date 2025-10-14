@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       creator: undefined,
     },
     alternates: {
-      canonical: `/shows/${showSlug}/${episodeSlug}`,
+      canonical: './',
     },
     robots: {
       index: true,

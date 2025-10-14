@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Search Podcasts | Retyped',
   description: 'Build your personal media library. Follow your favorite people, shows, and topics.',
   alternates: {
-    canonical: '/search',
+    canonical: './',
   },
   robots: {
     index: false,
