@@ -56,7 +56,9 @@ const nextConfig: NextConfig = {
           source: '/sitemap-podcasts:id.xml',
           destination: `${DJANGO_BACKEND}/sitemap-podcasts:id.xml`,
         }
-      ]
+      ],
+      afterFiles: [],
+      fallback: [],
     }
   },
   async redirects() {
