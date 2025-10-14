@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { playEpisode, togglePlay } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
 import { RootState } from '@/app/_store/store';
 import Button from '@/app/_components/common/Button';
+import { useState, useEffect } from 'react';
 
 interface EpisodeDetailCardProps {
   episode: Episode;
@@ -33,10 +34,15 @@ const styles = {
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
   const dispatch = useDispatch();
   const { currentEpisode, isPlaying } = useSelector((state: RootState) => state.audioPlayer);
+  const [isClient, setIsClient] = useState(false);
   const topics = episode.tags?.map(tag => tag.name) || [];
   const listenCount = episode.total_views ? `${episode.total_views}` : '0';
 
-  const isCurrentEpisode = currentEpisode?.id === episode.id;
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const isCurrentEpisode = isClient && currentEpisode?.id === episode.id;
 
   const handlePlayClick = () => {
     if (isCurrentEpisode) {
@@ -81,9 +87,12 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
             variant={isCurrentEpisode && isPlaying ? "outline" : "primary"}
             size="md"
             onClick={handlePlayClick}
+            suppressHydrationWarning
           >
-            <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" />
-            {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
+            <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" suppressHydrationWarning />
+            <span suppressHydrationWarning>
+              {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
+            </span>
           </Button>
         </div>
       )}

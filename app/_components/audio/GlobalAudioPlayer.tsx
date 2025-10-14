@@ -1,6 +1,7 @@
 'use client';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { RootState } from '@/app/_store/store';
 import { closePlayer } from '@/app/_store/features/audioPlayer/audioPlayerSlice';
 import AudioPlayer from '@/app/(app)/shows/[showSlug]/[episodeSlug]/components/AudioPlayer';
@@ -24,9 +25,18 @@ const styles = {
 
 export default function GlobalAudioPlayer() {
   const dispatch = useDispatch();
-  const { currentEpisode, isVisible } = useSelector((state: RootState) => state.audioPlayer);
+  const { currentEpisode, isVisible, isPlaying } = useSelector((state: RootState) => state.audioPlayer);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   if (!isVisible || !currentEpisode || !currentEpisode.raw_audio_url) {
+    return null;
+  }
+
+  if (!isClient) {
     return null;
   }
 
@@ -38,7 +48,7 @@ export default function GlobalAudioPlayer() {
   const episodeSlug = currentEpisode.slug;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} suppressHydrationWarning>
       <div className={styles.innerContainer}>
         <div className={styles.wrapper}>
         <div className={styles.episodeInfoWrapper}>
@@ -65,9 +75,8 @@ export default function GlobalAudioPlayer() {
 
         <div className={styles.playerWrapper}>
           <AudioPlayer
-            key={currentEpisode.id}
             src={currentEpisode.raw_audio_url}
-            autoPlay={true}
+            autoPlay={isPlaying}
             showSkipControls={true}
           />
         </div>

@@ -1,4 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import uiReducer from './features/ui/uiSlice'
 import authReducer from './features/auth/authSlice'
 import podcastsReducer from './features/podcasts/podcastsSlice'
@@ -8,6 +10,30 @@ import bookmarksReducer from './features/bookmarks/bookmarksSlice'
 import followsReducer from './features/follows/followsSlice'
 import audioPlayerReducer from './features/audioPlayer/audioPlayerSlice'
 import { clientApi } from './services/clientApi'
+
+const createNoopStorage = () => {
+  return {
+    getItem(_key: string) {
+      return Promise.resolve(null)
+    },
+    setItem(_key: string, value: any) {
+      return Promise.resolve(value)
+    },
+    removeItem(_key: string) {
+      return Promise.resolve()
+    },
+  }
+}
+
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage()
+
+const audioPlayerPersistConfig = {
+  key: 'audioPlayer',
+  storage,
+  whitelist: ['currentEpisode', 'isVisible', 'isPlaying']
+}
+
+const persistedAudioPlayerReducer = persistReducer(audioPlayerPersistConfig, audioPlayerReducer)
 
 export const makeStore = () => {
   return configureStore({
@@ -19,11 +45,15 @@ export const makeStore = () => {
       infiniteScroll: infiniteScrollReducer,
       bookmarks: bookmarksReducer,
       follows: followsReducer,
-      audioPlayer: audioPlayerReducer,
+      audioPlayer: persistedAudioPlayerReducer,
       [clientApi.reducerPath]: clientApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(clientApi.middleware),
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(clientApi.middleware),
   })
 }
 
