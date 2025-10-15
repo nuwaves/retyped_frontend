@@ -61,11 +61,9 @@ export default function ActivityContainer() {
   const bookmarkedEpisodes: Episode[] = (bookmarksData?.results || [])
     .map(bookmark => {
       try {
-        // If entity is already an object, use it directly
         if (typeof bookmark.entity === 'object') {
-          return bookmark.entity as Episode;
+          return bookmark.entity as unknown as Episode;
         }
-        // Otherwise parse it as JSON string
         return JSON.parse(bookmark.entity) as Episode;
       } catch (error) {
         console.error('Failed to parse bookmark entity:', error);
@@ -78,11 +76,9 @@ export default function ActivityContainer() {
   const followedPodcasts: Podcast[] = (followsData?.results || [])
     .map(follow => {
       try {
-        // If entity is already an object, use it directly
         if (typeof follow.entity === 'object') {
-          return follow.entity as Podcast;
+          return follow.entity as unknown as Podcast;
         }
-        // Otherwise parse it as JSON string
         return JSON.parse(follow.entity) as Podcast;
       } catch (error) {
         console.error('Failed to parse follow entity:', error);
@@ -95,11 +91,9 @@ export default function ActivityContainer() {
   const recentlyVisitedEpisodes: Episode[] = (analyticsEpisodesData?.results || [])
     .map(analytic => {
       try {
-        // If entity_detail is already an object, use it directly
         if (typeof analytic.entity_detail === 'object') {
-          return analytic.entity_detail as Episode;
+          return analytic.entity_detail as unknown as Episode;
         }
-        // Otherwise parse it as JSON string
         return JSON.parse(analytic.entity_detail) as Episode;
       } catch (error) {
         console.error('Failed to parse analytics episode entity:', error);
@@ -112,11 +106,9 @@ export default function ActivityContainer() {
   const recentlyVisitedPodcasts: Podcast[] = (analyticsPodcastsData?.results || [])
     .map(analytic => {
       try {
-        // If entity_detail is already an object, use it directly
         if (typeof analytic.entity_detail === 'object') {
-          return analytic.entity_detail as Podcast;
+          return analytic.entity_detail as unknown as Podcast;
         }
-        // Otherwise parse it as JSON string
         return JSON.parse(analytic.entity_detail) as Podcast;
       } catch (error) {
         console.error('Failed to parse analytics podcast entity:', error);

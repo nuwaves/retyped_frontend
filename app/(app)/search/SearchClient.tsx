@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import SearchContainer from '@/app/_components/modules/search/SearchContainer';
+import SearchContainer from './components/SearchContainer';
 
 function SearchPageContent() {
   const searchParams = useSearchParams();

@@ -7,7 +7,7 @@ export interface Follow extends TimestampedModel {
   user: number;
   entity_type: FollowEntityType;
   entity_id: number;
-  entity: string | Record<string, any>; // Can be JSON string or parsed object from backend
+  entity: string | Record<string, unknown>;
 }
 
 export interface CreateFollowRequest {

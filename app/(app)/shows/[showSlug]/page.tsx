@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import BackNavigation from "@/app/_components/common/BackNavigation";
 import ShowDetailCard from "./components/ShowDetailCard";
 import ShowActionButtons from "./components/ShowActionButtons";
-import EpisodesList from "@/app/_components/modules/shows/EpisodesList";
+import EpisodesList from "./components/EpisodesList";
 import { api } from "@/app/_lib/serverApi";
 import { Episode, PaginatedResponse, Podcast } from "@/app/_types";
 import { sanitize } from "@/app/_utils/sanitizeHtml";

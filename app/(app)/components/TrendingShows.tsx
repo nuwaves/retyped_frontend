@@ -1,5 +1,5 @@
 import { faMicrophone } from '@/app/_lib/icons';
-import SectionHeader from '../../common/SectionHeader';
+import SectionHeader from '@/app/_components/common/SectionHeader';
 import { ReactNode } from 'react';
 
 const styles = {

@@ -5,7 +5,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import type { Episode } from '@/app/_types';
 import { useLazyGetPodcastEpisodesQuery } from '@/app/_store/services/podcastsApi';
 import EpisodeListItem from './EpisodeListItem';
-import Button from '../../common/Button';
+import Button from '@/app/_components/common/Button';
 
 interface LoadMoreEpisodesProps {
   initialOffset: number;

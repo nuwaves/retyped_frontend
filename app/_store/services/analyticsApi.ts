@@ -5,7 +5,7 @@ import { PaginatedResponse } from '@/app/_types';
 export interface AnalyticDetail {
   id: number;
   user: number | null;
-  entity_detail: string | Record<string, any>; // Can be JSON string or parsed object
+  entity_detail: string | Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }

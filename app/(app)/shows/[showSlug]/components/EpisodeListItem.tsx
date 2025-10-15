@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClockRegular } from '@/app/_lib/icons';
 import type { Episode } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
-import Pill from '../../common/Pill';
-import SafeHTML from '../../common/SafeHTML';
+import Pill from '@/app/_components/common/Pill';
+import SafeHTML from '@/app/_components/common/SafeHTML';
 
 interface EpisodeCardProps {
   episode: Episode;

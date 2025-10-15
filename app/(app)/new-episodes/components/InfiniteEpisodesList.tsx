@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { m, AnimatePresence } from 'framer-motion';
-import EpisodeListItem from '@/app/_components/modules/shows/EpisodeListItem';
+import EpisodeListItem from '@/app/(app)/shows/[showSlug]/components/EpisodeListItem';
 import LoadingSpinner from '@/app/_components/common/LoadingSpinner';
 import InfiniteScrollTrigger from '@/app/_components/common/InfiniteScrollTrigger';
 import RefreshPrompt from '@/app/_components/common/RefreshPrompt';

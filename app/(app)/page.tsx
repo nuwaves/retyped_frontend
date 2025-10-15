@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import HeroSearch from '@/app/_components/modules/home/HeroSearch';
-import TrendingShows from '@/app/_components/modules/home/TrendingShows';
-import TrendingEpisodes from '@/app/_components/modules/home/TrendingEpisodes';
-import NewEpisodes from '@/app/_components/modules/home/NewEpisodes';
+import HeroSearch from './components/HeroSearch';
+import TrendingShows from './components/TrendingShows';
+import TrendingEpisodes from './components/TrendingEpisodes';
+import NewEpisodes from './components/NewEpisodes';
 import ShowCard from '@/app/_components/cards/ShowCard';
 import EpisodeCard from '@/app/_components/cards/EpisodeCard';
 import { Episode, Podcast, PaginatedResponse } from '@/app/_types';
