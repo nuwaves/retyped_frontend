@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import ActivityContainer from '@/app/_components/modules/activity/ActivityContainer';
+import ActivityContainer from './components/ActivityContainer';
 import LoadingSpinner from '@/app/_components/common/LoadingSpinner';
 
 export default function MyActivityPage() {
