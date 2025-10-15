@@ -26,7 +26,7 @@ export default function EpisodesList({ episodes, totalCount, showSlug }: Episode
       {/* Server-rendered initial episodes */}
       <div className={styles.list}>
         {episodes.map((episode) => (
-          <EpisodeListItem key={episode.id} episode={episode} />
+          <EpisodeListItem key={episode.id} episode={episode} showSlug={showSlug} />
         ))}
       </div>
 

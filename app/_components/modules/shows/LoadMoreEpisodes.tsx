@@ -82,7 +82,7 @@ export default function LoadMoreEpisodes({ initialOffset, showSlug, totalCount }
                   }}
                   layout
                 >
-                  <EpisodeListItem episode={episode} />
+                  <EpisodeListItem episode={episode} showSlug={showSlug} />
                 </m.div>
               );
             })}

@@ -11,6 +11,7 @@ import SafeHTML from '../../common/SafeHTML';
 
 interface EpisodeCardProps {
   episode: Episode;
+  showSlug?: string;
 }
 
 const styles = {
@@ -27,8 +28,9 @@ const styles = {
   overlay: "absolute inset-0 z-10"
 };
 
-export default function EpisodeListItem({ episode }: EpisodeCardProps) {
-  // Check if episode was published within the last 7 days
+export default function EpisodeListItem({ episode, showSlug }: EpisodeCardProps) {
+  const podcastSlug = showSlug || episode.podcast?.slug;
+
   const isNewEpisode = () => {
     const releaseDate = new Date(episode.release_date);
     const now = new Date();
@@ -40,13 +42,13 @@ export default function EpisodeListItem({ episode }: EpisodeCardProps) {
   return (
     <div className={styles.container}>
       <Link
-        href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+        href={`/shows/${podcastSlug}/${episode.slug}`}
         className={styles.overlay}
         aria-label={`View episode: ${episode.title}`}
       />
 
       <Link
-        href={`/shows/${episode.podcast?.slug}`}
+        href={`/shows/${podcastSlug}`}
         className={styles.imageWrapper}
         onClick={(e) => e.stopPropagation()}
       >

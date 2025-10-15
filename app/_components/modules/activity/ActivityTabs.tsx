@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Episode, Podcast } from '@/app/_types';
 import BookmarkedEpisodesList from './BookmarkedEpisodesList';
 import FollowedPodcastsList from './FollowedPodcastsList';
@@ -50,7 +50,7 @@ export default function ActivityTabs({ bookmarkedEpisodes, followedPodcasts, rec
             role="tab"
           >
             {activeTab === tab.id && (
-              <motion.div
+              <m.div
                 className={styles.backgroundPill}
                 layoutId="activityTabBackground"
                 initial={false}
