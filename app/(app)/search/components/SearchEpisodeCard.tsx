@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@/app/_lib/icons';
 import SafeHTML from '@/app/_components/common/SafeHTML';
 
 interface SearchEpisodeCardProps {

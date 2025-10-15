@@ -1,6 +1,6 @@
 import type { Episode } from '@/app/_types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuoteLeft, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faQuoteLeft, faClockRotateLeft } from '@/app/_lib/icons';
 import ReactMarkdown from 'react-markdown';
 import ContentSection from './ContentSection';
 

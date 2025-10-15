@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo, animate } from 'framer-motion';
+import { m, AnimatePresence, useMotionValue, useTransform, PanInfo, animate } from 'framer-motion';
 import { useEffect } from 'react';
 import SearchBar from './SearchBar';
 import AuthButtons from './AuthButtons';
@@ -83,7 +83,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
       {isOpen && (
         <>
           {/* Backdrop */}
-          <motion.div
+          <m.div
             className={styles.backdrop}
             style={{
               opacity: backdropOpacity,
@@ -96,7 +96,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           />
 
           {/* Sidebar */}
-          <motion.div
+          <m.div
             className={styles.sidebar}
             style={{ x }}
             drag="x"
@@ -113,13 +113,13 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           >
             <div className={styles.content}>
               <div className={styles.searchWrapper}>
-                <SearchBar />
+                <SearchBar onSearchComplete={onClose} />
               </div>
               <div className={styles.authWrapper}>
-                <AuthButtons />
+                <AuthButtons onActionComplete={onClose} />
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>

@@ -1,7 +1,8 @@
 'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faArrowRight } from '@/app/_lib/icons';
+import Link from 'next/link';
 
 interface SectionHeaderProps {
   icon: IconDefinition;
@@ -26,13 +27,13 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className={styles.header}>
-      <a href={viewAllLink} className={styles.titleSection}>
+      <Link href={viewAllLink} className={styles.titleSection}>
         <FontAwesomeIcon icon={icon} className={styles.icon} />
         <h2 className={styles.title}>{title}</h2>
-      </a>
-      <a href={viewAllLink} className={styles.viewAll}>
+      </Link>
+      <Link href={viewAllLink} className={styles.viewAll}>
         {viewAllText} <FontAwesomeIcon icon={faArrowRight} className="ml-1 text-xs" />
-      </a>
+      </Link>
     </div>
   );
 }

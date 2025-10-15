@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from '@/app/_components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faFileAlt, faLock } from '@/app/_lib/icons';
 import Pill from '@/app/_components/common/Pill';
 import ContentSection from './ContentSection';
 
@@ -21,17 +21,17 @@ interface TranscriptSectionProps {
 }
 
 const styles = {
-  container: "relative -mx-6 -mb-6 px-6",
+  container: "relative -mx-6 -mb-6 px-6 pb-32",
   transcript: "space-y-8",
   transcriptEntry: "flex gap-3 items-center",
   transcriptText: "flex-1 text-base font-normal leading-6 text-gray-700",
   speaker: "text-base font-normal leading-6 text-gray-900",
   gradualBlurSection: "relative select-none pointer-events-none pb-6",
-  gradualBlurContent: "relative",
-  blurOverlay: "absolute -inset-x-6 inset-y-0 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_20%,black_80%,black_100%)] pointer-events-none",
-  fadeOverlay: "absolute -inset-x-6 inset-y-0 bg-gradient-to-b from-transparent from-[20%] via-white/30 via-[60%] to-white pointer-events-none",
-  authPrompt: "text-center w-full pb-6 mx-auto max-w-md mb-12",
-  lockIcon: "text-gray-400 text-sm mb-4",
+  gradualBlurContent: "relative max-h-24 overflow-hidden",
+  blurOverlay: "absolute -inset-x-6 inset-y-0 backdrop-blur-md [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_10%,black_50%,black_100%)] pointer-events-none",
+  fadeOverlay: "absolute -inset-x-6 inset-y-0 bg-gradient-to-b from-transparent from-[10%] via-white/50 via-[40%] to-white pointer-events-none",
+  authPrompt: "absolute left-0 right-0 top-16 text-center w-full mx-auto max-w-md z-10 pointer-events-auto px-6",
+  lockIcon: "text-gray-400 text-4xl mb-6",
   authTitle: "text-sm font-normal leading-[22px] mb-2 text-gray-900",
   authDescription: "text-sm font-normal leading-[22px] text-gray-600 mb-6",
   authButtons: "flex gap-4 justify-center"
@@ -39,7 +39,7 @@ const styles = {
 
 export default function TranscriptSection({ transcript, scriptTranscript, isAuthenticated }: TranscriptSectionProps) {
   const pathname = usePathname();
-  const CHARACTER_LIMIT = 500;
+  const CHARACTER_LIMIT = 200;
 
   // Parse script_transcript into blocks
   const parseScriptTranscript = (script: string | undefined): TranscriptEntry[] => {
@@ -104,16 +104,10 @@ export default function TranscriptSection({ transcript, scriptTranscript, isAuth
 
           <div className={styles.authPrompt}>
             <FontAwesomeIcon icon={faLock} className={styles.lockIcon} />
-            <h3 className={styles.authTitle}>Full transcript requires sign up</h3>
-            <p className={styles.authDescription}>
-              Get access to the complete transcript, episode notes, and exclusive content by signing up.
-            </p>
+            <h3 className={styles.authTitle}>Transcript requires login</h3>
             <div className={styles.authButtons}>
-              <Link href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`}>
-                <Button variant="primary" size="md">Sign Up for Free</Button>
-              </Link>
-              <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
-                <Button variant="outline" size="md">Log In</Button>
+              <Link href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}>
+                <Button variant="primary" size="md">Sign In / Sign Up</Button>
               </Link>
             </div>
           </div>

@@ -2,19 +2,24 @@
 
 import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import { m, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useAppSelector } from '@/app/_store/hooks';
 import Logo from './navbar/Logo';
 import SearchBar from './navbar/SearchBar';
 import AuthButtons from './navbar/AuthButtons';
 import HamburgerButton from './navbar/HamburgerButton';
-import MobileSidebar from './navbar/MobileSidebar';
+
+// Lazy load MobileSidebar - only loads when hamburger is clicked
+const MobileSidebar = dynamic(() => import('./navbar/MobileSidebar'), {
+  ssr: false,
+});
 
 const styles = {
-  nav: "w-full h-14 bg-white fixed top-0 left-0 right-0 z-10 border-b border-black/[0.08]",
+  nav: "w-full h-14 bg-white fixed top-0 left-0 right-0 z-50 border-b border-black/[0.08]",
   container: "h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
   wrapper: "h-full flex justify-between items-center",
-  rightSection: "hidden md:flex items-center gap-4 w-1/2"
+  rightSection: "hidden md:flex items-center justify-end gap-4 w-1/2"
 };
 
 export default function Navbar() {
@@ -39,7 +44,7 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         className={styles.nav}
         animate={{ y: hidden ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -65,7 +70,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </motion.nav>
+      </m.nav>
 
       {/* Mobile Sidebar */}
       {!isAuthPage && (

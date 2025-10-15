@@ -1,38 +1,43 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-import type { ReactElement } from 'react'
-import type H5AudioPlayerType from 'react-h5-audio-player'
+import { useRef, type ReactElement } from 'react'
+import H5AudioPlayer from 'react-h5-audio-player'
 import { RHAP_UI } from 'react-h5-audio-player'
 import 'react-h5-audio-player/lib/styles.css'
 import './audio-player.css'
 
-// Dynamically import the audio player with SSR disabled
-const H5AudioPlayer = dynamic(
-  () => import('react-h5-audio-player'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex items-center justify-center p-4 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse">
-        <div className="text-sm text-gray-500 dark:text-gray-400">Loading audio player...</div>
-      </div>
-    )
-  }
-) as unknown as typeof H5AudioPlayerType
-
-// Export the component props type for external use
-export type AudioPlayerProps = React.ComponentProps<typeof H5AudioPlayerType> & {
+export type AudioPlayerProps = React.ComponentProps<typeof H5AudioPlayer> & {
   className?: string
+  defaultCurrentTime?: number
 }
 
-export default function AudioPlayer({ src, className, ...props }: AudioPlayerProps): ReactElement {
+export default function AudioPlayer({ src, className, defaultCurrentTime, volume, ...props }: AudioPlayerProps): ReactElement {
+  const playerRef = useRef<H5AudioPlayer>(null)
+  const hasRestoredTime = useRef(false)
+
+  const handleCanPlay = (e: Event) => {
+    const audio = playerRef.current?.audio?.current
+    if (audio && defaultCurrentTime && defaultCurrentTime > 0 && !hasRestoredTime.current) {
+      audio.currentTime = defaultCurrentTime
+      hasRestoredTime.current = true
+    }
+    if (audio && volume !== undefined) {
+      audio.volume = volume
+    }
+    if (props.onCanPlay) {
+      props.onCanPlay(e)
+    }
+  }
+
   return (
     <H5AudioPlayer
       {...props}
+      ref={playerRef}
       src={src}
-      preload="none"
+      preload={defaultCurrentTime && defaultCurrentTime > 0 ? "metadata" : "none"}
       showSkipControls={false}
       showJumpControls={true}
+      onCanPlay={handleCanPlay}
       customProgressBarSection={[
         RHAP_UI.PROGRESS_BAR,
         RHAP_UI.CURRENT_TIME,

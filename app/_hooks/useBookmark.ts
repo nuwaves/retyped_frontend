@@ -30,8 +30,7 @@ export function useBookmark(entity_type: 'episode' | 'podcast', entity_id: numbe
 
   const toggleBookmark = useCallback(async () => {
     if (!isAuthenticated) {
-      // Redirect to login
-      window.location.href = '/login';
+      window.location.href = '/auth';
       return;
     }
 

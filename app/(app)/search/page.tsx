@@ -1,20 +1,18 @@
-'use client';
+import { Metadata } from 'next';
+import SearchClient from './SearchClient';
 
-import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import SearchContainer from '@/app/_components/modules/search/SearchContainer';
-
-function SearchPageContent() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q') || '';
-
-  return <SearchContainer initialQuery={query} />;
-}
+export const metadata: Metadata = {
+  title: 'Search Podcasts | Retyped',
+  description: 'Build your personal media library. Follow your favorite people, shows, and topics.',
+  alternates: {
+    canonical: './',
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function SearchPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SearchPageContent />
-    </Suspense>
-  );
+  return <SearchClient />;
 }

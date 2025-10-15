@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@/app/_lib/icons';
 
 interface BackNavigationProps {
   href: string;

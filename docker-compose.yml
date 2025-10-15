@@ -10,7 +10,7 @@ services:
       - /app/node_modules
       - /app/.next
     env_file:
-      - .env.dev
+      - .env.local
     restart: unless-stopped
     networks:
       - retyped-local

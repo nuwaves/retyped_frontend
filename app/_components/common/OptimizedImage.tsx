@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { useImageWithRetry } from '@/app/_hooks/useImageWithRetry';
 import ImageSkeleton from './ImageSkeleton';
 
 interface OptimizedImageProps {
@@ -31,15 +31,12 @@ export default function OptimizedImage({
   loading = 'lazy',
   rounded = false
 }: OptimizedImageProps) {
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(!priority);
+
   const isValidSrc = src && src.trim() !== '';
 
-  // Always call hook (React rules), but with fallback src
-  const { currentSrc, isLoading, hasError, handleError, handleLoad, key } = useImageWithRetry({
-    src: isValidSrc ? src : 'placeholder'
-  });
-
-  // Show fallback immediately for invalid src
-  if (!isValidSrc) {
+  if (!isValidSrc || hasError) {
     return (
       <div className={`relative ${containerClassName}`}>
         <div
@@ -50,37 +47,33 @@ export default function OptimizedImage({
     );
   }
 
+  const wrapperClass = fill && !containerClassName
+    ? 'relative w-full h-full'
+    : `relative ${containerClassName}`;
+
   return (
-    <div className={`relative ${containerClassName}`}>
-      {isLoading && !hasError && (
+    <div className={wrapperClass}>
+      {isLoading && (
         <ImageSkeleton
           className="absolute inset-0 w-full h-full"
           rounded={rounded}
         />
       )}
 
-      {hasError ? (
-        <div
-          className={`bg-gray-200 ${rounded ? 'rounded' : ''} ${className}`}
-          style={{ width: fill ? '100%' : width, height: fill ? '100%' : height }}
-        />
-      ) : (
-        <Image
-          key={key}
-          src={currentSrc}
-          alt={alt}
-          fill={fill}
-          width={!fill ? width : undefined}
-          height={!fill ? height : undefined}
-          sizes={sizes}
-          className={className}
-          priority={priority}
-          loading={priority ? 'eager' : loading}
-          onError={handleError}
-          onLoad={handleLoad}
-          draggable={false}
-        />
-      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill={fill}
+        width={!fill ? width : undefined}
+        height={!fill ? height : undefined}
+        sizes={sizes}
+        className={className}
+        priority={priority}
+        loading={priority ? 'eager' : loading}
+        onError={() => setHasError(true)}
+        onLoad={() => setIsLoading(false)}
+        draggable={false}
+      />
     </div>
   );
 }

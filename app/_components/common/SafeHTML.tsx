@@ -1,5 +1,3 @@
-import { sanitize } from '@/app/_utils/sanitizeHtml';
-
 interface SafeHTMLProps {
   html: string | null | undefined;
   className?: string;
@@ -11,13 +9,10 @@ export default function SafeHTML({
   className = '',
   as: Component = 'div'
 }: SafeHTMLProps) {
-  const cleanHtml = sanitize(html || '');
-
   return (
     <Component
       className={className}
-      dangerouslySetInnerHTML={{ __html: cleanHtml }}
-      suppressHydrationWarning
+      dangerouslySetInnerHTML={{ __html: html || '' }}
     />
   );
 }

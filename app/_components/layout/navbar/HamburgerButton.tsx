@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 interface HamburgerButtonProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ export default function HamburgerButton({ isOpen, onClick }: HamburgerButtonProp
       aria-expanded={isOpen}
     >
       <div className="relative w-6 h-5">
-        <motion.span
+        <m.span
           className={styles.line}
           animate={isOpen ? {
             rotate: 45,
@@ -32,7 +32,7 @@ export default function HamburgerButton({ isOpen, onClick }: HamburgerButtonProp
           }}
           transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
         />
-        <motion.span
+        <m.span
           className={`${styles.line} top-1/2 -translate-y-1/2`}
           animate={isOpen ? {
             opacity: 0,
@@ -43,7 +43,7 @@ export default function HamburgerButton({ isOpen, onClick }: HamburgerButtonProp
           }}
           transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] }}
         />
-        <motion.span
+        <m.span
           className={`${styles.line} bottom-0`}
           animate={isOpen ? {
             rotate: -45,
