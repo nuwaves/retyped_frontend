@@ -23,7 +23,7 @@ const getStyles = (variant: 'vertical' | 'horizontal') => {
   const isHorizontal = variant === 'horizontal';
 
   return {
-    card: `relative flex ${isHorizontal ? 'flex-row lg:flex-col' : 'flex-col'} gap-3 lg:gap-0 bg-white rounded ${isHorizontal ? 'p-4 lg:p-0' : 'overflow-hidden'} shadow-md hover:shadow-lg transition-shadow ${!isHorizontal ? 'overflow-hidden' : ''} h-full`,
+    card: `relative flex ${isHorizontal ? 'flex-row lg:flex-col' : 'flex-col'} gap-3 lg:gap-0 bg-white rounded ${isHorizontal ? 'p-4 lg:p-0' : 'overflow-hidden'} shadow-[0px_4px_6px_0px_#00000017] ${!isHorizontal ? 'overflow-hidden' : ''} h-full`,
     imageContainer: `relative flex-shrink-0 ${isHorizontal ? 'w-20 h-20' : 'w-full h-0 pb-[100%]'} lg:w-full lg:h-0 lg:pb-[100%] ${isHorizontal ? 'rounded' : ''} lg:rounded-none bg-gray-200`,
     imageWrapper: `${isHorizontal ? '' : 'absolute inset-0'} lg:absolute lg:inset-0 w-full h-full`,
     image: "w-full h-full object-cover",
