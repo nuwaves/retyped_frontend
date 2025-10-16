@@ -102,6 +102,7 @@ export default async function Home() {
           {trendingEpisodes.map(episode => (
             <EpisodeCard
               key={episode.id}
+              episodeId={episode.id}
               showName={episode.podcast?.name || ''}
               showSlug={episode.podcast?.slug}
               episodeTitle={episode.title}
@@ -118,6 +119,7 @@ export default async function Home() {
           {newEpisodes.map(episode => (
             <EpisodeCard
               key={episode.id}
+              episodeId={episode.id}
               showName={episode.podcast?.name || ''}
               showSlug={episode.podcast?.slug}
               episodeTitle={episode.title}
