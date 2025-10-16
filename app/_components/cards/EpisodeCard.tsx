@@ -20,8 +20,8 @@ interface EpisodeCardProps {
 }
 
 const styles = {
-  card: "relative flex flex-col gap-6 bg-white rounded px-6 pt-8 pb-6 lg:pb-15 shadow-[0px_3px_3px_0px_#E2E8F0] hover:shadow-none transition-shadow duration-200 group",
-  cardWithImage: "relative flex flex-col gap-4 bg-white rounded p-4 pb-6 lg:pb-12 shadow-[0px_3px_3px_0px_#E2E8F0] hover:shadow-none transition-shadow duration-200 group",
+  card: "relative flex flex-col gap-6 bg-white rounded px-6 pt-8 pb-6 lg:pb-15 shadow-[0px_3px_3px_0px_#E2E8F0] hover:shadow-none transition-shadow duration-150 group",
+  cardWithImage: "relative flex flex-col gap-4 bg-white rounded p-4 pb-6 lg:pb-12 shadow-[0px_3px_3px_0px_#E2E8F0] hover:shadow-none transition-shadow duration-150 group",
   topSection: "flex gap-4",
   imageContainer: "flex-shrink-0 w-[70px] h-[70px] relative rounded overflow-hidden",
   content: "flex flex-col gap-2 flex-1 min-w-0",
@@ -33,8 +33,8 @@ const styles = {
   description: "text-sm text-gray-600 line-clamp-2",
   footer: "flex items-center gap-2 text-xs text-gray-500",
   dot: "w-1 h-1 bg-gray-500 rounded-full",
-  bookmarkButton: "absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-20",
-  openButton: "absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-20 text-gray-900 text-[12px] leading-[24px] font-medium flex items-center gap-1"
+  bookmarkButton: "absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20",
+  openButton: "absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 text-gray-900 text-[12px] leading-[24px] font-medium flex items-center gap-1"
 };
 
 export default function EpisodeCard({
