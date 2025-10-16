@@ -33,7 +33,7 @@ const sidebarVariants = {
     x: '100%',
     transition: {
       type: 'tween' as const,
-      duration: 0.3,
+      duration: 0.2,
       ease: 'easeInOut' as const
     }
   },
@@ -41,7 +41,7 @@ const sidebarVariants = {
     x: 0,
     transition: {
       type: 'tween' as const,
-      duration: 0.3,
+      duration: 0.2,
       ease: [0.25, 0.1, 0.25, 1] as const
     }
   }
@@ -115,7 +115,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
 
