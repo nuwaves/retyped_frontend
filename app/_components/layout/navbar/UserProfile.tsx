@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@/app/_lib/icons';
+import { faCaretDown, faClockRegular, faChartLine } from '@/app/_lib/icons';
 
 interface UserProfileProps {
   email: string;
@@ -18,7 +18,7 @@ const styles = {
   email: "font-inter font-normal text-sm leading-6 max-w-[300px] truncate",
   caret: "text-gray-600 text-xs",
   dropdown: "absolute top-[calc(100%+8px)] right-0 bg-white rounded shadow-[0px_4px_6px_0px_#00000017] border border-gray-200 p-[5px] flex flex-col gap-[10px] z-50",
-  menuItem: "font-inter font-normal text-sm leading-6 text-slate-900 hover:bg-gray-100 px-3 py-2 rounded cursor-pointer transition-colors"
+  menuItem: "flex items-center gap-2 font-inter font-medium text-sm leading-5 text-slate-900 hover:bg-gray-100 px-8 py-2 rounded cursor-pointer transition-colors"
 };
 
 export default function UserProfile({ email, initials }: UserProfileProps) {
@@ -56,11 +56,13 @@ export default function UserProfile({ email, initials }: UserProfileProps) {
       </div>
 
       {isOpen && (
-        <div className={styles.dropdown}>
-          <Link href="/my-activity" className={styles.menuItem} onClick={() => setIsOpen(false)}>
+        <div className={styles.dropdown} onMouseDown={(e) => e.preventDefault()}>
+          <Link href="/my-library" className={styles.menuItem} onClick={() => setIsOpen(false)}>
+            <FontAwesomeIcon icon={faClockRegular} className="w-4 h-4" />
             My Activity
           </Link>
           <Link href="/creator-dashboard" className={styles.menuItem} onClick={() => setIsOpen(false)}>
+            <FontAwesomeIcon icon={faChartLine} className="w-4 h-4" />
             Creator Dashboard
           </Link>
         </div>
