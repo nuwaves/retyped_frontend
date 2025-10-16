@@ -109,6 +109,7 @@ export default async function Home() {
               duration={episode.duration || '--:--'}
               date={formatDate(episode.release_date)}
               href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+              imageUrl={episode.podcast?.image_url}
             />
           ))}
         </TrendingEpisodes>
@@ -124,6 +125,7 @@ export default async function Home() {
               duration={episode.duration || '--:--'}
               date={formatDate(episode.release_date)}
               href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+              imageUrl={episode.podcast?.image_url}
             />
           ))}
         </NewEpisodes>
