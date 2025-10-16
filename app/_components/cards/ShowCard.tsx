@@ -95,7 +95,7 @@ export default function ShowCard({
 
         <div className={styles.buttonWrapper}>
           <Link href={href} className={`${variant === 'vertical' ? 'block' : 'hidden lg:block'} w-full`}>
-            <Button variant="primary" size="md" fullWidth>
+            <Button variant="solid" size="md" fullWidth>
               Explore Show
             </Button>
           </Link>
