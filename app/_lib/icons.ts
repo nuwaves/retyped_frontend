@@ -6,7 +6,7 @@
 // Export icon type
 export type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-// Solid icons (19 total)
+// Solid icons (20 total)
 export {
   faArrowLeft,
   faArrowRight,
@@ -14,6 +14,7 @@ export {
   faArrowUpFromBracket,
   faBookmark,
   faCalendar,
+  faCaretDown,
   faChartLine,
   faClock,
   faClockRotateLeft,
