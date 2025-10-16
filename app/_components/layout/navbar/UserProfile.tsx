@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { m } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@/app/_lib/icons';
 
@@ -22,17 +23,36 @@ const styles = {
 
 export default function UserProfile({ email, initials }: UserProfileProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [rotation, setRotation] = useState(0);
+
+  const handleToggle = () => {
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    setRotation(prev => prev + 180);
+  };
+
+  const handleClose = () => {
+    if (isOpen) {
+      setRotation(prev => prev + 180);
+      setIsOpen(false);
+    }
+  };
 
   return (
     <div
       className={styles.container}
-      onBlur={() => setIsOpen(false)}
+      onBlur={handleClose}
       tabIndex={-1}
     >
-      <div className={styles.userButton} onClick={() => setIsOpen(!isOpen)}>
+      <div className={styles.userButton} onClick={handleToggle}>
         <div className={styles.initialsCircle}>{initials}</div>
         <span className={styles.email}>{email}</span>
-        <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+        <m.div
+          animate={{ rotate: rotation }}
+          transition={{ duration: 0.15, ease: "easeInOut" }}
+        >
+          <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+        </m.div>
       </div>
 
       {isOpen && (
