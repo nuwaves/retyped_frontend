@@ -2,8 +2,12 @@
 
 import { m, AnimatePresence, useMotionValue, useTransform, PanInfo, animate } from 'framer-motion';
 import { useEffect } from 'react';
+import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClockRegular, faChartLine, faUserRegular } from '@/app/_lib/icons';
 import SearchBar from './SearchBar';
-import AuthButtons from './AuthButtons';
+import Button from '@/app/_components/common/Button';
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -12,10 +16,16 @@ interface MobileSidebarProps {
 
 const styles = {
   backdrop: "fixed inset-0 top-14 bg-black/80 backdrop-blur-2xl z-40",
-  sidebar: "fixed top-14 right-0 bottom-0 left-0 bg-white z-50 overflow-y-auto",
-  content: "flex flex-col gap-6 p-6",
+  sidebar: "fixed top-14 right-0 bottom-0 left-0 bg-white z-50 overflow-y-auto flex flex-col",
+  content: "flex flex-col gap-6 p-6 flex-1",
   searchWrapper: "w-full",
-  authWrapper: "w-full"
+  userSection: "flex flex-col gap-4 w-full",
+  menuLink: "flex items-center gap-3 font-inter font-medium text-sm leading-5 text-slate-900 hover:bg-gray-100 px-4 py-3 rounded transition-colors",
+  logoutSection: "p-6 border-t border-gray-200 flex items-center justify-between",
+  logoutButton: "font-inter font-medium text-sm text-slate-900 hover:opacity-80 transition-opacity",
+  userInfo: "flex items-center gap-2",
+  initialsCircle: "w-8 h-8 rounded-full bg-slate-200 text-black flex items-center justify-center font-inter font-medium text-sm select-none",
+  email: "font-inter font-normal text-sm leading-6"
 };
 
 const sidebarVariants = {
@@ -40,8 +50,22 @@ const sidebarVariants = {
 
 
 export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
+  const { data: session } = useSession();
   const x = useMotionValue(0);
   const backdropOpacity = useTransform(x, [0, 300], [0.8, 0]);
+
+  const getInitials = () => {
+    const firstName = session?.backendToken?.user.first_name || '';
+    const lastName = session?.backendToken?.user.last_name || '';
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    return `${firstInitial}${lastInitial}`;
+  };
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' });
+    onClose();
+  };
 
   // Prevent body scroll when sidebar is open
   useEffect(() => {
@@ -115,10 +139,40 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               <div className={styles.searchWrapper}>
                 <SearchBar onSearchComplete={onClose} />
               </div>
-              <div className={styles.authWrapper}>
-                <AuthButtons onActionComplete={onClose} />
-              </div>
+
+              {session ? (
+                <div className={styles.userSection}>
+                  <Link href="/my-library" className={styles.menuLink} onClick={onClose}>
+                    <FontAwesomeIcon icon={faClockRegular} className="w-5 h-5" />
+                    My Activity
+                  </Link>
+
+                  <Link href="/creator-dashboard" className={styles.menuLink} onClick={onClose}>
+                    <FontAwesomeIcon icon={faChartLine} className="w-5 h-5" />
+                    Creator Dashboard
+                  </Link>
+                </div>
+              ) : (
+                <Link href="/auth" onClick={onClose}>
+                  <Button variant="primary" size="sm" fullWidth>
+                    <FontAwesomeIcon icon={faUserRegular} className="text-white" />
+                    Sign In / Sign Up
+                  </Button>
+                </Link>
+              )}
             </div>
+
+            {session && (
+              <div className={styles.logoutSection}>
+                <button onClick={handleSignOut} className={styles.logoutButton}>
+                  Log out
+                </button>
+                <div className={styles.userInfo}>
+                  <div className={styles.initialsCircle}>{getInitials()}</div>
+                  <span className={styles.email}>{session.backendToken?.user.email}</span>
+                </div>
+              </div>
+            )}
           </m.div>
         </>
       )}

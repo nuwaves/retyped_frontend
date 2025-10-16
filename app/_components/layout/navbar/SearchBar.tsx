@@ -9,7 +9,7 @@ import { useLazySearchQuery } from '@/app/_store/services/searchApi';
 const styles = {
   container: "flex-1 w-full md:max-w-[276px]",
   wrapper: "relative",
-  input: "w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-transparent",
+  input: "w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-transparent min-h-[45px]",
   button: "absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
 };
 
@@ -19,11 +19,19 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearchComplete }: SearchBarProps = {}) {
   const [query, setQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [triggerSearch] = useLazySearchQuery();
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (pathname === '/search') {
@@ -67,7 +75,7 @@ export default function SearchBar({ onSearchComplete }: SearchBarProps = {}) {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          placeholder="Search"
+          placeholder={isMobile ? "Search people, shows, topics" : "Search"}
           className={styles.input}
         />
       </form>
