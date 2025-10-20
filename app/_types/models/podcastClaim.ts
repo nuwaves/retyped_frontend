@@ -29,17 +29,6 @@ export interface CreatePodcastClaimRequest {
 }
 
 /**
- * Verification status response
- * Returned when checking verification status via GET /claims/verify/{key}/
- */
-export interface ClaimVerificationStatus {
-  status: PodcastClaimStatus;
-  podcast: number;
-  message?: string;
-  claim_id?: number;
-}
-
-/**
  * Verification result
  * Returned after POST /claims/verify/{key}/
  */

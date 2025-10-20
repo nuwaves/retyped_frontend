@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useAppSelector } from '@/app/_store/hooks';
 import {
   useCreatePodcastClaimMutation,
   useVerifyPodcastClaimMutation,
-  useGetClaimVerificationStatusQuery,
 } from '@/app/_store/services/podcastClaimsApi';
 import {
   selectHasClaim,
@@ -96,42 +95,5 @@ export function usePodcastClaim(podcast_id: number) {
     isVerifying,
     isLoading: isCreating || isVerifying,
     isAuthenticated,
-  };
-}
-
-/**
- * Hook for checking verification status by key
- * Useful for verification pages/modals
- */
-export function useClaimVerificationStatus(verificationKey: string | null) {
-  const { data, isLoading, error, refetch } =
-    useGetClaimVerificationStatusQuery(verificationKey || '', {
-      skip: !verificationKey,
-      // Poll every 5 seconds while pending
-      pollingInterval: 5000,
-    });
-
-  const isPending = useMemo(() => {
-    return data?.status === 'pending';
-  }, [data?.status]);
-
-  const isVerified = useMemo(() => {
-    return data?.status === 'verified';
-  }, [data?.status]);
-
-  const isRejected = useMemo(() => {
-    return data?.status === 'rejected';
-  }, [data?.status]);
-
-  return {
-    status: data?.status,
-    isPending,
-    isVerified,
-    isRejected,
-    podcast: data?.podcast,
-    message: data?.message,
-    isLoading,
-    error,
-    refetch,
   };
 }

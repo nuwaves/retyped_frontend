@@ -2,7 +2,6 @@ import { clientApi } from './clientApi';
 import {
   PodcastClaim,
   CreatePodcastClaimRequest,
-  ClaimVerificationStatus,
   ClaimVerificationResult,
   PaginatedResponse,
 } from '@/app/_types';
@@ -46,19 +45,6 @@ export const podcastClaimsApi = clientApi.injectEndpoints({
       ],
     }),
 
-    // GET /api/v1/claims/verify/{verification_key}/ - Check verification status
-    getClaimVerificationStatus: builder.query<
-      ClaimVerificationStatus,
-      string
-    >({
-      query: (verificationKey) => ({
-        url: `claims/verify/${verificationKey}/`,
-      }),
-      providesTags: (result, error, verificationKey) => [
-        { type: 'PodcastClaim', id: `VERIFY_${verificationKey}` },
-      ],
-    }),
-
     // POST /api/v1/claims/verify/{verification_key}/ - Verify claim
     verifyPodcastClaim: builder.mutation<ClaimVerificationResult, string>({
       query: (verificationKey) => ({
@@ -78,7 +64,5 @@ export const {
   useGetPodcastClaimsQuery,
   useLazyGetPodcastClaimsQuery,
   useCreatePodcastClaimMutation,
-  useGetClaimVerificationStatusQuery,
-  useLazyGetClaimVerificationStatusQuery,
   useVerifyPodcastClaimMutation,
 } = podcastClaimsApi;
