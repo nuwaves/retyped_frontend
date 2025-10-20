@@ -51,6 +51,6 @@ async(args: any, api: any, extraOptions: any) => {
 export const clientApi = createApi({
   reducerPath: 'api',
   baseQuery: customBaseQuery,
-  tagTypes: ['Episode', 'Podcast', 'User', 'Bookmark', 'Follow'],
+  tagTypes: ['Episode', 'Podcast', 'User', 'Bookmark', 'Follow', 'PodcastClaim'],
   endpoints: () => ({}),
 });

@@ -9,6 +9,7 @@ import infiniteScrollReducer from './features/infiniteScroll/infiniteScrollSlice
 import bookmarksReducer from './features/bookmarks/bookmarksSlice'
 import followsReducer from './features/follows/followsSlice'
 import audioPlayerReducer from './features/audioPlayer/audioPlayerSlice'
+import podcastClaimsReducer from './features/podcastClaims/podcastClaimsSlice'
 import { clientApi } from './services/clientApi'
 
 const createNoopStorage = () => {
@@ -46,6 +47,7 @@ export const makeStore = () => {
       bookmarks: bookmarksReducer,
       follows: followsReducer,
       audioPlayer: persistedAudioPlayerReducer,
+      podcastClaims: podcastClaimsReducer,
       [clientApi.reducerPath]: clientApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
