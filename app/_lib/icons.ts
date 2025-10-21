@@ -16,6 +16,7 @@ export {
   faCalendar,
   faCaretDown,
   faChartLine,
+  faCheckCircle,
   faClock,
   faClockRotateLeft,
   faFileAlt,
@@ -27,7 +28,9 @@ export {
   faPen,
   faPlay,
   faQuoteLeft,
+  faSpinner,
   faStar,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 // Regular icons - export with "Regular" suffix to avoid naming conflicts
