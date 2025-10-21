@@ -44,7 +44,6 @@ export function useBookmark(entity_type: 'episode' | 'podcast', entity_id: numbe
       }
     } catch (error) {
       console.error('Bookmark toggle failed:', error);
-      // Could add toast notification here
     }
   }, [
     isAuthenticated,

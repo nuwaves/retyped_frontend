@@ -7,7 +7,7 @@ export const bookmarksApi = clientApi.injectEndpoints({
     getBookmarks: builder.query<PaginatedResponse<Bookmark>, { limit?: number; offset?: number }>({
       query: ({ limit = 100, offset = 0 }) => ({
         url: 'bookmarks/',
-        params: { limit, offset },
+        params: { limit, offset, _t: Date.now() },
       }),
       providesTags: (result) =>
         result
@@ -25,7 +25,7 @@ export const bookmarksApi = clientApi.injectEndpoints({
     >({
       query: ({ entity_type, limit = 100, offset = 0 }) => ({
         url: `bookmarks/${entity_type}/`,
-        params: { limit, offset },
+        params: { limit, offset, _t: Date.now() },
       }),
       providesTags: (result, error, { entity_type }) =>
         result
@@ -43,10 +43,8 @@ export const bookmarksApi = clientApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: (result) => [
-        { type: 'Bookmark', id: 'LIST' },
-        { type: 'Bookmark', id: result ? `TYPE_${result.entity_type.toUpperCase()}` : 'LIST' },
-      ],
+      invalidatesTags: (result) =>
+        result ? [{ type: 'Bookmark', id: `TYPE_${result.entity_type.toUpperCase()}` }] : [],
     }),
 
     // DELETE /api/v1/bookmarks/{id}/ - Delete bookmark
@@ -55,9 +53,9 @@ export const bookmarksApi = clientApi.injectEndpoints({
         url: `bookmarks/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, id) => [
-        { type: 'Bookmark', id },
-        { type: 'Bookmark', id: 'LIST' },
+      invalidatesTags: () => [
+        { type: 'Bookmark', id: 'TYPE_EPISODE' },
+        { type: 'Bookmark', id: 'TYPE_PODCAST' },
       ],
     }),
   }),
