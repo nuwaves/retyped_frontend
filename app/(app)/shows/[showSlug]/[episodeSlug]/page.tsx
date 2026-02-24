@@ -8,7 +8,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
-import { convertToISO8601Duration, sanitizeForMetaDescription, extractFirstSentence } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, extractFirstSentence } from "@/app/_utils/formatters";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -29,6 +29,15 @@ const styles = {
   mainContent: "flex-1",
   sidebar: "md:w-[350px] md:flex-shrink-0"
 };
+
+// Shared helper so generateMetadata and EpisodePage use the same description
+function buildMetaDescription(episode: Episode, show: Podcast): string {
+  const firstSentence = extractFirstSentence(episode.summary);
+  const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
+  return firstSentence
+    ? `${firstSentence} — ${show.name}${episodeLabel}`
+    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: EpisodePageProps): Promise<Metadata> {
@@ -55,11 +64,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   }
   
   const episodeTitle = `Retyped summary of ${episode.title}`;
-  const firstSentence = extractFirstSentence(episode.summary);
-  const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
-  const metaDescription = firstSentence
-    ? `${firstSentence} — ${show.name}${episodeLabel}`
-    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+  const metaDescription = buildMetaDescription(episode, show);
 
   return {
     title: `${episodeTitle} | Retyped`,
@@ -128,6 +133,8 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   const session = await getServerSession(authOptions);
   const isAuthenticated = !!session?.backendToken;
+
+  const metaDescription = buildMetaDescription(episode, show);
 
   const podcastEpisodeData = {
     '@context': 'https://schema.org',
