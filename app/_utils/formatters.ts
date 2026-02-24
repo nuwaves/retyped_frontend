@@ -56,3 +56,22 @@ export function sanitizeForMetaDescription(text: string | null | undefined): str
     .replace(/\s+/g, ' ')  // Collapse multiple spaces into one
     .trim();               // Remove leading/trailing spaces
 }
+
+export function extractFirstSentence(text: string | null | undefined): string {
+  if (!text) return '';
+  const stripped = text
+    .replace(/#{1,6}\s+/g, '')           // headings
+    .replace(/\*\*(.+?)\*\*/g, '$1')     // bold
+    .replace(/\*(.+?)\*/g, '$1')         // italic
+    .replace(/`(.+?)`/g, '$1')           // inline code
+    .replace(/\[(.+?)\]\(.+?\)/g, '$1')  // links
+    .replace(/\n+/g, ' ')                // newlines to spaces
+    .replace(/\s+/g, ' ')                // collapse whitespace
+    .trim();
+
+  const match = stripped.match(/^.+?[.!?](?:\s|$)/);
+  const sentence = match ? match[0].trim() : stripped.split(' ').slice(0, 20).join(' ');
+  return sentence.endsWith('.') || sentence.endsWith('!') || sentence.endsWith('?')
+    ? sentence
+    : sentence + '.';
+}
