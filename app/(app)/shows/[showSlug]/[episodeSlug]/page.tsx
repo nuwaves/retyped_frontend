@@ -8,7 +8,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
-import { convertToISO8601Duration, extractFirstSentence } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, extractFirstSentence, extractSummaryHeadings } from "@/app/_utils/formatters";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -141,6 +141,17 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   const metaDescription = buildMetaDescription(episode, show);
 
+  const summaryHeadings = extractSummaryHeadings(episode.summary);
+  const webPageData = summaryHeadings.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: episode.title,
+    hasPart: summaryHeadings.map((heading) => ({
+      '@type': 'WebPageElement',
+      name: heading,
+    })),
+  } : null;
+
   const podcastEpisodeData = {
     '@context': 'https://schema.org',
     '@type': 'PodcastEpisode',
@@ -210,6 +221,15 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
           __html: JSON.stringify(breadcrumbData)
         }}
       />
+
+      {webPageData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webPageData)
+          }}
+        />
+      )}
 
       <div className={styles.container}>
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
