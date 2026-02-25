@@ -54,7 +54,8 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     };
   }
   
-  const episodeTitle = `Retyped summary of ${episode.title}`;
+  const pageTitle = `${episode.title} — ${show.name} Podcast Summary`;
+  const ogTitle = `${episode.title} | ${show.name} Podcast Summary`;
   const firstSentence = extractFirstSentence(episode.summary);
   const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
   const metaDescription = firstSentence
@@ -62,10 +63,10 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
 
   return {
-    title: `${episodeTitle} | Retyped`,
+    title: `${pageTitle} | Retyped`,
     description: metaDescription,
     openGraph: {
-      title: episodeTitle,
+      title: ogTitle,
       description: metaDescription,
       type: "article",
       siteName: "Retyped",
@@ -83,7 +84,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     },
     twitter: {
       card: "summary_large_image",
-      title: episodeTitle,
+      title: ogTitle,
       description: metaDescription,
       images: [show.image_url || '/'],
       creator: undefined,
