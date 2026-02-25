@@ -57,6 +57,17 @@ export function sanitizeForMetaDescription(text: string | null | undefined): str
     .trim();               // Remove leading/trailing spaces
 }
 
+export function extractSummaryHeadings(text: string | null | undefined): string[] {
+  if (!text) return [];
+  const headingRegex = /^#{1,6}\s+(.+)$/gm;
+  const headings: string[] = [];
+  let match;
+  while ((match = headingRegex.exec(text)) !== null) {
+    headings.push(match[1].trim());
+  }
+  return headings;
+}
+
 export function extractFirstSentence(text: string | null | undefined): string {
   if (!text) return '';
   const stripped = text
