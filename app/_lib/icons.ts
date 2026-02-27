@@ -6,7 +6,7 @@
 // Export icon type
 export type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-// Solid icons (19 total)
+// Solid icons
 export {
   faArrowLeft,
   faArrowRight,
@@ -14,7 +14,9 @@ export {
   faArrowUpFromBracket,
   faBookmark,
   faCalendar,
+  faCaretDown,
   faChartLine,
+  faCheckCircle,
   faClock,
   faClockRotateLeft,
   faFileAlt,
@@ -26,10 +28,12 @@ export {
   faPen,
   faPlay,
   faQuoteLeft,
+  faSpinner,
   faStar,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-// Regular icons (4 total) - export with "Regular" suffix to avoid naming conflicts
+// Regular icons - export with "Regular" suffix to avoid naming conflicts
 export {
   faBookmark as faBookmarkRegular,
   faClock as faClockRegular,
@@ -37,7 +41,7 @@ export {
   faUser as faUserRegular,
 } from '@fortawesome/free-regular-svg-icons';
 
-// Brand icons (4 total)
+// Brand icons
 export {
   faFacebook,
   faGoogle,

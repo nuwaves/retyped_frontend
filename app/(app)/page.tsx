@@ -102,6 +102,7 @@ export default async function Home() {
           {trendingEpisodes.map(episode => (
             <EpisodeCard
               key={episode.id}
+              episodeId={episode.id}
               showName={episode.podcast?.name || ''}
               showSlug={episode.podcast?.slug}
               episodeTitle={episode.title}
@@ -109,6 +110,7 @@ export default async function Home() {
               duration={episode.duration || '--:--'}
               date={formatDate(episode.release_date)}
               href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+              imageUrl={episode.podcast?.image_url}
             />
           ))}
         </TrendingEpisodes>
@@ -117,6 +119,7 @@ export default async function Home() {
           {newEpisodes.map(episode => (
             <EpisodeCard
               key={episode.id}
+              episodeId={episode.id}
               showName={episode.podcast?.name || ''}
               showSlug={episode.podcast?.slug}
               episodeTitle={episode.title}
@@ -124,6 +127,7 @@ export default async function Home() {
               duration={episode.duration || '--:--'}
               date={formatDate(episode.release_date)}
               href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+              imageUrl={episode.podcast?.image_url}
             />
           ))}
         </NewEpisodes>

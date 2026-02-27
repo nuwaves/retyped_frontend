@@ -8,7 +8,7 @@ import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
-import { convertToISO8601Duration, sanitizeForMetaDescription } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, extractFirstSentence, extractSummaryHeadings } from "@/app/_utils/formatters";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -29,6 +29,15 @@ const styles = {
   mainContent: "flex-1",
   sidebar: "md:w-[350px] md:flex-shrink-0"
 };
+
+// Shared helper so generateMetadata and EpisodePage use the same description
+function buildMetaDescription(episode: Episode, show: Podcast): string {
+  const firstSentence = extractFirstSentence(episode.summary);
+  const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
+  return firstSentence
+    ? `${firstSentence} — ${show.name}${episodeLabel}`
+    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: EpisodePageProps): Promise<Metadata> {
@@ -54,14 +63,19 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     };
   }
   
-  const episodeTitle = `Retyped summary of ${episode.title}`;
-  const metaDescription = sanitizeForMetaDescription(episode.summary) || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+  const pageTitle = `${episode.title} — ${show.name} Podcast Summary`;
+  const ogTitle = `${episode.title} | ${show.name} Podcast Summary`;
+  const firstSentence = extractFirstSentence(episode.summary);
+  const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
+  const metaDescription = firstSentence
+    ? `${firstSentence} — ${show.name}${episodeLabel}`
+    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
 
   return {
-    title: `${episodeTitle} | Retyped`,
+    title: `${pageTitle} | Retyped`,
     description: metaDescription,
     openGraph: {
-      title: episodeTitle,
+      title: ogTitle,
       description: metaDescription,
       type: "article",
       siteName: "Retyped",
@@ -79,7 +93,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     },
     twitter: {
       card: "summary_large_image",
-      title: episodeTitle,
+      title: ogTitle,
       description: metaDescription,
       images: [show.image_url || '/'],
       creator: undefined,
@@ -125,11 +139,24 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
   const session = await getServerSession(authOptions);
   const isAuthenticated = !!session?.backendToken;
 
+  const metaDescription = buildMetaDescription(episode, show);
+
+  const summaryHeadings = extractSummaryHeadings(episode.summary);
+  const webPageData = summaryHeadings.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: episode.title,
+    hasPart: summaryHeadings.map((heading) => ({
+      '@type': 'WebPageElement',
+      name: heading,
+    })),
+  } : null;
+
   const podcastEpisodeData = {
     '@context': 'https://schema.org',
     '@type': 'PodcastEpisode',
     name: episode.title,
-    description: sanitizeForMetaDescription(episode.summary) || `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`,
+    description: metaDescription,
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'}/shows/${showSlug}/${episodeSlug}`,
     datePublished: episode.release_date,
     ...(episode.duration && {
@@ -194,6 +221,15 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
           __html: JSON.stringify(breadcrumbData)
         }}
       />
+
+      {webPageData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webPageData)
+          }}
+        />
+      )}
 
       <div className={styles.container}>
         <BackNavigation href={`/shows/${showSlug}`} label={show.name} />
