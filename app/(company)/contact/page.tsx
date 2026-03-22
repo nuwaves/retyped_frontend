@@ -2,7 +2,18 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contact Us - Retyped',
-  description: 'Get in touch with the Retyped team',
+  description: 'Contact the Retyped team — reach us for support, business inquiries, or feedback about our podcast discovery and AI summary platform.',
+  openGraph: {
+    title: 'Contact Us - Retyped',
+    description: 'Contact the Retyped team — reach us for support, business inquiries, or feedback about our podcast discovery and AI summary platform.',
+    type: 'website',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Us - Retyped',
+    description: 'Contact the Retyped team — reach us for support, business inquiries, or feedback about our podcast discovery and AI summary platform.',
+  },
 };
 
 const styles = {
