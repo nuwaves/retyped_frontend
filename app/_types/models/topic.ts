@@ -6,5 +6,6 @@ export interface Topic extends TimestampedModel {
   slug: string;
   description: string;
   top_words: string[] | null;
+  is_enabled: boolean;
   episode_count: number;
 }
