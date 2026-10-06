@@ -12,6 +12,7 @@ import { Episode, Podcast, TopicQuote, PaginatedResponse } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
 import { api, safeApi } from '@/app/_lib/serverApi';
 import { sanitize } from '@/app/_utils/sanitizeHtml';
+import { serializeJsonLd } from '@/app/_utils/jsonLd';
 
 export const revalidate = 60;
 
@@ -109,7 +110,7 @@ export default async function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData)
+          __html: serializeJsonLd(structuredData)
         }}
       />
 
