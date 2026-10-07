@@ -7,6 +7,7 @@ import EpisodesList from "./components/EpisodesList";
 import { api } from "@/app/_lib/serverApi";
 import { Episode, PaginatedResponse, Podcast } from "@/app/_types";
 import { sanitize } from "@/app/_utils/sanitizeHtml";
+import { serializeJsonLd } from "@/app/_utils/jsonLd";
 
 export const revalidate = 3600;
 
@@ -131,14 +132,14 @@ export default async function ShowPage({ params }: ShowPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(podcastSeriesData)
+          __html: serializeJsonLd(podcastSeriesData)
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbData)
+          __html: serializeJsonLd(breadcrumbData)
         }}
       />
 

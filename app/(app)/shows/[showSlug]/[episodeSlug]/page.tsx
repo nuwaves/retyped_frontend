@@ -9,6 +9,7 @@ import ShowCard from "./components/ShowCard";
 import { api } from "@/app/_lib/serverApi";
 import { Podcast, Episode } from "@/app/_types";
 import { convertToISO8601Duration, extractFirstSentence, extractSummaryHeadings } from "@/app/_utils/formatters";
+import { serializeJsonLd } from "@/app/_utils/jsonLd";
 
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
@@ -118,6 +119,15 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
 export default async function EpisodePage({ params }: EpisodePageProps) {
   const { showSlug, episodeSlug } = await params;
 
+  const session = await getServerSession(authOptions);
+  const backendToken = session?.backendToken?.access_token;
+  const isAuthenticated = !!session?.backendToken;
+
+  // The API only returns the full transcript to signed-in users
+  const authHeaders = backendToken
+    ? { Authorization: `Bearer ${backendToken}` }
+    : undefined;
+
   let show: Podcast | null = null;
   let episode: Episode | null = null;
 
@@ -125,7 +135,11 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
     // Fetch data in parallel for better performance
     [show, episode] = await Promise.all([
       api<Podcast>(`/api/v1/podcasts/${showSlug}/`),
-      api<Episode>(`/api/v1/episodes/${episodeSlug}/`)
+      api<Episode>(
+        `/api/v1/episodes/${episodeSlug}/`,
+        // Never put a signed-in user's response in the shared data cache
+        authHeaders ? { headers: authHeaders, cache: 'no-store' } : undefined
+      )
     ]);
   } catch (error) {
     console.error('Failed to fetch episode data:', error);
@@ -135,9 +149,6 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
   if (!show || !episode) {
     notFound();
   }
-
-  const session = await getServerSession(authOptions);
-  const isAuthenticated = !!session?.backendToken;
 
   const metaDescription = buildMetaDescription(episode, show);
 
@@ -211,14 +222,14 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(podcastEpisodeData)
+          __html: serializeJsonLd(podcastEpisodeData)
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbData)
+          __html: serializeJsonLd(breadcrumbData)
         }}
       />
 
@@ -226,7 +237,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(webPageData)
+            __html: serializeJsonLd(webPageData)
           }}
         />
       )}
