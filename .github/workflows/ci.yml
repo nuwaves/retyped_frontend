@@ -1,0 +1,29 @@
+name: Build
+
+# The frontend has no tests yet, so a production build (which also type-checks
+# and lints) is the check that a change can deploy.
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+      # Placeholder: the build only needs the variable to be set.
+      DJANGO_BACKEND: http://127.0.0.1:9
+      NEXTAUTH_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20' # match the Dockerfile
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
