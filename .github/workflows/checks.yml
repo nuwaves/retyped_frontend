@@ -26,8 +26,9 @@ jobs:
 
       - run: npm ci
 
+      # Warnings fail the check too, so they don't pile up again.
       - name: Lint
-        run: npm run lint
+        run: npm run lint -- --max-warnings 0
 
       - name: Type-check
         run: npx tsc --noEmit
