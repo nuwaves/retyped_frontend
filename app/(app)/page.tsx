@@ -10,7 +10,7 @@ import ShowCard from '@/app/_components/cards/ShowCard';
 import EpisodeCard from '@/app/_components/cards/EpisodeCard';
 import { Episode, Podcast, TopicQuote, PaginatedResponse } from '@/app/_types';
 import { formatDate } from '@/app/_utils/formatters';
-import { api, safeApi } from '@/app/_lib/serverApi';
+import { safeApi } from '@/app/_lib/serverApi';
 import { sanitize } from '@/app/_utils/sanitizeHtml';
 import { serializeJsonLd } from '@/app/_utils/jsonLd';
 

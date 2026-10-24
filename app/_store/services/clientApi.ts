@@ -10,7 +10,6 @@ import { clearAuthToken } from '@/app/_store/features/auth/authSlice';
  * TODO: Consider setting APPEND_SLASH=False in Django to avoid this workaround.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const customBaseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,

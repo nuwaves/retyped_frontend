@@ -18,7 +18,7 @@ const styles = {
 };
 
 export default function ActivityContainer() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   // Only fetch data if authenticated
   const {
