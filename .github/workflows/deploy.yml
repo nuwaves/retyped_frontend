@@ -1,8 +1,7 @@
 name: Deploy
 
-# Every push to main: build an image tagged with the commit, push it to GHCR,
-# then deploy it to the Hetzner server over Tailscale. The image build runs
-# `next build`, so type errors fail the deploy before anything ships.
+# Every push to main: lint and type-check, build an image tagged with the
+# commit, push it to GHCR, then deploy it to the Hetzner server over Tailscale.
 on:
   push:
     branches:
@@ -21,13 +20,17 @@ env:
   IMAGE: ghcr.io/nuwaves/retyped_frontend
 
 jobs:
+  checks:
+    uses: ./.github/workflows/checks.yml
+
   build:
+    needs: checks
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: docker/setup-buildx-action@v4
 
