@@ -8,6 +8,7 @@ import AudioPlayer from '@/app/(app)/shows/[showSlug]/[episodeSlug]/components/A
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const styles = {
   container: 'fixed bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gray-200',
@@ -54,9 +55,11 @@ export default function GlobalAudioPlayer() {
         <div className={styles.episodeInfoWrapper}>
           {podcastSlug && (
             <Link href={`/shows/${podcastSlug}`} className={styles.podcastImageLink}>
-              <img
+              <Image
                 src={currentEpisode.podcast?.image_url || currentEpisode.image_url || '/placeholder-podcast.png'}
                 alt={currentEpisode.podcast?.name || 'Podcast'}
+                width={48}
+                height={48}
                 className={styles.podcastImage}
               />
             </Link>

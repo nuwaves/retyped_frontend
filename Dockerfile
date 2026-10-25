@@ -1,13 +1,13 @@
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 
+# Secrets (NEXTAUTH_SECRET, OAuth keys) are not build args: they would be baked
+# into the image. Provide them as runtime environment variables instead.
 ARG DJANGO_BACKEND
 ARG NEXTAUTH_URL
-ARG NEXTAUTH_SECRET
 
 ENV DJANGO_BACKEND=$DJANGO_BACKEND
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
-ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 
 COPY package*.json ./
 RUN npm ci
@@ -15,17 +15,15 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:20-alpine
+FROM node:24-alpine
 WORKDIR /app
 
 ARG DJANGO_BACKEND
 ARG NEXTAUTH_URL
-ARG NEXTAUTH_SECRET
 
 ENV NODE_ENV=production
 ENV DJANGO_BACKEND=$DJANGO_BACKEND
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
-ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./

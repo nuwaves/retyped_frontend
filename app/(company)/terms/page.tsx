@@ -2,7 +2,18 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Terms of Service - Retyped',
-  description: 'Terms of service and usage policies for Retyped',
+  description: 'Read the Retyped terms of service — the rules and policies governing your use of our podcast discovery and AI summary platform.',
+  openGraph: {
+    title: 'Terms of Service - Retyped',
+    description: 'Read the Retyped terms of service — the rules and policies governing your use of our podcast discovery and AI summary platform.',
+    type: 'website',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms of Service - Retyped',
+    description: 'Read the Retyped terms of service — the rules and policies governing your use of our podcast discovery and AI summary platform.',
+  },
 };
 
 const styles = {

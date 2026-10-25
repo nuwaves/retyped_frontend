@@ -2,7 +2,18 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Retyped',
-  description: 'Privacy policy and data protection information for Retyped',
+  description: 'Read the Retyped privacy policy — how we collect, use, and protect your data when you use our podcast discovery and summary service.',
+  openGraph: {
+    title: 'Privacy Policy - Retyped',
+    description: 'Read the Retyped privacy policy — how we collect, use, and protect your data when you use our podcast discovery and summary service.',
+    type: 'website',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy - Retyped',
+    description: 'Read the Retyped privacy policy — how we collect, use, and protect your data when you use our podcast discovery and summary service.',
+  },
 };
 
 const styles = {

@@ -7,18 +7,33 @@ import { sanitize } from '@/app/_utils/sanitizeHtml';
 
 export const revalidate = 300; // Revalidate every 5 minutes
 
-export const metadata: Metadata = {
-  title: 'New Episodes | Retyped',
-  description: 'Discover the latest podcast episodes. Stay up to date with fresh content from your favorite shows.',
-  alternates: {
-    canonical: './',
-  },
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await safeApi<PaginatedResponse<Episode>>(
+    '/api/v1/episodes/?ordering=-release_date&limit=20',
+    { count: 0, next: null, previous: null, results: [] }
+  );
+  const count = data.count || 0;
+  const topShow = data.results?.[0]?.podcast?.name;
+  const description = count > 0 && topShow
+    ? `Browse ${count.toLocaleString()} podcast episodes indexed on Retyped — latest from ${topShow} and more. AI-generated summaries for every episode.`
+    : 'Discover the latest podcast episodes on Retyped. AI-generated summaries and key takeaways updated daily.';
+  return {
     title: 'New Episodes | Retyped',
-    description: 'Discover the latest podcast episodes',
-    type: 'website',
-  },
-};
+    description,
+    alternates: { canonical: './' },
+    openGraph: {
+      title: 'New Episodes | Retyped',
+      description,
+      type: 'website',
+      images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped new episodes' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'New Episodes | Retyped',
+      description,
+    },
+  };
+}
 
 export default async function NewEpisodesPage() {
   const initialData = await safeApi<PaginatedResponse<Episode>>(

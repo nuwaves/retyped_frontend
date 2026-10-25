@@ -6,18 +6,33 @@ import { safeApi } from '@/app/_lib/serverApi';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: 'Trending Shows | Retyped',
-  description: 'Discover the most popular podcasts trending right now. Updated daily with the best shows from around the web.',
-  alternates: {
-    canonical: './',
-  },
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await safeApi<PaginatedResponse<Podcast>>(
+    '/api/v1/podcasts/top-by-views/?timeframe=7d&limit=20',
+    { count: 0, next: null, previous: null, results: [] }
+  );
+  const count = data.count || 0;
+  const topShow = data.results?.[0]?.name;
+  const description = count > 0 && topShow
+    ? `Browse ${count} trending podcasts on Retyped — discover ${topShow} and more. Updated daily.`
+    : 'Discover the most popular podcasts trending right now on Retyped. Updated daily.';
+  return {
     title: 'Trending Shows | Retyped',
-    description: 'Discover the most popular podcasts trending right now',
-    type: 'website',
-  },
-};
+    description,
+    alternates: { canonical: './' },
+    openGraph: {
+      title: 'Trending Shows | Retyped',
+      description,
+      type: 'website',
+      images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped trending shows' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Trending Shows | Retyped',
+      description,
+    },
+  };
+}
 
 export default async function TrendingShowsPage() {
   const initialData = await safeApi<PaginatedResponse<Podcast>>(

@@ -35,6 +35,15 @@ const styles = {
   featureBullet: "w-1 h-1 rounded-full bg-gray-600 flex-shrink-0"
 };
 
+const errorMessages = {
+  'Configuration': 'Authentication service configuration error. Please try again.',
+  'AccessDenied': 'Access denied. Please check your permissions.',
+  'Verification': 'Email verification required. Please check your email.',
+  'Default': 'Authentication failed. Please try again.',
+  'BackendConnection': 'Unable to connect to authentication service. Please try again later.',
+  'TokenConversion': 'Authentication successful, but service connection failed. Please contact support.'
+};
+
 export default function AuthCard({ mode }: AuthCardProps) {
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -52,14 +61,6 @@ export default function AuthCard({ mode }: AuthCardProps) {
     }
   };
 
-  const errorMessages = {
-    'Configuration': 'Authentication service configuration error. Please try again.',
-    'AccessDenied': 'Access denied. Please check your permissions.',
-    'Verification': 'Email verification required. Please check your email.',
-    'Default': 'Authentication failed. Please try again.',
-    'BackendConnection': 'Unable to connect to authentication service. Please try again later.',
-    'TokenConversion': 'Authentication successful, but service connection failed. Please contact support.'
-  };
 
   useEffect(() => {
     const error = searchParams.get('error');

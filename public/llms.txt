@@ -1,0 +1,20 @@
+# Retyped
+
+> Retyped is a podcast discovery platform providing AI-generated summaries of podcast episodes.
+
+## Key Pages
+- [Trending Shows](https://retyped.xyz/trending-shows): Curated list of top podcasts by weekly views.
+- [Trending Episodes](https://retyped.xyz/trending-episodes): Most popular episodes across all shows.
+- [New Episodes](https://retyped.xyz/new-episodes): Latest releases updated daily.
+- [Search](https://retyped.xyz/search): Full-text search across all indexed episodes and shows.
+
+## Content
+Retyped indexes thousands of podcast episodes and hundreds of shows. Each episode page includes an AI-generated summary, key takeaways, and a full transcript where available.
+
+## API
+Structured data is available via JSON API. Episode and show pages include PodcastEpisode and PodcastSeries schema.org markup.
+
+## Company
+- [Privacy Policy](https://retyped.xyz/privacy)
+- [Terms of Service](https://retyped.xyz/terms)
+- [Contact](https://retyped.xyz/contact)

@@ -1,0 +1,52 @@
+name: Checks
+
+# Lint and type-check on every PR and branch push; the deploy workflow calls
+# this too, so nothing ships unless it passes. On PRs the Docker image is also
+# built (not pushed), so a broken Dockerfile or `next build` shows up before merge.
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Warnings fail the check too, so they don't pile up again.
+      - name: Lint
+        run: npm run lint -- --max-warnings 0
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+  docker-build:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      # Same build args as deploy.yml.
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          build-args: |
+            DJANGO_BACKEND=http://web:8000
+            NEXTAUTH_URL=https://retyped.xyz
+          cache-from: type=gha
