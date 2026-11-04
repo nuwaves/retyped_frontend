@@ -4,7 +4,7 @@ import { signIn, getSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faFacebook, faInstagram, faXTwitter } from '@/app/_lib/icons';
+import { faGoogle, faFacebook, faXTwitter } from '@/app/_lib/icons';
 
 interface AuthCardProps {
   mode: 'login' | 'signup';
@@ -110,13 +110,6 @@ export default function AuthCard({ mode }: AuthCardProps) {
       id: 'twitter',
       name: 'X',
       icon: faXTwitter,
-      bgColor: 'bg-white hover:bg-gray-50 border border-gray-300',
-      textColor: 'text-gray-700'
-    },
-    {
-      id: 'instagram',
-      name: 'Instagram',
-      icon: faInstagram,
       bgColor: 'bg-white hover:bg-gray-50 border border-gray-300',
       textColor: 'text-gray-700'
     }

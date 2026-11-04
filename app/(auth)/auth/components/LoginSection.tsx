@@ -4,7 +4,7 @@ import { signIn, getSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faFacebook, faInstagram, faXTwitter } from '@/app/_lib/icons';
+import { faGoogle, faFacebook, faXTwitter } from '@/app/_lib/icons';
 
 const styles = {
   container: "w-full max-w-md bg-white rounded-2xl p-8",
@@ -89,13 +89,6 @@ export default function LoginSection() {
       name: 'X',
       icon: faXTwitter,
       bgColor: 'bg-black hover:bg-gray-900',
-      textColor: 'text-white'
-    },
-    {
-      id: 'instagram',
-      name: 'Instagram',
-      icon: faInstagram,
-      bgColor: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
       textColor: 'text-white'
     }
   ];

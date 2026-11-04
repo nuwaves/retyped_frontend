@@ -45,6 +45,5 @@ export {
 export {
   faFacebook,
   faGoogle,
-  faInstagram,
   faXTwitter,
 } from '@fortawesome/free-brands-svg-icons';
