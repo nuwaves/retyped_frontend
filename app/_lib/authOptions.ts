@@ -2,7 +2,6 @@ import type { JWT } from 'next-auth/jwt'
 import type { Session, Account, User, NextAuthOptions } from 'next-auth'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
-import InstagramProvider from "next-auth/providers/instagram";
 import TwitterProvider from "next-auth/providers/twitter";
 import { getConvertionToken } from "@/app/_lib/authClient";
 import { TokenValidation, BackendToken } from '@/app/_types/api.types'
@@ -23,7 +22,6 @@ const backends_mapping: Record<string, string> = {
     "facebook": "facebook",
     "google": "google-oauth2",
     "twitter": "twitter",
-    "instagram": "instagram"
 }
 
 export const authOptions: NextAuthOptions = {
@@ -39,10 +37,6 @@ export const authOptions: NextAuthOptions = {
         TwitterProvider({
             clientId: process.env.SA_TWITTER_API_KEY!,
             clientSecret: process.env.SA_TWITTER_API_SECRET!
-        }),
-        InstagramProvider({
-            clientId: process.env.SA_INSTAGRAM_AUTH_KEY!,
-            clientSecret: process.env.SA_INSTAGRAM_AUTH_SECRET!
         })
     ],
     pages: {
