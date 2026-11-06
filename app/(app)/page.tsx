@@ -117,25 +117,22 @@ export default async function Home() {
       <div className={styles.container}>
         <HeroSearch />
 
-        {hasPersonalizedFeed && (
-          <PersonalizedFeed episodes={feedEpisodes} quotes={feedQuotes} />
-        )}
-
-        <TrendingShows>
-          {trendingShows.map((show, index) => (
-            <ShowCard
-              key={show.id}
-              title={show.name}
-              description={show.description}
-              imageUrl={show.image_url}
-              categories={show.tags}
-              episodeCount={show.episode_count}
-              totalViews={show.total_views}
-              href={`/shows/${show.slug}`}
-              priority={index === 0}
+        <NewEpisodes>
+          {newEpisodes.map(episode => (
+            <EpisodeCard
+              key={episode.id}
+              episodeId={episode.id}
+              showName={episode.podcast?.name || ''}
+              showSlug={episode.podcast?.slug}
+              episodeTitle={episode.title}
+              description={episode.description}
+              duration={episode.duration || '--:--'}
+              date={formatDate(episode.release_date)}
+              href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
+              imageUrl={episode.podcast?.image_url}
             />
           ))}
-        </TrendingShows>
+        </NewEpisodes>
 
         <TrendingEpisodes>
           {trendingEpisodes.map(episode => (
@@ -154,22 +151,24 @@ export default async function Home() {
           ))}
         </TrendingEpisodes>
 
-        <NewEpisodes>
-          {newEpisodes.map(episode => (
-            <EpisodeCard
-              key={episode.id}
-              episodeId={episode.id}
-              showName={episode.podcast?.name || ''}
-              showSlug={episode.podcast?.slug}
-              episodeTitle={episode.title}
-              description={episode.description}
-              duration={episode.duration || '--:--'}
-              date={formatDate(episode.release_date)}
-              href={`/shows/${episode.podcast?.slug}/${episode.slug}`}
-              imageUrl={episode.podcast?.image_url}
+        <TrendingShows>
+          {trendingShows.map(show => (
+            <ShowCard
+              key={show.id}
+              title={show.name}
+              description={show.description}
+              imageUrl={show.image_url}
+              categories={show.tags}
+              episodeCount={show.episode_count}
+              totalViews={show.total_views}
+              href={`/shows/${show.slug}`}
             />
           ))}
-        </NewEpisodes>
+        </TrendingShows>
+
+        {hasPersonalizedFeed && (
+          <PersonalizedFeed episodes={feedEpisodes} quotes={feedQuotes} />
+        )}
       </div>
     </>
   );
