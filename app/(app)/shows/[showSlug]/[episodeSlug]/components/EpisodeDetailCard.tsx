@@ -3,7 +3,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHeadphones, faCalendar, faPlay, faPause } from '@/app/_lib/icons';
 import type { Episode, Podcast } from '@/app/_types';
-import SafeHTML from '@/app/_components/common/SafeHTML';
 import EpisodeActions from './EpisodeActions';
 import TopicsList from './TopicsList';
 import { formatDate } from '@/app/_utils/formatters';
@@ -19,16 +18,15 @@ interface EpisodeDetailCardProps {
 }
 
 const styles = {
-  container: "bg-white rounded-lg p-6 mb-8",
+  container: "bg-white rounded-lg p-6 mb-6",
   header: "flex items-center justify-between mb-4",
   date: "text-sm text-gray-500",
-  titleSection: "mb-4",
-  title: "text-3xl font-bold mb-3 text-black",
-  description: "text-base text-gray-600 leading-relaxed mb-4 break-words overflow-wrap-anywhere",
+  titleRow: "flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4",
+  title: "text-3xl font-bold text-black break-words min-w-0",
   stats: "flex items-center gap-4 mb-4 text-sm text-gray-500",
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
-  playButton: "mt-8"
+  playButton: "shrink-0 sm:pt-1"
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
@@ -66,9 +64,24 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
         />
       </div>
 
-      <div className={styles.titleSection}>
+      <div className={styles.titleRow}>
         <h1 className={styles.title}>{episode.title}</h1>
-        <SafeHTML html={episode.description} className={styles.description} />
+        {episode.raw_audio_url != null && (
+          <div className={styles.playButton}>
+            <Button
+              variant={isCurrentEpisode && isPlaying ? "outline" : "primary"}
+              size="md"
+              onClick={handlePlayClick}
+              className="whitespace-nowrap"
+              suppressHydrationWarning
+            >
+              <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" suppressHydrationWarning />
+              <span suppressHydrationWarning>
+                {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
+              </span>
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className={styles.stats}>
@@ -81,21 +94,6 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <span>{listenCount}</span>
         </div>
       </div>
-      {episode.raw_audio_url != null && (
-        <div className={styles.playButton}>
-          <Button
-            variant={isCurrentEpisode && isPlaying ? "outline" : "primary"}
-            size="md"
-            onClick={handlePlayClick}
-            suppressHydrationWarning
-          >
-            <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" suppressHydrationWarning />
-            <span suppressHydrationWarning>
-              {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
-            </span>
-          </Button>
-        </div>
-      )}
       <TopicsList topics={topics} />
     </div>
   );

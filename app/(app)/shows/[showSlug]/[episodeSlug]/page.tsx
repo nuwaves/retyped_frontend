@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/_lib/authOptions";
 import BackNavigation from "@/app/_components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
@@ -119,15 +117,6 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
 export default async function EpisodePage({ params }: EpisodePageProps) {
   const { showSlug, episodeSlug } = await params;
 
-  const session = await getServerSession(authOptions);
-  const backendToken = session?.backendToken?.access_token;
-  const isAuthenticated = !!session?.backendToken;
-
-  // The API only returns the full transcript to signed-in users
-  const authHeaders = backendToken
-    ? { Authorization: `Bearer ${backendToken}` }
-    : undefined;
-
   let show: Podcast | null = null;
   let episode: Episode | null = null;
 
@@ -135,11 +124,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
     // Fetch data in parallel for better performance
     [show, episode] = await Promise.all([
       api<Podcast>(`/api/v1/podcasts/${showSlug}/`),
-      api<Episode>(
-        `/api/v1/episodes/${episodeSlug}/`,
-        // Never put a signed-in user's response in the shared data cache
-        authHeaders ? { headers: authHeaders, cache: 'no-store' } : undefined
-      )
+      api<Episode>(`/api/v1/episodes/${episodeSlug}/`)
     ]);
   } catch (error) {
     console.error('Failed to fetch episode data:', error);
@@ -248,7 +233,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         <div className={styles.layout}>
           <div className={styles.mainContent}>
             <EpisodeDetailCard episode={episode} show={show} />
-            <EpisodeTabs episode={episode} isAuthenticated={isAuthenticated} />
+            <EpisodeTabs episode={episode} />
           </div>
 
           <aside className={styles.sidebar}>
