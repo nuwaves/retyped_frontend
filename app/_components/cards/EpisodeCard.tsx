@@ -28,7 +28,6 @@ const styles = {
   header: "flex items-center gap-2 text-[10px] leading-[10px] text-gray-500",
   icon: "text-[10px]",
   showName: "font-normal lining-nums proportional-nums truncate",
-  showLink: "font-normal hover:text-gray-900 hover:underline transition-colors lining-nums proportional-nums truncate",
   title: "text-[14px] leading-[22px] font-bold line-clamp-2 lining-nums proportional-nums",
   description: "text-sm text-gray-600 line-clamp-2",
   footer: "flex items-center gap-2 text-xs text-gray-500",
@@ -39,7 +38,6 @@ const styles = {
 
 export default function EpisodeCard({
   showName,
-  showSlug,
   episodeTitle,
   description,
   duration,
@@ -59,13 +57,8 @@ export default function EpisodeCard({
   return (
     <div className={imageUrl ? styles.cardWithImage : styles.card}>
       <Link
-        href={`/shows/${showSlug}`}
-        className="absolute inset-x-0 top-0 h-14 z-10 peer/show"
-        aria-label={`Go to ${showName} show`}
-      />
-      <Link
         href={href}
-        className="absolute inset-x-0 top-14 bottom-0 peer/episode"
+        className="absolute inset-0 z-10"
         aria-label={`Listen to ${episodeTitle}`}
       />
 

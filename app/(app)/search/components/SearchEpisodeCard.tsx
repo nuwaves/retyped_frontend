@@ -24,7 +24,6 @@ const styles = {
   header: "flex items-center gap-2 text-xs text-gray-500",
   icon: "text-xs",
   showName: "text-[14px] font-normal leading-[22px] tracking-normal text-gray-600 lining-nums proportional-nums",
-  showLink: "font-normal hover:text-gray-900 hover:underline transition-colors",
   title: "text-base font-bold line-clamp-1",
   description: "text-[14px] font-normal leading-[22px] tracking-normal text-gray-600 line-clamp-2 lining-nums proportional-nums",
   footer: "flex items-center gap-2 text-xs text-gray-500",
@@ -42,13 +41,9 @@ export default function SearchEpisodeCard({
   imageUrl
 }: SearchEpisodeCardProps) {
   return (
-    <div className={styles.card}>
+    <Link href={href} className={styles.card}>
       {showSlug && (
-        <Link
-          href={`/shows/${showSlug}`}
-          className={styles.imageWrapper}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className={styles.imageWrapper}>
           {imageUrl && (
             <Image
               src={imageUrl}
@@ -58,10 +53,10 @@ export default function SearchEpisodeCard({
               sizes="(max-width: 1024px) 64px, 80px"
             />
           )}
-        </Link>
+        </div>
       )}
 
-      <Link href={href} className={styles.content}>
+      <div className={styles.content}>
         <h3 className={styles.title}>{episodeTitle}</h3>
         <p className={styles.showName}>{showName}</p>
         <SafeHTML html={description} className={styles.description} as="div" />
@@ -71,7 +66,7 @@ export default function SearchEpisodeCard({
           <span className={styles.dot}></span>
           <span>{date}</span>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
