@@ -13,7 +13,16 @@ export default function EpisodeTabs({ episode }: EpisodeTabsProps) {
     <TabNavigation
       tabs={[
         { id: 'summary', label: 'Summary', content: <SummarySection episode={episode} /> },
-        { id: 'show-notes', label: 'Show Notes', content: <ShowNotesSection description={episode.description} /> },
+        {
+          id: 'show-notes',
+          label: 'Show Notes',
+          content: (
+            <ShowNotesSection
+              contentEncoded={episode.content_encoded}
+              description={episode.description}
+            />
+          ),
+        },
         {
           id: 'transcript',
           label: 'Transcript',

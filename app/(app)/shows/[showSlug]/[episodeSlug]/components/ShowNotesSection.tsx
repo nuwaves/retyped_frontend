@@ -4,6 +4,7 @@ import SafeHTML from '@/app/_components/common/SafeHTML';
 import ContentSection from './ContentSection';
 
 interface ShowNotesSectionProps {
+  contentEncoded?: string | null;
   description: string | null;
 }
 
@@ -12,8 +13,32 @@ const styles = {
   empty: "text-sm text-gray-500 py-12 text-center",
 };
 
-export default function ShowNotesSection({ description }: ShowNotesSectionProps) {
-  const hasNotes = !!description && description.trim().length > 0;
+// Length of the readable text in an HTML string, ignoring tags and whitespace.
+function visibleTextLength(html: string | null | undefined): number {
+  if (!html) return 0;
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;|&#160;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim().length;
+}
+
+// Feeds usually put the full show notes in <content:encoded> and a shortened
+// or plain-text copy in <description>. Show whichever has more to read, so a
+// truncated description never wins over the full notes and an empty
+// content:encoded falls back to the description.
+export function pickShowNotes(
+  contentEncoded: string | null | undefined,
+  description: string | null | undefined,
+): string | null {
+  const encodedLength = visibleTextLength(contentEncoded);
+  const descriptionLength = visibleTextLength(description);
+  if (encodedLength === 0 && descriptionLength === 0) return null;
+  return encodedLength >= descriptionLength ? contentEncoded! : description!;
+}
+
+export default function ShowNotesSection({ contentEncoded, description }: ShowNotesSectionProps) {
+  const notes = pickShowNotes(contentEncoded, description);
 
   return (
     <ContentSection
@@ -24,8 +49,8 @@ export default function ShowNotesSection({ description }: ShowNotesSectionProps)
         </>
       }
     >
-      {hasNotes ? (
-        <SafeHTML html={description} className={styles.notes} />
+      {notes ? (
+        <SafeHTML html={notes} className={styles.notes} />
       ) : (
         <p className={styles.empty}>No show notes for this episode.</p>
       )}
