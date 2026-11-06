@@ -16,7 +16,7 @@ interface EpisodeCardProps {
 
 const styles = {
   container: "relative flex gap-3 lg:gap-4 p-4 lg:p-6 bg-white rounded-lg hover:shadow-md transition-shadow cursor-pointer",
-  imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100 z-20",
+  imageWrapper: "flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded overflow-hidden bg-gray-100",
   content: "flex flex-col gap-2 flex-1 min-w-0 relative",
   header: "flex items-center gap-2",
   title: "text-lg font-bold text-black leading-6",
@@ -47,11 +47,7 @@ export default function EpisodeListItem({ episode, showSlug }: EpisodeCardProps)
         aria-label={`View episode: ${episode.title}`}
       />
 
-      <Link
-        href={`/shows/${podcastSlug}`}
-        className={styles.imageWrapper}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={styles.imageWrapper}>
         {episode.podcast?.image_url && (
           <Image
             src={episode.podcast.image_url}
@@ -61,7 +57,7 @@ export default function EpisodeListItem({ episode, showSlug }: EpisodeCardProps)
             sizes="(max-width: 1024px) 64px, 80px"
           />
         )}
-      </Link>
+      </div>
 
       <div className={styles.content}>
         <div className={styles.header}>
