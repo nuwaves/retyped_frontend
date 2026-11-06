@@ -13,7 +13,7 @@ const API_CACHE = { next: { revalidate: 300 } };
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await safeApi<PaginatedResponse<Episode>>(
-    '/api/v1/episodes/?ordering=-release_date&limit=20',
+    '/api/v1/episodes/?ordering=-release_date&has_content=true&limit=20',
     { count: 0, next: null, previous: null, results: [] },
     API_CACHE
   );
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function NewEpisodesPage() {
   const initialData = await safeApi<PaginatedResponse<Episode>>(
-    '/api/v1/episodes/?ordering=-release_date&limit=20',
+    '/api/v1/episodes/?ordering=-release_date&has_content=true&limit=20',
     { count: 0, next: null, previous: null, results: [] },
     API_CACHE
   );

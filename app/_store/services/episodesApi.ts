@@ -57,7 +57,7 @@ export const episodesApi = clientApi.injectEndpoints({
     >({
       query: ({ limit = 20, offset = 0 }) => ({
         url: 'episodes/',
-        params: { ordering: '-release_date', limit, offset },
+        params: { ordering: '-release_date', has_content: true, limit, offset },
       }),
       providesTags: (result) =>
         result

@@ -9,20 +9,24 @@ interface EpisodeTabsProps {
 }
 
 export default function EpisodeTabs({ episode }: EpisodeTabsProps) {
+  const summaryTab = { id: 'summary', label: 'Summary', content: <SummarySection episode={episode} /> };
+  const showNotesTab = {
+    id: 'show-notes',
+    label: 'Show Notes',
+    content: (
+      <ShowNotesSection
+        contentEncoded={episode.content_encoded}
+        description={episode.description}
+      />
+    ),
+  };
+  // Open on the show notes when there's no summary to show.
+  const hasSummary = Boolean(episode.summary?.trim());
+
   return (
     <TabNavigation
       tabs={[
-        { id: 'summary', label: 'Summary', content: <SummarySection episode={episode} /> },
-        {
-          id: 'show-notes',
-          label: 'Show Notes',
-          content: (
-            <ShowNotesSection
-              contentEncoded={episode.content_encoded}
-              description={episode.description}
-            />
-          ),
-        },
+        ...(hasSummary ? [summaryTab, showNotesTab] : [showNotesTab, summaryTab]),
         {
           id: 'transcript',
           label: 'Transcript',
