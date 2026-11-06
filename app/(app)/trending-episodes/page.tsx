@@ -4,12 +4,17 @@ import InfiniteEpisodesList from './components/InfiniteEpisodesList';
 import { Episode, PaginatedResponse } from '@/app/_types';
 import { safeApi } from '@/app/_lib/serverApi';
 
-export const revalidate = 300; // Revalidate every 5 minutes
+// Render per request instead of prerendering at build time: the image is built in CI,
+// where the backend (http://web:8000) is unreachable, so a build-time prerender bakes an
+// empty page into the deploy. The backend fetch is still cached for 300s below.
+export const dynamic = 'force-dynamic';
+const API_CACHE = { next: { revalidate: 300 } };
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await safeApi<PaginatedResponse<Episode>>(
     '/api/v1/episodes/top-by-views/?timeframe=7d&limit=20',
-    { count: 0, next: null, previous: null, results: [] }
+    { count: 0, next: null, previous: null, results: [] },
+    API_CACHE
   );
   const count = data.count || 0;
   const topShow = data.results?.[0]?.podcast?.name;
@@ -37,7 +42,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TrendingEpisodesPage() {
   const initialData = await safeApi<PaginatedResponse<Episode>>(
     '/api/v1/episodes/top-by-views/?timeframe=7d&limit=20',
-    { count: 0, next: null, previous: null, results: [] }
+    { count: 0, next: null, previous: null, results: [] },
+    API_CACHE
   );
 
   return (
