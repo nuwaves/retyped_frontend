@@ -86,3 +86,30 @@ export function extractFirstSentence(text: string | null | undefined): string {
     ? sentence
     : sentence + '.';
 }
+
+// Plain text from publisher show-notes HTML, for meta descriptions.
+export function stripHtml(html: string | null | undefined): string {
+  if (!html) return '';
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// True when an episode has a Retyped summary or a transcript. Episodes
+// without either only repeat the publisher's show notes, so they are noindexed.
+export function episodeHasContent(episode: {
+  summary?: string | null;
+  transcript?: unknown;
+  script_transcript?: string | null;
+}): boolean {
+  const hasText = (value: unknown) =>
+    typeof value === 'string' ? value.trim().length > 0 : Array.isArray(value) && value.length > 0;
+  return hasText(episode.summary) || hasText(episode.transcript) || hasText(episode.script_transcript);
+}
