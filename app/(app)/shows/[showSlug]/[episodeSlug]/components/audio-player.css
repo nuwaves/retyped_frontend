@@ -3,3 +3,30 @@
   border: none !important;
   padding: 0 !important;
 }
+
+.rhap_playback-rate {
+  flex-shrink: 0;
+  min-width: 3.25rem;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  background: transparent;
+  color: #374151;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+
+.rhap_playback-rate:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.rhap_playback-rate:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

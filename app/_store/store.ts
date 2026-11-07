@@ -31,7 +31,7 @@ const storage = typeof window !== 'undefined' ? createWebStorage('local') : crea
 const audioPlayerPersistConfig = {
   key: 'audioPlayer',
   storage,
-  whitelist: ['currentEpisode', 'isVisible', 'isPlaying', 'currentTime', 'volume']
+  whitelist: ['currentEpisode', 'isVisible', 'isPlaying', 'currentTime', 'volume', 'playbackRate']
 }
 
 const persistedAudioPlayerReducer = persistReducer(audioPlayerPersistConfig, audioPlayerReducer)
