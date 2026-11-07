@@ -1,21 +1,21 @@
 import type { Episode } from '@/app/_types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuoteLeft, faClockRotateLeft } from '@/app/_lib/icons';
+import { faQuoteLeft } from '@/app/_lib/icons';
 import ReactMarkdown from 'react-markdown';
 import ContentSection from './ContentSection';
+import RequestContentPanel from './RequestContentPanel';
 
 interface SummarySectionProps {
   episode: Episode;
+  // False when the episode already has a transcript, so there's nothing to request.
+  canRequest: boolean;
 }
 
 const styles = {
-  emptyState: "flex flex-col items-center justify-center py-12 text-center",
-  emptyIcon: "text-gray-300 text-4xl mb-4",
-  emptyTitle: "text-lg font-semibold text-gray-700 mb-2",
-  emptyText: "text-sm text-gray-500 max-w-md"
+  empty: "text-sm text-gray-500 py-12 text-center",
 };
 
-export default function SummarySection({ episode }: SummarySectionProps) {
+export default function SummarySection({ episode, canRequest }: SummarySectionProps) {
   const hasSummary = episode.summary && episode.summary.trim().length > 0;
 
   return (
@@ -45,14 +45,10 @@ export default function SummarySection({ episode }: SummarySectionProps) {
             {episode.summary}
           </ReactMarkdown>
         </div>
+      ) : canRequest ? (
+        <RequestContentPanel episodeSlug={episode.slug} kind="summary" />
       ) : (
-        <div className={styles.emptyState}>
-          <FontAwesomeIcon icon={faClockRotateLeft} className={styles.emptyIcon} />
-          <h3 className={styles.emptyTitle}>No summary yet</h3>
-          <p className={styles.emptyText}>
-            This episode hasn&apos;t been summarized yet. The publisher&apos;s notes are in the Show Notes tab.
-          </p>
-        </div>
+        <p className={styles.empty}>No summary for this episode yet.</p>
       )}
     </ContentSection>
   );
