@@ -8,7 +8,7 @@ import RecommendedEpisodes from "./components/RecommendedEpisodes";
 import RelevantLinks from "./components/RelevantLinks";
 import { api, safeApi } from "@/app/_lib/serverApi";
 import { Podcast, Episode, RelatedContent, EMPTY_RELATED_CONTENT } from "@/app/_types";
-import { convertToISO8601Duration, extractFirstSentence, extractSummaryHeadings } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, episodeHasContent, extractFirstSentence, extractSummaryHeadings, stripHtml } from "@/app/_utils/formatters";
 import { serializeJsonLd } from "@/app/_utils/jsonLd";
 
 // ISR: Revalidate every hour for fresh content
@@ -33,11 +33,13 @@ const styles = {
 
 // Shared helper so generateMetadata and EpisodePage use the same description
 function buildMetaDescription(episode: Episode, show: Podcast): string {
-  const firstSentence = extractFirstSentence(episode.summary);
+  // Fall back to the publisher's show notes for episodes with no summary.
+  const firstSentence =
+    extractFirstSentence(episode.summary) || extractFirstSentence(stripHtml(episode.description));
   const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
   return firstSentence
     ? `${firstSentence} — ${show.name}${episodeLabel}`
-    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+    : `${episode.title} from ${show.name} on Retyped.`;
 }
 
 // Generate metadata for SEO
@@ -64,13 +66,14 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     };
   }
   
-  const pageTitle = `${episode.title} — ${show.name} Podcast Summary`;
-  const ogTitle = `${episode.title} | ${show.name} Podcast Summary`;
-  const firstSentence = extractFirstSentence(episode.summary);
-  const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
-  const metaDescription = firstSentence
-    ? `${firstSentence} — ${show.name}${episodeLabel}`
-    : `Quick insights and key takeaways for ${episode.title} from ${show.name} on Retyped.`;
+  const hasSummary = Boolean(episode.summary?.trim());
+  const titleSuffix = hasSummary ? ' Podcast Summary' : '';
+  const pageTitle = `${episode.title} — ${show.name}${titleSuffix}`;
+  const ogTitle = `${episode.title} | ${show.name}${titleSuffix}`;
+  const metaDescription = buildMetaDescription(episode, show);
+  // Episodes with only publisher show notes stay out of search engines until
+  // they have a summary or transcript (they're also left out of the sitemap).
+  const indexable = episodeHasContent(episode);
 
   return {
     title: `${pageTitle} | Retyped`,
@@ -103,10 +106,10 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
       canonical: './',
     },
     robots: {
-      index: true,
+      index: indexable,
       follow: true,
       googleBot: {
-        index: true,
+        index: indexable,
         follow: true,
         'max-image-preview': 'large',
         'max-snippet': -1,

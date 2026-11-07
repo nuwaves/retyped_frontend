@@ -48,9 +48,9 @@ export default function SummarySection({ episode }: SummarySectionProps) {
       ) : (
         <div className={styles.emptyState}>
           <FontAwesomeIcon icon={faClockRotateLeft} className={styles.emptyIcon} />
-          <h3 className={styles.emptyTitle}>Summary Coming Soon</h3>
+          <h3 className={styles.emptyTitle}>No summary yet</h3>
           <p className={styles.emptyText}>
-            We're working on generating an AI-powered summary for this episode. Check back soon for key insights and takeaways.
+            This episode hasn&apos;t been summarized yet. The publisher&apos;s notes are in the Show Notes tab.
           </p>
         </div>
       )}
