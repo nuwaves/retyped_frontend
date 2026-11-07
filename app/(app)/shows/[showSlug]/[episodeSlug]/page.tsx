@@ -4,8 +4,10 @@ import BackNavigation from "@/app/_components/common/BackNavigation";
 import EpisodeDetailCard from "./components/EpisodeDetailCard";
 import EpisodeTabs from "./components/EpisodeTabs";
 import ShowCard from "./components/ShowCard";
-import { api } from "@/app/_lib/serverApi";
-import { Podcast, Episode } from "@/app/_types";
+import RecommendedEpisodes from "./components/RecommendedEpisodes";
+import RelevantLinks from "./components/RelevantLinks";
+import { api, safeApi } from "@/app/_lib/serverApi";
+import { Podcast, Episode, RelatedContent, EMPTY_RELATED_CONTENT } from "@/app/_types";
 import { convertToISO8601Duration, extractFirstSentence, extractSummaryHeadings } from "@/app/_utils/formatters";
 import { serializeJsonLd } from "@/app/_utils/jsonLd";
 
@@ -26,7 +28,7 @@ const styles = {
   container: "container mx-auto px-4 py-8 max-w-7xl",
   layout: "flex flex-col md:flex-row gap-8",
   mainContent: "flex-1",
-  sidebar: "md:w-[350px] md:flex-shrink-0"
+  sidebar: "md:w-[350px] md:flex-shrink-0 flex flex-col gap-6"
 };
 
 // Shared helper so generateMetadata and EpisodePage use the same description
@@ -119,12 +121,18 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   let show: Podcast | null = null;
   let episode: Episode | null = null;
+  let related: RelatedContent = EMPTY_RELATED_CONTENT;
 
   try {
-    // Fetch data in parallel for better performance
-    [show, episode] = await Promise.all([
+    // Fetch data in parallel for better performance. The sidebar's related
+    // content is optional: if it fails the page renders without it.
+    [show, episode, related] = await Promise.all([
       api<Podcast>(`/api/v1/podcasts/${showSlug}/`),
-      api<Episode>(`/api/v1/episodes/${episodeSlug}/`)
+      api<Episode>(`/api/v1/episodes/${episodeSlug}/`),
+      safeApi<RelatedContent>(
+        `/api/v1/episodes/${episodeSlug}/related/?limit=5`,
+        EMPTY_RELATED_CONTENT
+      ),
     ]);
   } catch (error) {
     console.error('Failed to fetch episode data:', error);
@@ -238,6 +246,12 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
           <aside className={styles.sidebar}>
             <ShowCard show={show} />
+            <RecommendedEpisodes episodes={related.episodes} />
+            <RelevantLinks
+              show={show}
+              topics={related.topics}
+              entities={related.entities}
+            />
           </aside>
         </div>
       </div>

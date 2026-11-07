@@ -6,3 +6,4 @@ export * from './follow';
 export * from './podcastClaim';
 export * from './topic';
 export * from './quote';
+export * from './related';
