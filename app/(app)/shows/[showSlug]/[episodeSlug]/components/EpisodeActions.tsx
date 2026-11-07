@@ -61,12 +61,12 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
   return (
     <div className={styles.actions}>
       <Button
-        variant="ghost"
+        variant="outline"
         size="sm"
         onClick={toggleBookmark}
         disabled={isLoading}
-        aria-label={isBookmarked ? "Unsave episode" : "Save episode"}
-        className="!p-3 relative"
+        aria-pressed={isBookmarked}
+        className="relative whitespace-nowrap"
       >
         <AnimatePresence mode="wait">
           <m.div
@@ -93,20 +93,21 @@ export default function EpisodeActions({ episodeId, episodeTitle, episodeDescrip
           >
             <FontAwesomeIcon
               icon={isBookmarked ? faBookmark : faBookmarkRegular}
-              className={`w-5 h-5 transition-colors duration-200 ${isBookmarked ? 'text-blue-500' : 'text-gray-500'}`}
+              className={`transition-colors duration-200 ${isBookmarked ? 'text-blue-500' : 'text-gray-500'}`}
             />
           </m.div>
         </AnimatePresence>
+        <span>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
       </Button>
       <div className={styles.shareButtonWrapper}>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
           onClick={handleShare}
-          aria-label="Share episode"
-          className="!p-3"
+          className="whitespace-nowrap"
         >
-          <FontAwesomeIcon icon={faArrowUpFromBracket} className="w-5 h-5 text-gray-500" />
+          <FontAwesomeIcon icon={faArrowUpFromBracket} className="text-gray-500" />
+          <span>Share</span>
         </Button>
         <AnimatePresence>
           {showToast && (

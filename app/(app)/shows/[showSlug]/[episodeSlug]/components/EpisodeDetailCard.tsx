@@ -19,14 +19,13 @@ interface EpisodeDetailCardProps {
 
 const styles = {
   container: "bg-white rounded-lg p-6 mb-6",
-  header: "flex items-center justify-between mb-4",
+  header: "flex flex-wrap items-center justify-between gap-3 mb-4",
   date: "text-sm text-gray-500",
-  titleRow: "flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4",
-  title: "text-3xl font-bold text-black break-words min-w-0",
+  headerActions: "flex flex-wrap items-center gap-2",
+  title: "text-3xl font-bold text-black break-words min-w-0 mb-4",
   stats: "flex items-center gap-4 mb-4 text-sm text-gray-500",
   statItem: "flex items-center gap-1.5",
   statIcon: "text-xs",
-  playButton: "shrink-0 sm:pt-1"
 };
 
 export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
@@ -57,32 +56,30 @@ export default function EpisodeDetailCard({ episode }: EpisodeDetailCardProps) {
           <FontAwesomeIcon icon={faCalendar} className="mr-2" />
           {formatDate(episode.release_date, true)}
         </time>
-        <EpisodeActions
-          episodeId={episode.id.toString()}
-          episodeTitle={episode.title}
-          episodeDescription={episode.description}
-        />
-      </div>
-
-      <div className={styles.titleRow}>
-        <h1 className={styles.title}>{episode.title}</h1>
-        {episode.raw_audio_url != null && (
-          <div className={styles.playButton}>
+        <div className={styles.headerActions}>
+          <EpisodeActions
+            episodeId={episode.id.toString()}
+            episodeTitle={episode.title}
+            episodeDescription={episode.description}
+          />
+          {episode.raw_audio_url != null && (
             <Button
               variant={isCurrentEpisode && isPlaying ? "outline" : "primary"}
-              size="md"
+              size="sm"
               onClick={handlePlayClick}
               className="whitespace-nowrap"
               suppressHydrationWarning
             >
-              <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} className="mr-2" suppressHydrationWarning />
+              <FontAwesomeIcon icon={isCurrentEpisode && isPlaying ? faPause : faPlay} suppressHydrationWarning />
               <span suppressHydrationWarning>
                 {isCurrentEpisode && isPlaying ? 'Pause Episode' : 'Play Episode'}
               </span>
             </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
+      <h1 className={styles.title}>{episode.title}</h1>
 
       <div className={styles.stats}>
         <div className={styles.statItem}>
