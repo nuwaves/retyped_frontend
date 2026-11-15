@@ -4,6 +4,7 @@ import BackNavigation from '@/app/_components/common/BackNavigation';
 import Pill from '@/app/_components/common/Pill';
 import { Topic, PaginatedResponse } from '@/app/_types';
 import { safeApi } from '@/app/_lib/serverApi';
+import { isUsefulTopic } from '@/app/_utils/topics';
 
 // Render per request instead of prerendering at build time: the image is built in CI,
 // where the backend (http://web:8000) is unreachable, so a build-time prerender bakes an
@@ -11,13 +12,19 @@ import { safeApi } from '@/app/_lib/serverApi';
 export const dynamic = 'force-dynamic';
 const API_CACHE = { next: { revalidate: 3600 } };
 
-export async function generateMetadata(): Promise<Metadata> {
+// One fetch for the whole list (well under 200 topics), filtered to the
+// topics worth showing.
+async function getUsefulTopics(): Promise<Topic[]> {
   const data = await safeApi<PaginatedResponse<Topic>>(
-    '/api/v1/topics/?limit=1',
+    '/api/v1/topics/?limit=200',
     { count: 0, next: null, previous: null, results: [] },
     API_CACHE
   );
-  const count = data.count || 0;
+  return (data.results || []).filter(isUsefulTopic);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const count = (await getUsefulTopics()).length;
   const description = count > 0
     ? `Browse ${count} podcast topic categories on Retyped — explore episodes by subject across technology, business, culture, and more.`
     : 'Browse podcast topic categories on Retyped — explore episodes by subject.';
@@ -40,12 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CategoriesPage() {
-  const data = await safeApi<PaginatedResponse<Topic>>(
-    '/api/v1/topics/',
-    { count: 0, next: null, previous: null, results: [] },
-    API_CACHE
-  );
-  const topics = data.results;
+  const topics = await getUsefulTopics();
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -53,7 +55,7 @@ export default async function CategoriesPage() {
 
       <h1 className="text-3xl font-bold text-black mb-2">Categories</h1>
       <p className="text-gray-500 text-sm mb-8">
-        {data.count > 0 ? `${data.count} topics across the podcast library` : 'Browse podcast topics'}
+        {topics.length > 0 ? `${topics.length} topics across the podcast library` : 'Browse podcast topics'}
       </p>
 
       {topics.length === 0 ? (

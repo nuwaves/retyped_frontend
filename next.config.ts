@@ -54,6 +54,10 @@ const nextConfig: NextConfig = {
           destination: `${DJANGO_BACKEND}/sitemap-episodes:id.xml`,
         },
         {
+          source: '/sitemap-static.xml',
+          destination: `${DJANGO_BACKEND}/sitemap-static.xml`,
+        },
+        {
           source: '/sitemap-podcasts:id.xml',
           destination: `${DJANGO_BACKEND}/sitemap-podcasts:id.xml`,
         }
