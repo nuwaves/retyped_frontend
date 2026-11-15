@@ -6,6 +6,7 @@ import TopicEpisodesList from './components/TopicEpisodesList';
 import QuoteFeed from './components/QuoteFeed';
 import { Topic, Episode, TopicQuote, PaginatedResponse } from '@/app/_types';
 import { api, safeApi } from '@/app/_lib/serverApi';
+import { isUsefulTopic } from '@/app/_utils/topics';
 
 export const revalidate = 3600;
 
@@ -29,6 +30,8 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
     title: `${topic.name} Podcasts | Retyped`,
     description,
     alternates: { canonical: './' },
+    // Thin or filler-word topics stay out of search engines.
+    robots: { index: isUsefulTopic(topic), follow: true },
     openGraph: {
       title: `${topic.name} Podcasts | Retyped`,
       description,
