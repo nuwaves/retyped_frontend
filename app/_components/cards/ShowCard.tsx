@@ -13,7 +13,8 @@ interface ShowCardProps {
   imageUrl: string;
   categories: Array<{ name: string }>;
   episodeCount: number;
-  totalViews: number;
+  // Omit where the API has no view count (plain show lists).
+  totalViews?: number;
   href: string;
   priority?: boolean;
   variant?: 'vertical' | 'horizontal';
@@ -89,8 +90,12 @@ export default function ShowCard({
         <div className="flex items-center gap-2 text-xs font-normal text-gray-500">
           <FontAwesomeIcon icon={faMicrophone} className="text-gray-400 text-xs" />
           <span>{episodeCount} ep</span>
-          <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 text-xs ml-1" />
-          <span>{formatCompactNumber(totalViews)}</span>
+          {totalViews != null && (
+            <>
+              <FontAwesomeIcon icon={faHeadphones} className="text-gray-400 text-xs ml-1" />
+              <span>{formatCompactNumber(totalViews)}</span>
+            </>
+          )}
         </div>
 
         <div className={styles.buttonWrapper}>

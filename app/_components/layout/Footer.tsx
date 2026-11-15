@@ -22,7 +22,7 @@ const Footer = () => {
           <div className={styles.brandSection}>
             <Logo />
             <p className={styles.brandDescription}>
-              Discover, listen, and connect with the stories that matter. Explore the world&apos;s best podcasts
+              Read transcripts and AI summaries of the world&apos;s best podcasts, and search what was said.
             </p>
           </div>
 
@@ -48,15 +48,35 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className={styles.sectionTitle}>About Us</h3>
+            <h3 className={styles.sectionTitle}>Explore</h3>
             <ul className={styles.linksList}>
+              <li>
+                <Link href="/shows" className={styles.link}>
+                  All Shows
+                </Link>
+              </li>
+              <li>
+                <Link href="/trending-shows" className={styles.link}>
+                  Trending Shows
+                </Link>
+              </li>
+              <li>
+                <Link href="/trending-episodes" className={styles.link}>
+                  Trending Episodes
+                </Link>
+              </li>
+              <li>
+                <Link href="/new-episodes" className={styles.link}>
+                  New Episodes
+                </Link>
+              </li>
               <li>
                 <Link href="/categories" className={styles.link}>
                   Categories
                 </Link>
               </li>
               <li>
-                <Link href="/library" className={styles.link}>
+                <Link href="/my-library" className={styles.link}>
                   My Library
                 </Link>
               </li>

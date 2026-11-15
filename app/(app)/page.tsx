@@ -17,21 +17,21 @@ import { serializeJsonLd } from '@/app/_utils/jsonLd';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Retyped - Discover Your Next Favorite Podcast',
-  description: 'Explore trending podcasts, discover new episodes, and find your next audio obsession. Updated daily with the best content from around the web.',
+  title: 'Retyped - Podcast Transcripts and AI Summaries',
+  description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
   alternates: {
     canonical: './',
   },
   openGraph: {
-    title: 'Retyped - Discover Your Next Favorite Podcast',
-    description: 'Discover, listen, and connect with the stories that matter. Explore the world\'s best podcasts',
+    title: 'Retyped - Podcast Transcripts and AI Summaries',
+    description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
     type: 'website',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped - Discover Your Next Favorite Podcast' }],
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Retyped - Podcast Transcripts and AI Summaries' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Retyped - Discover Your Next Favorite Podcast',
-    description: 'Explore trending podcasts, discover new episodes, and find your next audio obsession. Updated daily with the best content from around the web.',
+    title: 'Retyped - Podcast Transcripts and AI Summaries',
+    description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
   },
 };
 
