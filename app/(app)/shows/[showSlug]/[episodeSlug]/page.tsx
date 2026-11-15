@@ -161,6 +161,16 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
   const metaDescription = buildMetaDescription(episode, show);
 
+  // The header card is a client component, so its props are serialized into
+  // the page (and it hands the episode to the audio player's store). It never
+  // shows the transcript, which is the largest part of an episode: leave it
+  // out rather than shipping a second copy of it to every visitor.
+  const headerEpisode: Episode = {
+    ...episode,
+    transcript: undefined,
+    script_transcript: undefined,
+  };
+
   const summaryHeadings = extractSummaryHeadings(episode.summary);
   const webPageData = summaryHeadings.length > 0 ? {
     '@context': 'https://schema.org',
@@ -256,7 +266,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
         <div className={styles.layout}>
           <div className={styles.mainContent}>
-            <EpisodeDetailCard episode={episode} show={show} />
+            <EpisodeDetailCard episode={headerEpisode} show={show} />
             <EpisodeTabs episode={episode} />
           </div>
 
