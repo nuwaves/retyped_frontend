@@ -39,6 +39,7 @@ export default function SummarySection({ episode, canRequest }: SummarySectionPr
               em: ({children}) => <em className="font-inter italic text-gray-700">{children}</em>,
               ul: ({children}) => <ul className="font-inter text-base leading-6 list-disc list-inside space-y-3 mb-6 mt-4 ml-4">{children}</ul>,
               ol: ({children}) => <ol className="font-inter text-base leading-6 list-decimal list-inside space-y-3 mb-6 mt-4 ml-4">{children}</ol>,
+              blockquote: ({children}) => <blockquote className="border-l-4 border-gray-200 pl-4 my-4 italic [&>p]:mt-0">{children}</blockquote>,
               li: ({children}) => <li className="font-inter text-base leading-6 text-gray-700 marker:text-gray-600">{children}</li>,
             }}
           >
