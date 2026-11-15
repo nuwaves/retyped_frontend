@@ -6,6 +6,7 @@ import RequireAuth from '@/app/_components/common/RequireAuth';
 export const metadata: Metadata = {
   title: 'Creator Dashboard - Coming Soon | Retyped',
   description: 'Creator dashboard coming soon to Retyped',
+  robots: { index: false, follow: true },
 };
 
 const styles = {

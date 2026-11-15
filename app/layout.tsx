@@ -25,8 +25,8 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://retyped.xyz'),
-  title: "Retyped - Discover Your Next Favorite Podcast",
-  description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",
+  title: "Retyped - Podcast Transcripts and AI Summaries",
+  description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
   robots: {
     index: true,
     follow: true,
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Retyped - Discover Your Next Favorite Podcast",
-    description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",
+    title: "Retyped - Podcast Transcripts and AI Summaries",
+    description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
     type: "website",
     siteName: "Retyped",
     url: "https://retyped.xyz",
@@ -49,14 +49,14 @@ export const metadata: Metadata = {
         url: "/og-default.png",
         width: 1200,
         height: 630,
-        alt: "Retyped - Discover Your Next Favorite Podcast",
+        alt: "Retyped - Podcast Transcripts and AI Summaries",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Retyped - Discover Your Next Favorite Podcast",
-    description: "Discover, listen, and connect with the stories that matter. Explore the world's best podcasts.",
+    title: "Retyped - Podcast Transcripts and AI Summaries",
+    description: "Read full transcripts and AI summaries of top podcast episodes. Search what was said, skim the key points, and find your next listen.",
   },
 };
 

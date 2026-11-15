@@ -1,7 +1,14 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 import AuthLayout from '@/app/_components/auth/AuthLayout';
 import AuthHero from '@/app/_components/auth/AuthHero';
 import AuthCard from '@/app/_components/auth/AuthCard';
+
+
+export const metadata: Metadata = {
+  title: 'Sign In | Retyped',
+  robots: { index: false, follow: true },
+};
 
 export default function LoginPage() {
   return (
