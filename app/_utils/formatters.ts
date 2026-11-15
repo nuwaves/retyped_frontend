@@ -87,6 +87,39 @@ export function extractFirstSentence(text: string | null | undefined): string {
     : sentence + '.';
 }
 
+// Section labels the summary model puts on their own line ("Key Points:") or
+// in front of the real sentence ("Main Topic: ..."). They say nothing in a
+// search snippet, so they are dropped.
+const SUMMARY_LABEL = /^(?:(?:podcast\s+)?(?:episode\s+)?(?:summary|overview)|main\s+(?:topic|theme)s?|topics?|key\s+(?:points|takeaways|insights)|introduction)\s*(?::\s*|$)/i;
+
+// A plain-text description for meta tags, built from a markdown summary (or
+// any plain text): no markdown, no section labels, no list numbering, cut at
+// a word boundary.
+export function summaryToDescription(text: string | null | undefined, maxLength = 155): string {
+  if (!text) return '';
+  const parts: string[] = [];
+  for (const rawLine of text.split(/\n+/)) {
+    let line = rawLine
+      .trim()
+      .replace(/^#{1,6}\s+/, '')           // heading marker
+      .replace(/^(?:\d+[.)]|[-*•])\s+/, '') // list marker
+      .replace(/\*\*(.+?)\*\*/g, '$1')     // bold
+      .replace(/\*(.+?)\*/g, '$1')         // italic
+      .replace(/`(.+?)`/g, '$1')           // inline code
+      .replace(/\[(.+?)\]\(.+?\)/g, '$1')  // links
+      .replace(/\s+/g, ' ')
+      .trim();
+    line = line.replace(SUMMARY_LABEL, '').trim();
+    if (!line || line.endsWith(':')) continue;
+    parts.push(/[.!?…]$/.test(line) ? line : `${line}.`);
+  }
+  const joined = parts.join(' ');
+  if (joined.length <= maxLength) return joined;
+  const cut = joined.slice(0, maxLength - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:.\-—]+$/, '')}…`;
+}
+
 // Plain text from publisher show-notes HTML, for meta descriptions.
 export function stripHtml(html: string | null | undefined): string {
   if (!html) return '';

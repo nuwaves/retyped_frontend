@@ -8,6 +8,7 @@ import { api } from "@/app/_lib/serverApi";
 import { Episode, PaginatedResponse, Podcast } from "@/app/_types";
 import { sanitize } from "@/app/_utils/sanitizeHtml";
 import { serializeJsonLd } from "@/app/_utils/jsonLd";
+import { stripHtml, summaryToDescription } from "@/app/_utils/formatters";
 
 export const revalidate = 3600;
 
@@ -25,8 +26,9 @@ function generateShowMetadata(show: Podcast | null): Metadata {
     };
   }
 
-  const metaTitle = `Retyped summaries of ${show.name}`;
-  const metaDescription = `Explore AI-generated summaries of ${show.name} episodes on Retyped. Get quick insights and key takeaways from every episode.`;
+  const metaTitle = `${show.name} Podcast Transcripts & Summaries`;
+  const about = summaryToDescription(stripHtml(show.description), 90);
+  const metaDescription = `Read transcripts and AI summaries of ${show.name} episodes on Retyped.${about ? ` ${about}` : ''}`;
 
   return {
     title: `${metaTitle} | Retyped`,
