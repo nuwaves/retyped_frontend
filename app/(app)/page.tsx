@@ -35,6 +35,11 @@ export const metadata: Metadata = {
   },
 };
 
+// The page renders per request (it reads the session), but these lists are
+// the same for everyone: serve them from the data cache instead of waiting
+// on the backend every time.
+const PUBLIC_LIST_CACHE = { next: { revalidate: 300 } };
+
 const styles = {
   container: 'flex flex-col gap-4'
 };
@@ -51,15 +56,18 @@ export default async function Home() {
     await Promise.all([
       safeApi<PaginatedResponse<Podcast>>(
         '/api/v1/podcasts/top-by-views/?timeframe=7d&limit=4',
-        { count: 0, next: null, previous: null, results: [] }
+        { count: 0, next: null, previous: null, results: [] },
+        PUBLIC_LIST_CACHE
       ),
       safeApi<PaginatedResponse<Episode>>(
         '/api/v1/episodes/top-by-views/?timeframe=7d&limit=4',
-        { count: 0, next: null, previous: null, results: [] }
+        { count: 0, next: null, previous: null, results: [] },
+        PUBLIC_LIST_CACHE
       ),
       safeApi<PaginatedResponse<Episode>>(
         '/api/v1/episodes/?ordering=-release_date&has_content=true&limit=4',
-        { count: 0, next: null, previous: null, results: [] }
+        { count: 0, next: null, previous: null, results: [] },
+        PUBLIC_LIST_CACHE
       ),
       backendToken
         ? safeApi<PaginatedResponse<Episode>>(

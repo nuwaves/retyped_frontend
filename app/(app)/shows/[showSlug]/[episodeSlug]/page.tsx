@@ -8,7 +8,7 @@ import RecommendedEpisodes from "./components/RecommendedEpisodes";
 import RelevantLinks from "./components/RelevantLinks";
 import { api, safeApi } from "@/app/_lib/serverApi";
 import { Podcast, Episode, RelatedContent, EMPTY_RELATED_CONTENT } from "@/app/_types";
-import { convertToISO8601Duration, episodeHasContent, extractFirstSentence, extractSummaryHeadings, stripHtml } from "@/app/_utils/formatters";
+import { convertToISO8601Duration, episodeHasContent, extractSummaryHeadings, stripHtml, summaryToDescription } from "@/app/_utils/formatters";
 import { serializeJsonLd } from "@/app/_utils/jsonLd";
 
 // ISR: Revalidate every hour for fresh content
@@ -33,12 +33,16 @@ const styles = {
 
 // Shared helper so generateMetadata and EpisodePage use the same description
 function buildMetaDescription(episode: Episode, show: Podcast): string {
-  // Fall back to the publisher's show notes for episodes with no summary.
-  const firstSentence =
-    extractFirstSentence(episode.summary) || extractFirstSentence(stripHtml(episode.description));
   const episodeLabel = episode.episode_number ? `, Ep. ${episode.episode_number}` : '';
-  return firstSentence
-    ? `${firstSentence} — ${show.name}${episodeLabel}`
+  const suffix = ` — ${show.name}${episodeLabel}`;
+  // Keep the whole description near the ~155 characters search engines show.
+  const budget = Math.max(90, 155 - suffix.length);
+  // Fall back to the publisher's show notes for episodes with no summary.
+  const text =
+    summaryToDescription(episode.summary, budget) ||
+    summaryToDescription(stripHtml(episode.description), budget);
+  return text
+    ? `${text}${suffix}`
     : `${episode.title} from ${show.name} on Retyped.`;
 }
 
@@ -66,8 +70,17 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     };
   }
   
+  // Name what the page actually has: people search for "<episode> transcript"
+  // at least as often as for a summary.
   const hasSummary = Boolean(episode.summary?.trim());
-  const titleSuffix = hasSummary ? ' Podcast Summary' : '';
+  const hasTranscript = Boolean(episode.script_transcript?.trim() || episode.transcript?.trim());
+  const titleSuffix = hasTranscript && hasSummary
+    ? ' Transcript & Summary'
+    : hasTranscript
+      ? ' Transcript'
+      : hasSummary
+        ? ' Podcast Summary'
+        : '';
   const pageTitle = `${episode.title} — ${show.name}${titleSuffix}`;
   const ogTitle = `${episode.title} | ${show.name}${titleSuffix}`;
   const metaDescription = buildMetaDescription(episode, show);
