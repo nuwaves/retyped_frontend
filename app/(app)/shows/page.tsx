@@ -22,7 +22,8 @@ async function getShows(): Promise<Podcast[]> {
     API_CACHE
   );
   return [...(data.results || [])]
-    .filter((show) => show.slug)
+    // Shows whose feed has not been ingested yet have no episodes or artwork.
+    .filter((show) => show.slug && show.episode_count > 0)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -91,7 +92,6 @@ export default async function ShowsPage() {
                 imageUrl={show.image_url}
                 categories={show.tags}
                 episodeCount={show.episode_count}
-                totalViews={show.total_views}
                 href={`/shows/${show.slug}`}
                 priority={index < 4}
               />
