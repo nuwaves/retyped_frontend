@@ -1,11 +1,8 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faClock, faBookmark, faBookmarkRegular, faArrowRight } from '@/app/_lib/icons';
+import { faMicrophone, faClock, faArrowRight } from '@/app/_lib/icons';
 import SafeHTML from '../common/SafeHTML';
-import { useBookmark } from '@/app/_hooks/useBookmark';
 
 interface EpisodeCardProps {
   showName: string;
@@ -32,7 +29,6 @@ const styles = {
   description: "text-sm text-gray-600 line-clamp-2",
   footer: "flex items-center gap-2 text-xs text-gray-500",
   dot: "w-1 h-1 bg-gray-500 rounded-full",
-  bookmarkButton: "absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20",
   openButton: "absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 text-gray-900 text-[12px] leading-[24px] font-medium flex items-center gap-1"
 };
 
@@ -44,16 +40,7 @@ export default function EpisodeCard({
   date,
   href,
   imageUrl,
-  episodeId
 }: EpisodeCardProps) {
-  const { isBookmarked, toggleBookmark, isLoading } = useBookmark('episode', episodeId);
-
-  const handleBookmarkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleBookmark();
-  };
-
   return (
     <div className={imageUrl ? styles.cardWithImage : styles.card}>
       <Link
@@ -61,18 +48,6 @@ export default function EpisodeCard({
         className="absolute inset-0 z-10"
         aria-label={`Listen to ${episodeTitle}`}
       />
-
-      <button
-        onClick={handleBookmarkClick}
-        disabled={isLoading}
-        className={styles.bookmarkButton}
-        aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
-      >
-        <FontAwesomeIcon
-          icon={isBookmarked ? faBookmark : faBookmarkRegular}
-          className={`text-sm ${isBookmarked ? 'text-blue-600' : 'text-gray-600'}`}
-        />
-      </button>
 
       <Link href={href} className={styles.openButton}>
         Open Episode
@@ -86,9 +61,9 @@ export default function EpisodeCard({
               <Image
                 src={imageUrl}
                 alt={showName}
-                fill
-                sizes="70px"
-                className="object-cover"
+                width={70}
+                height={70}
+                className="w-full h-full object-cover"
               />
             </div>
 
